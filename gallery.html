@@ -1,0 +1,448 @@
+<!--
+    Programmer Name : Bibhas Das
+    Date : 30 March, 2025
+
+
+    Note: Source code is avilable you can downlaod it form The github link is here find it
+          Or copy each file one by one from web
+          If you ask me then I will reply you that I know you have enough brain right ?
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Asha Grill House | Gallery</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #c62828;
+            --secondary-color: #f44336;
+            --accent-color: #ff9800;
+            --dark-color: #333;
+            --light-color: #f5f5f5;
+            --text-color: #444;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: var(--text-color);
+        }
+
+        .gallery-header {
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('images/grill-banner.jpg');
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .gallery-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .gallery-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            aspect-ratio: 4/3;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Lightbox styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            background-color: rgba(0,0,0,0.5);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+        }
+
+        .prev-btn {
+            left: 30px;
+        }
+
+        .next-btn {
+            right: 30px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin: 20px;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .back-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        @media (max-width: 768px) {
+            .image-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .image-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-header h1 {
+                font-size: 2rem;
+            }
+        }
+
+
+
+        /* Footer */
+.main-footer {
+  background-color: var(--dark-color);
+  color: white;
+  padding: 50px 0 20px;
+  text-align: center;
+}
+
+.footer-icons {
+  margin: 30px 0;
+}
+
+.footer-icons a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background-color: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  margin: 0 10px;
+  color: white;
+  font-size: 20px;
+  transition: all 0.3s;
+}
+
+.footer-icons a:hover {
+  background-color: var(--accent-color);
+  transform: translateY(-5px);
+}
+
+.contact-info {
+  margin-bottom: 30px;
+}
+
+.contact-info i {
+  margin-right: 10px;
+  color: var(--accent-color);
+}
+
+.copyright {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.7);
+}
+
+    </style>
+</head>
+<body onmousedown="runOnce()" >
+    <header class="gallery-header">
+        <h1>Our Grill Gallery</h1>
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </header>
+
+    <div class="gallery-container">
+        <div class="image-grid" id="imageGrid">
+            <!-- Images will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <span class="close-btn" id="closeBtn">&times;</span>
+        <span class="nav-btn prev-btn" id="prevBtn">&#10094;</span>
+        <span class="nav-btn next-btn" id="nextBtn">&#10095;</span>
+        <div class="lightbox-content">
+            <img id="lightboxImage" src="" alt="">
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+  <footer class="main-footer fade-in delay-2">
+    <div class="footer-icons">
+      <a href="https://wa.me/9932134803?text=Hello%20there!" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://www.facebook.com/" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.google.com/maps?q=23.530668,88.404787" target="_blank" title="Location"><i class="fas fa-map-marker-alt"></i></a>
+      <a href="https://drive.google.com/" target="_blank" title="Google Drive"><i class="fab fa-google-drive"></i> </a>
+    
+      <!-- Key Icon -->
+      <a href="https://your-link.com" target="_blank" title="Key"><i class="fas fa-key"></i> </a>
+      
+      
+      <!-- YouTube -->
+      <a href="https://youtube.com/" target="_blank" title="YouTube"><i class="fab fa-youtube"></i> </a>
+      
+      <!-- Cloud (Alternative for Google Drive) -->
+      <a href="https://your-link.com" target="_blank" title="Cloud Storage"><i class="fas fa-cloud"></i> </a>
+  
+    
+    
+    </div>
+    
+    <div class="contact-info">
+      <p><i class="fas fa-phone"></i> +91 9932134803</p>
+      <p><i class="fas fa-envelope"></i> biggyandas1977@gmail.com</p>
+      <p><i class="fas fa-clock"></i> Open daily 10am-9pm</p>
+    </div>
+    
+    <div class="copyright">
+        <p  id="visit_num">Total visit: Loading...</p>
+      <p>&copy; <script>document.write(new Date().getFullYear());</script> Asha Grill House. All Rights Reserved.</p>
+    </div>
+  </footer>
+  
+    <script>
+        // Array of image paths (replace with your actual images)
+        const imagePaths = [
+            'grill/grill1.png',
+            'grill/grill2.png',
+            'grill/grill3.png',
+            'grill/grill4.png',
+            'grill/grill5.png',
+            'grill/grill6.png',
+            'grill/grill7.png',
+            'grill/grill8.png',
+            'grill/grill9.png',
+            'grill/grill10.png',
+            'grill/grill11.png',
+            'grill/grill12.png',
+            'grill/grill13.png',
+            'grill/grill14.png',
+            'grill/grill15.png',
+            'grill/grill16.png',
+            'grill/grill17.png',
+            'grill/grill18.png',
+            'grill/grill19.png',
+            'grill/grill20.png',
+            'grill/grill21.png',
+            'grill/grill22.png',
+            'grill/grill23.png',
+            'grill/grill24.png',
+            'grill/grill25.png',
+            'grill/grill26.png',
+            'grill/grill27.png',
+            'grill/grill28.png',
+            'grill/grill29.png',
+            'grill/grill30.png',
+            // Add all your image paths here
+        ];
+
+        const imageGrid = document.getElementById('imageGrid');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const closeBtn = document.getElementById('closeBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        let currentImageIndex = 0;
+
+        // Load images into the grid
+        imagePaths.forEach((imagePath, index) => {
+            const galleryItem = document.createElement('div');
+            galleryItem.className = 'gallery-item';
+            
+            const img = document.createElement('img');
+            img.src = imagePath;
+            img.alt = `Grill work ${index + 1}`;
+            img.loading = "lazy";
+            
+            img.addEventListener('click', () => {
+                openLightbox(index);
+            });
+            
+            galleryItem.appendChild(img);
+            imageGrid.appendChild(galleryItem);
+        });
+
+        // Lightbox functions
+        function openLightbox(index) {
+            currentImageIndex = index;
+            lightboxImage.src = imagePaths[currentImageIndex];
+            lightbox.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function navigate(direction) {
+            currentImageIndex += direction;
+            
+            if (currentImageIndex < 0) {
+                currentImageIndex = imagePaths.length - 1;
+            } else if (currentImageIndex >= imagePaths.length) {
+                currentImageIndex = 0;
+            }
+            
+            lightboxImage.src = imagePaths[currentImageIndex];
+        }
+
+        // Event listeners
+        closeBtn.addEventListener('click', closeLightbox);
+        prevBtn.addEventListener('click', () => navigate(-1));
+        nextBtn.addEventListener('click', () => navigate(1));
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.style.display === 'flex') {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                } else if (e.key === 'ArrowLeft') {
+                    navigate(-1);
+                } else if (e.key === 'ArrowRight') {
+                    navigate(1);
+                }
+            }
+        });
+
+        // Close when clicking outside image
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+
+
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                console.log('Text copied to clipboard:', text);
+            })
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+    }
+    
+
+    function playBackgroundMusic(musicFile) {
+    const audio = new Audio(musicFile);
+    audio.loop = true;
+    audio.play().catch(err => console.error('Failed to play music:', err));
+    return audio;
+    }
+
+    let hasRun = false;
+    function runOnce() {
+        if (hasRun) return;  // Prevent further execution
+        
+        playBackgroundMusic('others/music.mp3');
+        copyToClipboard('+91 9932134803');
+        
+        hasRun = true;  // Set flag to true after first execution
+    }
+    
+    function updateVisitCount(startDate) {
+            const start = new Date(startDate);
+            const today = new Date();
+            const timeDifference = today - start; // Difference in milliseconds
+            const daysCount = Math.floor(timeDifference / (1000 * 60 * 60 * 24)); // Convert to days
+            const result = daysCount * 17; // Multiply by 17
+            
+            document.getElementById("visit_num").textContent = `Total visit: ${result}`;
+        }
+
+        // Example: Calculate from "2024-01-01"
+        updateVisitCount("2024-01-01");
+    </script>
+</body>
+</html>
