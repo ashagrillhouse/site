@@ -1,7 +1,16 @@
+<!--
+    Programmer Name : Bibhas Das
+    Date : 30 March, 2025
+
+    Note: Source code is avilable you can downlaod it form The github link is here find it
+          Or copy each file one by one from web
+          If you ask me then I will reply you that I know you have enough brain right ?
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Asha Grill House - Premium Grill Services</title>
+<title>Asha Grill House | Home</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -30,8 +39,7 @@ body {
 
 /* Header */
 .main-header {
-  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('images/grill-banner.jpg');
-  background-size: cover;
+  background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('images/grill-banner.jpg');
   background-position: center;
   color: white;
   text-align: center;
@@ -162,7 +170,7 @@ body {
   height: 50px;
   border-radius: 50%;
   cursor: pointer;
-  z-index: 10;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -481,9 +489,11 @@ body {
 .delay-1 { animation-delay: 0.2s; }
 .delay-2 { animation-delay: 0.4s; }
 .delay-3 { animation-delay: 0.6s; }
+
+
 </style>
 </head>
-<body>
+<body onclick="runOnce()"">
 
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
@@ -521,6 +531,7 @@ body {
        style="border-radius: 30px; font-weight: 600; letter-spacing: 1px;">
       CONTACT US TODAY
     </a>
+   
   </header>
 
   <!-- Gallery Section -->
@@ -648,6 +659,20 @@ body {
       <a href="https://wa.me/9932134803?text=Hello%20there!" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
       <a href="https://www.facebook.com/" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
       <a href="https://www.google.com/maps?q=23.530668,88.404787" target="_blank" title="Location"><i class="fas fa-map-marker-alt"></i></a>
+      
+
+      <a href="https://drive.google.com/" target="_blank" title="Google Drive"><i class="fab fa-google-drive"></i> </a>
+    
+    <!-- Key Icon -->
+    <a href="https://your-link.com" target="_blank" title="Key"><i class="fas fa-key"></i> </a>
+    
+    
+    <!-- YouTube -->
+    <a href="https://youtube.com/" target="_blank" title="YouTube"><i class="fab fa-youtube"></i> </a>
+    
+    <!-- Cloud (Alternative for Google Drive) -->
+    <a href="https://your-link.com" target="_blank" title="Cloud Storage"><i class="fas fa-cloud"></i> </a>
+
     </div>
     
     <div class="contact-info">
@@ -657,6 +682,7 @@ body {
     </div>
     
     <div class="copyright">
+      <p  id="visit_num">Total visit: Loading...</p>
       <p>&copy; <script>document.write(new Date().getFullYear());</script> Asha Grill House. All Rights Reserved.</p>
     </div>
   </footer>
@@ -837,6 +863,13 @@ fadeElements.forEach(el => {
 });
 
 
+function playBackgroundMusic(musicFile) {
+    const audio = new Audio(musicFile);
+    audio.loop = true;
+    audio.play().catch(err => console.error('Failed to play music:', err));
+    return audio;
+    }
+
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text)
         .then(() => {
@@ -848,9 +881,29 @@ function copyToClipboard(text) {
 }
 
 // Example usage
-copyToClipboard('+91 9932134803');
 
+let hasRun = false;
+function runOnce() {
+    if (hasRun) return;  // Prevent further execution
+    
+    playBackgroundMusic('others/music.mp3');
+    copyToClipboard('+91 9932134803');
+    
+    hasRun = true;  // Set flag to true after first execution
+}
+    
+function updateVisitCount(startDate) {
+            const start = new Date(startDate);
+            const today = new Date();
+            const timeDifference = today - start; // Difference in milliseconds
+            const daysCount = Math.floor(timeDifference / (1000 * 60 * 60 * 24)); // Convert to days
+            const result = daysCount * 17; // Multiply by 17
+            
+            document.getElementById("visit_num").textContent = `Total visit: ${result}`;
+        }
 
+        // Example: Calculate from "2024-01-01"
+        updateVisitCount("2024-01-01");
 
 </script>
 </body>
