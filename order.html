@@ -34,6 +34,19 @@
       margin-right: 0.75rem;
       border-radius: 20px 20px 0px 0px;
     }
+    .delete_history{
+      position:fixed;
+      right:12px;
+      width:35px;
+      height:35px;
+      object-fit: contain;
+      margin-right: 0.75rem;
+      margin-left: 10px;
+      border: 1px solid white;
+      padding:5px;
+      border-radius: 50px;
+      cursor:pointer;
+    }
     .header-content h1 {
       font-size: 1.5rem;
       margin: 0;
@@ -150,6 +163,7 @@
     <div class="header-content">
       <img src="images/icon.jpg" alt="Logo" class="logo">
       <h1>Asha Grill House</h1>
+      <img src="images/delete_icon.jpg" alt="delete History" class="delete_history" id="delete-btn">
     </div>
   </header>
   <main>
@@ -181,9 +195,13 @@
       <label for="unit-select">Unit:</label>
       <select id="unit-select">
         <option value="kg">KG</option>
-        <option value="g">Gm</option>
         <option value="g">Ton</option>
         <option value="ta">টা</option>
+        <option value="ta">টো</option>
+        <option value="ta">কৌটো</option>
+        <option value="ta">প্যাকেট</option>
+        <option value="ta">বাক্স</option>
+        
       </select>
       <div class="actions">
         <button class="btn-cancel" id="btn-cancel">Cancel</button>
@@ -192,11 +210,17 @@
     </div>
   </div>
 
-  <script>
+
+  <script type="module">
+    
+    import { ITEMS } from './js/items.js';
+
     const COOKIE_NAME = 'orders';
     const HISTORY_COOKIE = 'orders_history';
     const MAX_HISTORY = 5;
-    const ITEMS = ["10 এর বার","18/5.5 পতি","Z angle","25/3 angle","40/6 পতি","30/5 angle","19/3 পাতি","25/5 পাতি","3/8 18-gadge Sheet","4/8 18-gadge sheet"];
+
+
+
     let orders = [];
 
     function setCookie(name, value) { document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${7*24*60*60}`; }
@@ -219,6 +243,16 @@
     btnAdd.addEventListener('click',()=>{ const e={id:Date.now(),item:itemSelect.value,qty:qtyInput.value,unit:unitSelect.value};orders.push(e);setCookie(COOKIE_NAME,JSON.stringify(orders));renderLists();modal.classList.remove('open');});
     function deleteItem(id){ orders=orders.filter(o=>o.id!==id); orders.length?setCookie(COOKIE_NAME,JSON.stringify(orders)):eraseCookie(COOKIE_NAME); renderLists(); }
     
+
+    // Attach click handler to the image
+    document.getElementById('delete-btn').addEventListener('click', function() {
+      if(confirm("Are you sure to delete history?"))
+      {
+        eraseCookie('orders_history');
+        alert('Order history cleared!');
+      }
+    });
+
     
     function copyTextToClipboard(message) 
     {
@@ -243,7 +277,7 @@
     btnSend.addEventListener('click',()=>{ 
       if(confirm("Please confirm"))
       {  
-        let message = orders.map(o=>`${o.item} - ${o.qty} ${o.unit}`).join('\n');
+        let message = orders.map(o=>`${o.item} ---- ${o.qty} ${o.unit}`).join('\n');
         if(confirm(message)) 
         {
           const key=new Date().toISOString().split('T')[0]; 
@@ -257,10 +291,10 @@
       });
     
     
-    btnHistory.addEventListener('click',()=>{ if(historyContainer.style.display==='none'){ currentSection.style.display='none'; historyContainer.style.display='block'; renderHistory(); btnHistory.textContent='বর্তমান'; } else{ historyContainer.style.display='none'; currentSection.style.display='block'; btnHistory.textContent='ইতিহাস'; }});
+    btnHistory.addEventListener('click',()=>{ if(historyContainer.style.display==='none'){ currentSection.style.display='none'; historyContainer.style.display='block'; renderHistory(); btnHistory.textContent='Current'; } else{ historyContainer.style.display='none'; currentSection.style.display='block'; btnHistory.textContent='History'; }});
 
-    function renderLists(){ orderList.innerHTML=''; orders.forEach(o=>{const li=document.createElement('li');const t=document.createElement('span');t.textContent=`${o.item} - ${o.qty} ${o.unit}`;const d=document.createElement('button');d.innerHTML='&times;';d.className='delete-btn';d.onclick=()=>deleteItem(o.id);li.append(t,d);orderList.append(li);}); placeholder.style.display=orders.length?'none':'block'; btnSend.classList.toggle('show',orders.length>0); }
-    function renderHistory(){ const hist=getHistory(); historyList.innerHTML=''; const dates=Object.keys(hist).sort().reverse(); const limited=dates.slice(0,MAX_HISTORY); limited.forEach(d=>{ const header=document.createElement('li'); header.textContent=d; header.style.fontWeight='600'; historyList.append(header); hist[d].forEach(o=>{ const li=document.createElement('li'); li.textContent=`${o.item} - ${o.qty} ${o.unit}`; historyList.append(li); }); }); historyPlaceholder.style.display=limited.length?'none':'block'; }
+    function renderLists(){ orderList.innerHTML=''; orders.forEach(o=>{const li=document.createElement('li');const t=document.createElement('span');t.textContent=`${o.item} ---- ${o.qty} ${o.unit}`;const d=document.createElement('button');d.innerHTML='&times;';d.className='delete-btn';d.onclick=()=>deleteItem(o.id);li.append(t,d);orderList.append(li);}); placeholder.style.display=orders.length?'none':'block'; btnSend.classList.toggle('show',orders.length>0); }
+    function renderHistory(){ const hist=getHistory(); historyList.innerHTML=''; const dates=Object.keys(hist).sort().reverse(); const limited=dates.slice(0,MAX_HISTORY); limited.forEach(d=>{ const header=document.createElement('li'); header.textContent=d; header.style.fontWeight='600'; historyList.append(header); hist[d].forEach(o=>{ const li=document.createElement('li'); li.textContent=`${o.item} ---- ${o.qty} ${o.unit}`; historyList.append(li); }); }); historyPlaceholder.style.display=limited.length?'none':'block'; }
 
     btnNew.addEventListener('click',()=>modal.classList.add('open'));
     btnCancel.addEventListener('click',()=>modal.classList.remove('open'));
