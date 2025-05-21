@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Asha Grill House Order List</title>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
   <style>
     * { box-sizing: border-box; }
     body {
@@ -31,6 +32,7 @@
       height: 40px;
       object-fit: contain;
       margin-right: 0.75rem;
+      border-radius: 20px 20px 0px 0px;
     }
     .header-content h1 {
       font-size: 1.5rem;
@@ -127,7 +129,7 @@
 <body>
   <header>
     <div class="header-content">
-      <img src="your-logo.png" alt="Logo" class="logo">
+      <img src="images/icon.jpg" alt="Logo" class="logo">
       <h1>Asha Grill House</h1>
     </div>
   </header>
@@ -145,7 +147,7 @@
   </main>
 
   <div class="btn-bar">
-    <button class="btn-history" id="btn-history">ইতিহাস দেখুন</button>
+    <button class="btn-history" id="btn-history">ইতিহাস</button>
     <button class="btn-new" id="btn-new">নতুন</button>
     <button class="btn-send" id="btn-send">পাঠান</button>
   </div>
@@ -196,8 +198,46 @@
 
     btnAdd.addEventListener('click',()=>{ const e={id:Date.now(),item:itemSelect.value,qty:qtyInput.value,unit:unitSelect.value};orders.push(e);setCookie(COOKIE_NAME,JSON.stringify(orders));renderLists();modal.classList.remove('open');});
     function deleteItem(id){ orders=orders.filter(o=>o.id!==id); orders.length?setCookie(COOKIE_NAME,JSON.stringify(orders)):eraseCookie(COOKIE_NAME); renderLists(); }
-    btnSend.addEventListener('click',()=>{ const key=new Date().toISOString().split('T')[0]; updateHistory(key,orders); alert(orders.map(o=>`${o.item} - ${o.qty} ${o.unit}`).join('\n')); orders=[]; eraseCookie(COOKIE_NAME); renderLists(); });
-    btnHistory.addEventListener('click',()=>{ if(historyContainer.style.display==='none'){ currentSection.style.display='none'; historyContainer.style.display='block'; renderHistory(); btnHistory.textContent='বর্তমান দেখুন'; } else{ historyContainer.style.display='none'; currentSection.style.display='block'; btnHistory.textContent='ইতিহাস দেখুন'; }});
+    
+    
+    function copyTextToClipboard(message) 
+    {
+      navigator.clipboard.writeText(message)
+        .then(() => {
+          //alert("Text copied to clipboard!");
+        })
+        .catch(err => {
+          //console.error("Failed to copy text: ", err);
+        });
+    }
+
+
+    function shareToWhatsApp(message) 
+    {
+      copyTextToClipboard(message);
+      message = encodeURIComponent(message);
+      const url = `https://wa.me/?text=${message}`;
+      window.open(url, "_blank");
+    }
+
+    btnSend.addEventListener('click',()=>{ 
+      if(confirm("Please confirm"))
+      {  
+        let message = orders.map(o=>`${o.item} - ${o.qty} ${o.unit}`).join('\n');
+        if(confirm(message)) 
+        {
+          const key=new Date().toISOString().split('T')[0]; 
+          updateHistory(key,orders); 
+          orders=[]; 
+          eraseCookie(COOKIE_NAME); 
+          renderLists();
+          shareToWhatsApp(message);
+        } 
+      }
+      });
+    
+    
+    btnHistory.addEventListener('click',()=>{ if(historyContainer.style.display==='none'){ currentSection.style.display='none'; historyContainer.style.display='block'; renderHistory(); btnHistory.textContent='বর্তমান'; } else{ historyContainer.style.display='none'; currentSection.style.display='block'; btnHistory.textContent='ইতিহাস'; }});
 
     function renderLists(){ orderList.innerHTML=''; orders.forEach(o=>{const li=document.createElement('li');const t=document.createElement('span');t.textContent=`${o.item} - ${o.qty} ${o.unit}`;const d=document.createElement('button');d.innerHTML='&times;';d.className='delete-btn';d.onclick=()=>deleteItem(o.id);li.append(t,d);orderList.append(li);}); placeholder.style.display=orders.length?'none':'block'; btnSend.classList.toggle('show',orders.length>0); }
     function renderHistory(){ const hist=getHistory(); historyList.innerHTML=''; const dates=Object.keys(hist).sort().reverse(); const limited=dates.slice(0,MAX_HISTORY); limited.forEach(d=>{ const header=document.createElement('li'); header.textContent=d; header.style.fontWeight='600'; historyList.append(header); hist[d].forEach(o=>{ const li=document.createElement('li'); li.textContent=`${o.item} - ${o.qty} ${o.unit}`; historyList.append(li); }); }); historyPlaceholder.style.display=limited.length?'none':'block'; }
