@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asha Grill House Order List</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Hind Siliguri', sans-serif;
+      margin: 0;
+      padding: 1rem;
+      background: #f0f2f5;
+      color: #333;
+    }
+    header {
+      background: #d35400;
+      color: #fff;
+      padding: 0.75rem 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .header-content {
+      display: flex;
+      align-items: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .logo {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      margin-right: 0.75rem;
+    }
+    .header-content h1 {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+    main {
+      background: #fff;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: 1rem auto;
+      padding: 1rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    section { margin-bottom: 2rem; }
+    h2 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+    #order-list, #history-list { list-style: none; padding: 0; margin: 0; }
+    #order-list li, #history-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fafafa;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .delete-btn {
+      background: transparent;
+      border: none;
+      font-size: 1.4rem;
+      color: #e74c3c;
+      cursor: pointer;
+    }
+    .delete-btn:hover { color: #c0392b; }
+    .btn-bar {
+      position: fixed;
+      bottom: 1rem;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      z-index: 1100;
+    }
+    .btn-bar button {
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      transition: background 0.3s;
+      min-width: 100px;
+      text-align: center;
+      color: #fff;
+    }
+    .btn-history { background: #8e44ad; }
+    .btn-history:hover { background: #9b59b6; }
+    .btn-new { background: #27ae60; }
+    .btn-new:hover { background: #2ecc71; }
+    .btn-send { background: #2980b9; display: none; }
+    .btn-send.show { display: inline-block; }
+    .btn-send:hover { background: #3498db; }
+    .modal {
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.6);
+      justify-content: center; align-items: center;
+      z-index: 1000;
+    }
+    .modal.open { display: flex; }
+    .modal-content {
+      background: #fff; padding: 2rem; border-radius: 12px;
+      width: 100%; max-width: 420px; box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      display: grid; grid-gap: 1rem;
+    }
+    .modal-content h3 {
+      margin: 0; font-size: 1.4rem; text-align: center; color: #d35400;
+    }
+    .modal-content label { font-weight: 600; }
+    .modal-content select, .modal-content input {
+      padding: 0.6rem; border: 1px solid #ccc; border-radius: 6px;
+      font-size: 1rem; width: 100%;
+    }
+    .modal-content .actions {
+      display: flex; justify-content: flex-end; gap: 0.5rem;
+    }
+    #empty-placeholder, #history-placeholder {
+      text-align: center; color: #aaa; font-size: 1.2rem;
+      margin-top: 2rem;
+    }
+    #history-container { display: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <img src="your-logo.png" alt="Logo" class="logo">
+      <h1>Asha Grill House</h1>
+    </div>
+  </header>
+  <main>
+    <section id="current-section">
+      <h2>বর্তমান অর্ডার</h2>
+      <ul id="order-list"></ul>
+      <div id="empty-placeholder">কোনো আইটেম নেই</div>
+    </section>
+    <section id="history-container">
+      <h2>পূর্বের অর্ডারসমূহ</h2>
+      <ul id="history-list"></ul>
+      <div id="history-placeholder">কোনো ইতিহাস নেই</div>
+    </section>
+  </main>
+
+  <div class="btn-bar">
+    <button class="btn-history" id="btn-history">ইতিহাস দেখুন</button>
+    <button class="btn-new" id="btn-new">নতুন</button>
+    <button class="btn-send" id="btn-send">পাঠান</button>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <h3>আইটেম যোগ করুন</h3>
+      <label for="item-select">আইটেম:</label>
+      <select id="item-select"></select>
+      <label for="quantity-input">পরিমাণ:</label>
+      <input type="number" id="quantity-input" min="1" value="1">
+      <label for="unit-select">একক:</label>
+      <select id="unit-select">
+        <option value="kg">KG</option>
+        <option value="g">G</option>
+        <option value="ta">টা</option>
+      </select>
+      <div class="actions">
+        <button class="btn-cancel" id="btn-cancel">বাতিল</button>
+        <button class="btn-add" id="btn-add">যোগ করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const COOKIE_NAME = 'orders';
+    const HISTORY_COOKIE = 'orders_history';
+    const MAX_HISTORY = 5;
+    const ITEMS = ["10 এর বার","18/5.5 পতি","Z angle","25/3 angle","40/6 পতি","30/5 angle","19/3 পাতি","25/5 পাতি","3/8 18-gadge Sheet","4/8 18-gadge sheet"];
+    let orders = [];
+
+    function setCookie(name, value) { document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${7*24*60*60}`; }
+    function getCookie(name) { const m=document.cookie.match(new RegExp('(^| )'+name+'=([^;]+)')); return m?decodeURIComponent(m[2]):''; }
+    function eraseCookie(name) { document.cookie=`${name}=;path=/;max-age=0`; }
+    function getHistory(){ try{const h=getCookie(HISTORY_COOKIE);return h?JSON.parse(h):{};}catch{return{}} }
+    function updateHistory(dateKey,data){ const history=getHistory();history[dateKey]=data;const keys=Object.keys(history).sort().slice(-MAX_HISTORY);const limited={};keys.forEach(k=>limited[k]=history[k]);setCookie(HISTORY_COOKIE,JSON.stringify(limited)); }
+
+    const btnNew=document.getElementById('btn-new'), btnSend=document.getElementById('btn-send'), btnHistory=document.getElementById('btn-history');
+    const modal=document.getElementById('modal'), itemSelect=document.getElementById('item-select');
+    const qtyInput=document.getElementById('quantity-input'), unitSelect=document.getElementById('unit-select');
+    const btnAdd=document.getElementById('btn-add'), btnCancel=document.getElementById('btn-cancel');
+    const orderList=document.getElementById('order-list'), placeholder=document.getElementById('empty-placeholder');
+    const currentSection=document.getElementById('current-section'), historyContainer=document.getElementById('history-container');
+    const historyList=document.getElementById('history-list'), historyPlaceholder=document.getElementById('history-placeholder');
+
+    ITEMS.forEach(i=>{const o=document.createElement('option');o.value=i;o.textContent=i;itemSelect.append(o);});
+    const saved=getCookie(COOKIE_NAME); if(saved) orders=JSON.parse(saved);
+
+    btnAdd.addEventListener('click',()=>{ const e={id:Date.now(),item:itemSelect.value,qty:qtyInput.value,unit:unitSelect.value};orders.push(e);setCookie(COOKIE_NAME,JSON.stringify(orders));renderLists();modal.classList.remove('open');});
+    function deleteItem(id){ orders=orders.filter(o=>o.id!==id); orders.length?setCookie(COOKIE_NAME,JSON.stringify(orders)):eraseCookie(COOKIE_NAME); renderLists(); }
+    btnSend.addEventListener('click',()=>{ const key=new Date().toISOString().split('T')[0]; updateHistory(key,orders); alert(orders.map(o=>`${o.item} - ${o.qty} ${o.unit}`).join('\n')); orders=[]; eraseCookie(COOKIE_NAME); renderLists(); });
+    btnHistory.addEventListener('click',()=>{ if(historyContainer.style.display==='none'){ currentSection.style.display='none'; historyContainer.style.display='block'; renderHistory(); btnHistory.textContent='বর্তমান দেখুন'; } else{ historyContainer.style.display='none'; currentSection.style.display='block'; btnHistory.textContent='ইতিহাস দেখুন'; }});
+
+    function renderLists(){ orderList.innerHTML=''; orders.forEach(o=>{const li=document.createElement('li');const t=document.createElement('span');t.textContent=`${o.item} - ${o.qty} ${o.unit}`;const d=document.createElement('button');d.innerHTML='&times;';d.className='delete-btn';d.onclick=()=>deleteItem(o.id);li.append(t,d);orderList.append(li);}); placeholder.style.display=orders.length?'none':'block'; btnSend.classList.toggle('show',orders.length>0); }
+    function renderHistory(){ const hist=getHistory(); historyList.innerHTML=''; const dates=Object.keys(hist).sort().reverse(); const limited=dates.slice(0,MAX_HISTORY); limited.forEach(d=>{ const header=document.createElement('li'); header.textContent=d; header.style.fontWeight='600'; historyList.append(header); hist[d].forEach(o=>{ const li=document.createElement('li'); li.textContent=`${o.item} - ${o.qty} ${o.unit}`; historyList.append(li); }); }); historyPlaceholder.style.display=limited.length?'none':'block'; }
+
+    btnNew.addEventListener('click',()=>modal.classList.add('open'));
+    btnCancel.addEventListener('click',()=>modal.classList.remove('open'));
+    window.addEventListener('click',e=>{ if(e.target===modal) modal.classList.remove('open'); });
+
+    renderLists();
+  </script>
+</body>
+</html>
