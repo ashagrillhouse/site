@@ -124,6 +124,25 @@
       margin-top: 2rem;
     }
     #history-container { display: none; }
+
+    .btn-cancel{
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #12bb66;
+      color: white
+    }
+    .btn-add{
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #3498db;
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -135,39 +154,40 @@
   </header>
   <main>
     <section id="current-section">
-      <h2>বর্তমান অর্ডার</h2>
+      <h2>Current Order</h2>
       <ul id="order-list"></ul>
-      <div id="empty-placeholder">কোনো আইটেম নেই</div>
+      <div id="empty-placeholder">No Items are present</div>
     </section>
     <section id="history-container">
-      <h2>পূর্বের অর্ডারসমূহ</h2>
+      <h2>Previous Orders</h2>
       <ul id="history-list"></ul>
-      <div id="history-placeholder">কোনো ইতিহাস নেই</div>
+      <div id="history-placeholder">No History is present</div>
     </section>
   </main>
 
   <div class="btn-bar">
-    <button class="btn-history" id="btn-history">ইতিহাস</button>
-    <button class="btn-new" id="btn-new">নতুন</button>
-    <button class="btn-send" id="btn-send">পাঠান</button>
+    <button class="btn-history" id="btn-history">History</button>
+    <button class="btn-new" id="btn-new">New</button>
+    <button class="btn-send" id="btn-send">Send</button>
   </div>
 
   <div class="modal" id="modal">
     <div class="modal-content">
-      <h3>আইটেম যোগ করুন</h3>
-      <label for="item-select">আইটেম:</label>
+      <h3>Add new items</h3>
+      <label for="item-select">Items List:</label>
       <select id="item-select"></select>
-      <label for="quantity-input">পরিমাণ:</label>
+      <label for="quantity-input">Quantity:</label>
       <input type="number" id="quantity-input" min="1" value="1">
-      <label for="unit-select">একক:</label>
+      <label for="unit-select">Unit:</label>
       <select id="unit-select">
         <option value="kg">KG</option>
-        <option value="g">G</option>
+        <option value="g">Gm</option>
+        <option value="g">Ton</option>
         <option value="ta">টা</option>
       </select>
       <div class="actions">
-        <button class="btn-cancel" id="btn-cancel">বাতিল</button>
-        <button class="btn-add" id="btn-add">যোগ করুন</button>
+        <button class="btn-cancel" id="btn-cancel">Cancel</button>
+        <button class="btn-add" id="btn-add">Add</button>
       </div>
     </div>
   </div>
