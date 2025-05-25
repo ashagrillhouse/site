@@ -1,9 +1,9 @@
-shopt -s nullglob
-mkdir -p optimized
+rm -r grill
+mkdir -p grill
 mogrify \
-  -path optimized \
+  -path grill \
   -format jpg \
-  -resize '800x800>' \
-  -quality 75 \
+  -resize '700x700>' \
+  -quality 60 \
   -strip \
-  grill/*.{png,jpg,jpeg}
+  grill.bak/*.{png,jpg,jpeg}
