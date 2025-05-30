@@ -65,48 +65,40 @@
     <button class="nav-btn next-btn" id="nextBtn">&#10095;</button>
   </div>
 
-  <footer class="main-footer">
+ 
+
+  <!-- Footer -->
+  <footer class="main-footer fade-in delay-2">
     <div class="footer-icons">
+      <!-- Whatsapp -->
       <a href="https://wa.me/9932134803?text=Hello%20there!" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-      <a href="https://www.facebook.com/" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <!-- Google map-->
       <a href="https://www.google.com/maps?q=23.530668,88.404787" target="_blank" title="Location"><i class="fas fa-map-marker-alt"></i></a>
-      <a href="https://drive.google.com/" target="_blank" title="Google Drive"><i class="fab fa-google-drive"></i></a>
-      <a href="https://your-link.com" target="_blank" title="Key"><i class="fas fa-key"></i></a>
-      <a href="https://youtube.com/" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
-      <a href="https://your-link.com" target="_blank" title="Cloud Storage"><i class="fas fa-cloud"></i></a>
+      <!-- YouTube -->
+      <a href="https://youtube.com/" target="_blank" title="YouTube"><i class="fab fa-youtube"></i> </a>
+      <!-- Cloud (Alternative for Google Drive) -->
+      <a href="https://your-link.com" target="_blank" title="Cloud Storage"><i class="fas fa-cloud"></i> </a>
     </div>
+    
     <div class="contact-info">
       <p><i class="fas fa-phone"></i> +91 9932134803</p>
       <p><i class="fas fa-envelope"></i> biggyandas1977@gmail.com</p>
-      <p><i class="fas fa-clock"></i> Open daily 10am-9pm</p>
+      <p><i class="fas fa-clock"></i> Open daily 9am-10pm</p>
     </div>
-    <div class="copyright" id="visit_num">Total visit: Loading...</div>
-    <div class="copyright">&copy; <span id="year"></span> Asha Grill House. All Rights Reserved.</div>
+    
+    <div class="copyright">
+      <p  id="visit_num">Total visit: Loading...</p>
+      <p>&copy; <script>document.write(new Date().getFullYear());</script> Asha Grill House. All Rights Reserved.</p>
+    </div>
   </footer>
 
-  <script>
-    const imagePaths =  [
-      'grill/grill1.jpg','grill/grill2.jpg','grill/grill3.jpg','grill/grill4.jpg','grill/grill5.jpg',
-      'grill/grill6.jpg','grill/grill7.jpg','grill/grill8.jpg','grill/grill9.jpg','grill/grill10.jpg',
-      'grill/grill11.jpg','grill/grill12.jpg','grill/grill13.jpg','grill/grill14.jpg','grill/grill15.jpg',
-      'grill/grill16.jpg','grill/grill17.jpg','grill/grill18.jpg','grill/grill19.jpg','grill/grill20.jpg',
-      'grill/grill21.jpg','grill/grill22.jpg','grill/grill23.jpg','grill/grill24.jpg','grill/grill25.jpg',
-      'grill/grill26.jpg','grill/grill27.jpg','grill/grill28.jpg','grill/grill29.jpg','grill/grill30.jpg',
 
-      'grill/grill31.jpg','grill/grill32.jpg','grill/grill33.jpg','grill/grill34.jpg','grill/grill35.jpg',
-      'grill/grill36.jpg','grill/grill37.jpg','grill/grill38.jpg','grill/grill39.jpg','grill/grill40.jpg',
 
-      'grill/grill41.jpg','grill/grill42.jpg','grill/grill43.jpg','grill/grill44.jpg','grill/grill45.jpg',
-      'grill/grill46.jpg','grill/grill47.jpg','grill/grill48.jpg','grill/grill49.jpg','grill/grill50.jpg',
+    <script type="module">
+    
+    import { imagePaths } from './js/items.js';
 
-      'grill/grill51.jpg','grill/grill52.jpg','grill/grill53.jpg','grill/grill54.jpg','grill/grill55.jpg',
-      'grill/grill56.jpg','grill/grill57.jpg','grill/grill58.jpg','grill/grill59.jpg','grill/grill60.jpg',
-
-      'grill/grill61.jpg','grill/grill62.jpg','grill/grill63.jpg','grill/grill64.jpg','grill/grill65.jpg',
-      'grill/grill66.jpg','grill/grill67.jpg','grill/grill68.jpg'
-    ];
-
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // document.getElementById('year').textContent = new Date().getFullYear();
     const imageGrid = document.getElementById('imageGrid');
     const lightbox = document.getElementById('lightbox');
     const lightboxImage = document.getElementById('lightboxImage');
@@ -202,7 +194,7 @@
         }
 
         // Example: Calculate from "2024-01-01"
-        updateVisitCount("2024-01-01");
+        updateVisitCount("2025-01-01");
   </script>
 </body>
 </html>
