@@ -19,481 +19,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-<style>
-:root {
-  --primary-color: #c62828; /* Darker red */
-  --secondary-color: #f44336; /* Lighter red */
-  --accent-color: #ff9800; /* Orange */
-  --dark-color: #333;
-  --light-color: #f5f5f5;
-  --text-color: #444;
-}
-
-body {
-  font-family: "Poppins", sans-serif;
-  color: var(--text-color);
-  line-height: 1.6;
-  background-color: #fff;
-  overflow-x: hidden; /* Prevent horizontal scroll */
-}
-
-/* Header */
-.main-header {
-  background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('images/grill-banner.jpg');
-  background-position: center;
-  color: white;
-  text-align: center;
-  padding: 120px 20px;
-  position: relative;
-}
-
-.main-header h1 {
-  font-size: 3.5rem;
-  font-weight: 700;
-  margin-bottom: 15px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
-
-.main-header p {
-  font-size: 1.3rem;
-  max-width: 800px;
-  margin: 0 auto 30px;
-}
-
-/* Sidebar */
-.w3-sidebar {
-  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-  position: relative;
-  background-image: url("images/Window-Grill.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: rgba(0, 0, 0, 0.5);
-  background-blend-mode: multiply;
-  color: white;
-}
-
-.side_icon {
-  width: 80%;
-  display: block;
-  margin: 20px auto;
-  filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
-}
-
-.w3-bar-block a {
-  padding: 16px 24px;
-  font-size: 1.1rem;
-  transition: all 0.3s;
-  border-left: 4px solid transparent;
-}
-
-.w3-bar-block a:hover {
-  background-color: rgba(255,255,255,0.1);
-  border-left: 4px solid white;
-}
-
-/* Gallery slider */
-.gallery-section {
-  padding: 60px 0;
-  background-color: var(--light-color);
-}
-
-.section-title {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.section-title h2 {
-  font-size: 2.5rem;
-  color: var(--primary-color);
-  margin-bottom: 15px;
-  position: relative;
-  display: inline-block;
-}
-
-.section-title h2:after {
-  content: '';
-  position: absolute;
-  width: 60px;
-  height: 3px;
-  background-color: var(--accent-color);
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.gallery-container {
-  position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 30px;
-}
-
-.gallery-slider {
-  display: flex;
-  transition: transform 0.5s ease;
-}
-
-.gallery-slide {
-  min-width: calc(100% / 4);
-  padding: 0 10px;
-  box-sizing: border-box;
-  transition: all 0.3s;
-}
-
-.gallery-slide:hover {
-  transform: translateY(-5px);
-}
-
-.gallery-slide img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  transition: all 0.3s;
-}
-
-.gallery-slide img:hover {
-  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-}
-
-.slider-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  transition: all 0.3s;
-}
-
-.slider-btn:hover {
-  background-color: var(--secondary-color);
-  transform: translateY(-50%) scale(1.1);
-}
-
-.slider-btn.prev {
-  left: 0;
-}
-
-.slider-btn.next {
-  right: 0;
-}
-
-/* About section */
-.about-section {
-  padding: 80px 0;
-  background-color: white;
-}
-
-.about-content {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 30px;
-}
-
-.about-content p {
-  margin-bottom: 20px;
-  font-size: 1.1rem;
-}
-
-/* Owner section */
-.owner-section {
-  padding: 80px 0;
-  background-color: var(--light-color);
-  text-align: center;
-}
-
-.owner-card {
-  background-color: white;
-  border-radius: 10px;
-  padding: 40px;
-  max-width: 600px;
-  margin: 0 auto;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.owner-img {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin: 0 auto 20px;
-  border: 5px solid var(--primary-color);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-.owner-name {
-  color: var(--primary-color);
-  font-size: 1.8rem;
-  margin-bottom: 10px;
-}
-
-.owner-title {
-  color: var(--accent-color);
-  font-weight: 500;
-  margin-bottom: 20px;
-}
-
-/* Partners section */
-.partners-section {
-  padding: 80px 0;
-  background-color: white;
-}
-
-.partners-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 30px;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 20px;
-  align-items: center;
-}
-
-.partner-logo {
-  max-width: 100%;
-  height: auto;
-  filter: grayscale(100%);
-  opacity: 0.7;
-  transition: all 0.3s;
-}
-
-.partner-logo:hover {
-  filter: grayscale(0%);
-  opacity: 1;
-}
-
-/* Contact section */
-.contact-section {
-  padding: 80px 0;
-  background-color: white;
-}
-
-.contact-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 30px 0;
-}
-
-.contact-table tr:nth-child(even) {
-  background-color: var(--light-color);
-}
-
-.contact-table th {
-  background-color: var(--primary-color);
-  color: white;
-  padding: 15px;
-  text-align: left;
-}
-
-.contact-table td {
-  padding: 15px;
-  border-bottom: 1px solid #ddd;
-}
-
-.contact-table a {
-  color: var(--secondary-color);
-  text-decoration: none;
-  transition: all 0.3s;
-}
-
-.contact-table a:hover {
-  color: var(--primary-color);
-  text-decoration: underline;
-}
-
-/* Footer */
-.main-footer {
-  background-color: var(--dark-color);
-  color: white;
-  padding: 50px 0 20px;
-  text-align: center;
-}
-
-.footer-icons {
-  margin: 30px 0;
-}
-
-.footer-icons a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  background-color: rgba(255,255,255,0.1);
-  border-radius: 50%;
-  margin: 0 10px;
-  color: white;
-  font-size: 20px;
-  transition: all 0.3s;
-}
-
-.footer-icons a:hover {
-  background-color: var(--accent-color);
-  transform: translateY(-5px);
-}
-
-.contact-info {
-  margin-bottom: 30px;
-}
-
-.contact-info i {
-  margin-right: 10px;
-  color: var(--accent-color);
-}
-
-.copyright {
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(255,255,255,0.1);
-  color: rgba(255,255,255,0.7);
-}
-
-/* Gallery button */
-.gallery-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 50px;
-  text-align: center;
-}
-
-.gallery-btn div {
-  background: rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.gallery-btn button {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  background-color: #f44336;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.gallery-btn button:hover {
-  background-color: #444;
-}
-
-/* Falling leaves */
-.leaf {
-  position: fixed;
-  top: -50px;
-  z-index: 9999;
-  color: #8BC34A;
-  pointer-events: none;
-  animation: falling linear infinite;
-}
-
-@keyframes falling {
-  0% {
-    transform: translate(0, -50px) rotate(0deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(var(--end-x), calc(100vh + 50px)) rotate(360deg);
-    opacity: 0;
-  }
-}
-
-/* Responsive adjustments */
-@media (max-width: 992px) {
-  .w3-main {
-    margin-left: 0;
-  }
-  
-  .main-header {
-    margin-left: 0;
-    padding: 100px 20px;
-  }
-  
-  .gallery-slide {
-    min-width: calc(100% / 3);
-  }
-  
-  /* Hide arrows when sidebar is open on mobile */
-  .w3-sidebar.w3-show ~ .w3-main .slider-btn {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .main-header h1 {
-    font-size: 2.5rem;
-  }
-  
-  .gallery-slide {
-    min-width: calc(100% / 2);
-  }
-  
-  .contact-table td, .contact-table th {
-    padding: 10px;
-  }
-  
-  .partners-grid {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 20px;
-  }
-}
-
-@media (max-width: 576px) {
-  .main-header {
-    padding: 80px 20px;
-  }
-  
-  .main-header h1 {
-    font-size: 2rem;
-  }
-  
-  .gallery-slide {
-    min-width: 100%;
-  }
-  
-  .slider-btn {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .partners-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* Animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.fade-in {
-  animation: fadeIn 0.8s ease forwards;
-}
-
-.delay-1 { animation-delay: 0.2s; }
-.delay-2 { animation-delay: 0.4s; }
-.delay-3 { animation-delay: 0.6s; }
-
-
-</style>
+<link rel="stylesheet" href="style/style.css">
+<link rel="stylesheet" href="style/add.css">
+<script type="module" src="js/script.js"></script>
 </head>
-<body onclick="runOnce()"">
+<body>
 
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
@@ -509,6 +39,12 @@ body {
     <a href="#partners" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Partners</a>
     <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Contact</a>
   </div>
+
+<div class="add_side_pannel" >
+  <img src="#" id="add4">
+</div>
+
+
 </nav>
 
 <!-- Top menu on small screens -->
@@ -525,7 +61,7 @@ body {
 
   <!-- Header Section -->
   <header class="main-header fade-in">
-    <h1>Asha Grill House</h1>
+     <h1 id="mainTitle" class="fade-text">Asha Grill House</h1>
     <p class="delay-1">Crafting Excellence in Metalwork Since 2015</p>
     <a href="#contact" class="w3-button w3-padding-large w3-red w3-margin-top delay-2" 
        style="border-radius: 30px; font-weight: 600; letter-spacing: 1px;">
@@ -542,11 +78,11 @@ body {
     </div>
     
     <div class="gallery-container">
-      <button class="slider-btn prev" onclick="moveSlide(-1)">❮</button>
+      <!-- <button class="slider-btn prev" onclick="moveSlide(-1)">❮</button> -->
       <div class="gallery-slider" id="gallerySlider">
         <!-- Slides will be added by JavaScript -->
       </div>
-      <button class="slider-btn next" onclick="moveSlide(1)">❯</button>
+      <!-- <button class="slider-btn next" onclick="moveSlide(1)">❯</button> -->
     </div>
     <div class="gallery-btn">
         <a href="gallery.html"><button>Show All</button></a>
@@ -558,17 +94,49 @@ body {
     <div class="section-title fade-in">
       <h2>About Us</h2>
       <p>Quality craftsmanship you can trust</p>
+
     </div>
     
-    <div class="about-content">
-      <p class="fade-in delay-1">Welcome to Asha Grill House, your premier destination for high-quality grill services in the Nadia region. Established in 2015, we have built a reputation for excellence in metalwork and customer satisfaction.</p>
-      
-      <p class="fade-in delay-1">Our team of skilled craftsmen combines traditional techniques with modern innovation to create durable, beautiful, and secure grill solutions for both residential and commercial properties.</p>
-      
-      <p class="fade-in delay-2">We take pride in our attention to detail, using only premium materials to ensure your grill not only provides security but also enhances the aesthetic appeal of your property. From custom designs to standard installations, we approach every project with the same level of care and professionalism.</p>
-      
-      <p class="fade-in delay-2">At Asha Grill House, we believe in building lasting relationships with our customers through transparent pricing, reliable service, and workmanship that stands the test of time.</p>
+    <!-- English Version -->
+    <div class="about about_eng fade-in">
+      Welcome to Asha Grill House, your premier destination for high-quality grill services in the Nadia region. Established in 2015, we have built a reputation for excellence in metalwork and customer satisfaction.<br><br>
+
+      Our team of skilled craftsmen combines traditional techniques with modern innovation to create durable, beautiful, and secure grill solutions for both residential and commercial properties.<br><br>
+
+      We take pride in our attention to detail, using only premium materials to ensure your grill not only provides security but also enhances the aesthetic appeal of your property. From custom designs to standard installations, we approach every project with the same level of care and professionalism.<br><br>
+
+      At Asha Grill House, we believe in building lasting relationships with our customers through transparent pricing, reliable service, and workmanship that stands the test of time.
     </div>
+
+    <!-- Bengali Version -->
+    <div class="about about_ben">
+      স্বাগতম আশা গ্রিল হাউসে। আমরা নদিয়া অঞ্চলের উচ্চমানের গ্রিল সেবার অগ্রণী প্রদানকারী প্রতিষ্ঠান। ২০১৫ সালে প্রতিষ্ঠিত এই প্রতিষ্ঠানটি ধাতুবিদ্যায় উৎকর্ষতা এবং গ্রাহক সন্তুষ্টির জন্য সুপরিচিত।<br><br>
+
+      আমাদের দক্ষ কারিগরগণ ঐতিহ্যবাহী পদ্ধতি ও আধুনিক উদ্ভাবন একত্রে প্রয়োগ করে টেকসই, মনোমুগ্ধকর এবং নিরাপদ গ্রিল সমাধান তৈরি করেন, যা আবাসিক ও বাণিজ্যিক উভয় পরিবেশেই সমানভাবে মানানসই।<br><br>
+
+      আমরা প্রতিটি প্রকল্পে বিস্তারিত মনোযোগ দিয়ে শুধুমাত্র উচ্চমানের উপকরণ ব্যবহার করি, যাতে আপনার গ্রিল কেবল নিরাপত্তা নিশ্চিত করে না, বরং আপনার সম্পত্তির নান্দনিক সৌন্দর্যও বৃদ্ধি করে।<br><br>
+
+      আশা গ্রিল হাউসে, স্বচ্ছ মূল্য নির্ধারণ, নির্ভরযোগ্য সেবা এবং উৎকৃষ্ট কারুশিল্পের মাধ্যমে আমরা দীর্ঘমেয়াদী বিশ্বাস ও সম্পর্ক স্থাপনে বিশ্বাসী।
+    </div>
+
+    <!-- Hindi Version -->
+    <div class="about about_hin" >
+      आशा ग्रिल हाउस में आपका स्वागत है। हम नदिया क्षेत्र में उच्च गुणवत्ता वाली ग्रिल सेवाओं के प्रमुख प्रदाता हैं। 2015 में स्थापित यह संस्था धातु-कला में उत्कृष्टता और ग्राहक संतुष्टि के लिए जानी जाती है।<br><br>
+
+      हमारे कुशल कारीगर पारंपरिक तकनीकों और आधुनिक नवाचार को मिलाकर टिकाऊ, सुंदर और सुरक्षित ग्रिल समाधान तैयार करते हैं, जो आवासीय और वाणिज्यिक दोनों प्रकार की आवश्यकताओं के लिए उपयुक्त हैं।<br><br>
+
+      हम प्रत्येक परियोजना में बारीकी पर विशेष ध्यान देते हैं और केवल प्रीमियम गुणवत्ता की सामग्रियों का उपयोग करते हैं ताकि आपकी ग्रिल सुरक्षा के साथ-साथ आपके संपत्ति की सौंदर्यबोध को भी बढ़ा सके।<br><br>
+
+      आशा ग्रिल हाउस में हम पारदर्शी मूल्य निर्धारण, भरोसेमंद सेवा और श्रेष्ठ शिल्पकला के माध्यम से अपने ग्राहकों के साथ दीर्घकालिक संबंध स्थापित करने में विश्वास रखते हैं।
+    </div>
+
+
+    <button
+      id="about_trans_btn"
+      class="w3-button w3-deep-orange w3-round-medium w3-padding-large w3-large"
+      style="display:block; margin:80px auto 0;">
+          Bangla
+    </button>
   </section>
 
   <!-- Owner Section -->
@@ -580,10 +148,42 @@ body {
     
     <div class="owner-card fade-in delay-1">
       <img src="images/owner.png" alt="Biggyan Das" class="owner-img">
-      <h3 class="owner-name">Biggyan Das</h3>
-      <p class="owner-title">Founder & Master Craftsman</p>
-      <p>With over 15 years of experience in metalwork, Biggyan Das established Asha Grill House with a vision to provide superior quality grill services to the community. His hands-on approach and commitment to excellence continue to drive the business forward.</p>
+      
+      <!-- English Version -->
+      <div class="owner_eng fade-in delay-3">
+        <h3 class="owner-name">Biggyan Das</h3>
+        <p class="owner-title">Founder & Master Craftsman</p>
+        <p class="owner_line">
+          With over 15 years of experience in metalwork, Biggyan Das established Asha Grill House with a vision to provide superior quality grill services to the community. His hands-on approach and commitment to excellence continue to drive the business forward.
+        </p>
+      </div>
+
+      <!-- Bengali Version -->
+      <div class="owner_ben fade-in delay-2" >
+        <h3 class="owner-name">বিজ্ঞান দাস</h3>
+        <p class="owner-title">প্রতিষ্ঠাতা ও প্রধান কারিগর</p>
+        <p class="owner_line">
+          ১৫ বছরের বেশি কাজের অভিজ্ঞতা নিয়ে বিজ্ঞান দাস “আশা গ্রিল হাউস” শুরু করেন, যেন সবার জন্য ভালো মানের গ্রিলের কাজ করা যায়। তিনি নিজের হাতে কাজ করতে ভালোবাসেন, আর তাঁর পরিশ্রম ও সততা আজও এই ব্যবসাকে সামনে এগিয়ে নিয়ে যাচ্ছে।     </p>
+      </div>
+
+      <!-- Hindi Version -->
+      <div class="owner_hin fade-in delay-3" >
+        <h3 class="owner-name">विज्ञान दास</h3>
+        <p class="owner-title">संस्थापक एवं प्रमुख कारीगर</p>
+        <p class="owner_line">
+         15 साल से ज़्यादा के अनुभव के साथ, विज्ञान दास ने “आशा ग्रिल हाउस” की शुरुआत की ताकि लोगों को अच्छे क्वालिटी की ग्रिल सेवा मिल सके। उन्हें खुद काम करना पसंद है और उनकी मेहनत और ईमानदारी आज भी इस काम को आगे बढ़ा रही है।        </p>
+      </div>
+
+
+      <button
+        id="owner_trans_btn"
+        class="w3-button w3-deep-orange w3-round-medium w3-padding-large w3-large"
+        style="display:block; margin:80px auto 0;">
+            Bangla
+      </button>
     </div>
+
+     
   </section>
 
   <!-- Partners Section -->
@@ -594,16 +194,29 @@ body {
     </div>
     
     <div class="partners-grid">
-      <img src="partners/partner1.png" alt="Partner 1" class="partner-logo">
-      <img src="partners/partner2.png" alt="Partner 2" class="partner-logo">
-      <img src="partners/partner3.png" alt="Partner 3" class="partner-logo">
-      <img src="partners/partner4.png" alt="Partner 4" class="partner-logo">
-      <img src="partners/partner5.png" alt="Partner 5" class="partner-logo">
-      <img src="partners/partner6.png" alt="Partner 5" class="partner-logo">
-      <img src="partners/partner7.png" alt="Partner 5" class="partner-logo">
-      <img src="partners/partner8.png" alt="Partner 5" class="partner-logo">
+      <img src="partners/partner1.png" alt="Partner 1" class="partner-logo fade-in delay-3">
+      <img src="partners/partner2.png" alt="Partner 2" class="partner-logo fade-in delay-1">
+      <img src="partners/partner3.png" alt="Partner 3" class="partner-logo fade-in delay-2">
+      <img src="partners/partner4.png" alt="Partner 4" class="partner-logo fade-in delay-3">
+      <img src="partners/partner5.png" alt="Partner 5" class="partner-logo fade-in delay-1">
+      <img src="partners/partner6.png" alt="Partner 5" class="partner-logo fade-in delay-2">
+      <img src="partners/partner7.png" alt="Partner 5" class="partner-logo fade-in delay-3">
+      <img src="partners/partner8.png" alt="Partner 5" class="partner-logo fade-in delay-1">
     </div>
   </section>
+
+
+  <div class="add_above_contact">
+  <div class="ad-image-wrapper">
+    <button class="close-btn" onclick="this.parentElement.style.display='none';">×</button>
+    <img src="#" id="add1"/>
+  </div>
+  <div class="ad-image-wrapper">
+    <button class="close-btn" onclick="this.parentElement.style.display='none';">×</button>
+    <img src="#" id="add2"/>
+  </div>
+</div>
+
 
   <!-- Contact Section -->
   <section class="contact-section" id="contact">
@@ -653,6 +266,30 @@ body {
     </div>
   </section>
 
+
+    <div class="rating-box">
+      <div class="current-rating">Average Rating: 0 ⭐  (0 users)</div>
+
+      <div class="stars" id="starContainer">
+        <input type="radio" name="rating" id="star1" value="1"><label for="star1" id="rate1">★</label>
+        <input type="radio" name="rating" id="star2" value="2"><label for="star2" id="rate2">★</label>
+        <input type="radio" name="rating" id="star3" value="3"><label for="star3" id="rate3">★</label>
+        <input type="radio" name="rating" id="star4" value="4"><label for="star4" id="rate4">★</label>
+        <input type="radio" name="rating" id="star5" value="5"><label for="star5" id="rate5">★</label>
+      </div>
+
+      <div class="message" id="ratingMsg"></div>
+  </div>
+
+
+<div class="add_above_footer" id="adFooter">
+  <button class="close-btn" onclick="document.getElementById('adFooter').style.display='none'">×</button>
+  <img src="#" id="add3">
+</div>
+
+
+
+
   <!-- Footer -->
   <footer class="main-footer fade-in delay-2">
     <div class="footer-icons">
@@ -672,19 +309,19 @@ body {
       <p><i class="fas fa-clock"></i> Open daily 9am-10pm</p>
     </div>
     
+
     <div class="copyright">
       <p  id="visit_num">Total visit: Loading...</p>
       <p>&copy; <script>document.write(new Date().getFullYear());</script> Asha Grill House. All Rights Reserved.</p>
     </div>
+
+    
+    
   </footer>
 
 </div>
-
-<script type="module">
-
-import { imagePaths } from './js/items.js';
-
-// Script to open and close sidebar
+<script>
+  // Script to open and close sidebar
 function w3_open() {
   document.getElementById("mySidebar").style.display = "block";
   document.getElementById("myOverlay").style.display = "block";
@@ -696,179 +333,7 @@ function w3_close() {
   document.getElementById("myOverlay").style.display = "none";
   document.body.style.overflow = "auto"; // Re-enable scrolling
 }
-
-
-
-
-let currentSlide = 0;
-const slider = document.getElementById('gallerySlider');
-let slidesToShow = 4; // Default for large screens
-
-function updateSlidesToShow() {
-  if (window.innerWidth < 992) slidesToShow = 3;
-  if (window.innerWidth < 768) slidesToShow = 2;
-  if (window.innerWidth < 576) slidesToShow = 1;
-}
-
-function initSlider() {
-  updateSlidesToShow();
-  slider.innerHTML = ''; // Clear existing slides
-  
-  imagePaths.forEach((image, index) => {
-    const slide = document.createElement('div');
-    slide.className = 'gallery-slide';
-    slide.innerHTML = `<img src="${image}" alt="Grill Work ${index + 1}" class="fade-in">`;
-    slider.appendChild(slide);
-  });
-  updateSlider();
-}
-
-function updateSlider() {
-  const slideWidth = 100 / slidesToShow;
-  slider.style.transform = `translateX(-${currentSlide * slideWidth}%)`;
-}
-
-function moveSlide(direction) {
-  updateSlidesToShow();
-  currentSlide += direction;
-  
-  // Check boundaries
-  if (currentSlide < 0) {
-    currentSlide = 0;
-  } else if (currentSlide > imagePaths.length - slidesToShow) {
-    currentSlide = imagePaths.length - slidesToShow;
-  }
-  
-  updateSlider();
-}
-
-// Initialize the slider when page loads
-window.onload = function() {
-  initSlider();
-  
-  // Set interval for auto-sliding
-  setInterval(() => {
-    if (currentSlide < imagePaths.length - slidesToShow) {
-      moveSlide(1);
-    } else {
-      currentSlide = 0;
-      updateSlider();
-    }
-  }, 4000);
-  
-  // Start falling leaves effect
-  createLeaves();
-};
-
-// Handle window resize
-window.addEventListener('resize', function() {
-  updateSlidesToShow();
-  updateSlider();
-});
-
-// Falling leaves effect
-function createLeaves() {
-  const leafSymbols = ['🍁', '🍂', '🍃', '🌿', '🍀'];
-  const colors = ['#8BC34A', '#4CAF50', '#2E7D32', '#689F38', '#558B2F'];
-  
-  function createLeaf() {
-    const leaf = document.createElement('div');
-    leaf.className = 'leaf';
-    
-    // Random properties
-    const symbol = leafSymbols[Math.floor(Math.random() * leafSymbols.length)];
-    const size = Math.random() * 20 + 15;
-    const duration = Math.random() * 10 + 5;
-    const delay = Math.random() * 5;
-    const endX = (Math.random() * 200 - 100) + 'px';
-    
-    leaf.textContent = symbol;
-    leaf.style.left = Math.random() * window.innerWidth + 'px';
-    leaf.style.fontSize = size + 'px';
-    leaf.style.color = colors[Math.floor(Math.random() * colors.length)];
-    leaf.style.setProperty('--end-x', endX);
-    leaf.style.animationDuration = duration + 's';
-    leaf.style.animationDelay = delay + 's';
-    
-    document.body.appendChild(leaf);
-    
-    // Remove leaf after animation completes
-    setTimeout(() => {
-      leaf.remove();
-    }, duration * 1000);
-  }
-  
-  // Create initial leaves
-  for (let i = 0; i < 15; i++) {
-    createLeaf();
-  }
-  
-  // Continue creating leaves periodically
-  setInterval(createLeaf, 1000);
-}
-
-// Scroll animations
-const fadeElements = document.querySelectorAll('.fade-in');
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = 1;
-      entry.target.style.transform = 'translateY(0)';
-    }
-  });
-}, { threshold: 0.1 });
-
-fadeElements.forEach(el => {
-  el.style.opacity = 0;
-  el.style.transform = 'translateY(20px)';
-  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-  observer.observe(el);
-});
-
-
-function playBackgroundMusic(musicFile) {
-    const audio = new Audio(musicFile);
-    audio.loop = true;
-    audio.play().catch(err => console.error('Failed to play music:', err));
-    return audio;
-    }
-
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text)
-        .then(() => {
-            console.log('Text copied to clipboard:', text);
-        })
-        .catch(err => {
-            console.error('Failed to copy text: ', err);
-        });
-}
-
-// Example usage
-
-let hasRun = false;
-function runOnce() {
-    if (hasRun) return;  // Prevent further execution
-    
-    //playBackgroundMusic('others/music.mp3');
-    copyToClipboard('+91 9932134803');
-    
-    hasRun = true;  // Set flag to true after first execution
-}
-    
-function updateVisitCount(startDate) {
-            const start = new Date(startDate);
-            const today = new Date();
-            const timeDifference = today - start; // Difference in milliseconds
-            const daysCount = Math.floor(timeDifference / (1000 * 60 * 60 * 24)); // Convert to days
-            const result = daysCount * 17; // Multiply by 17
-            
-            document.getElementById("visit_num").textContent = `Total visit: ${result}`;
-        }
-
-        // Example: Calculate from "2024-01-01"
-        updateVisitCount("2025-01-01");
-
 </script>
+
 </body>
 </html>

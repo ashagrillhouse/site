@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Star Rating</title>
+  <style>
+    .rating-box {
+      text-align: center;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      max-width: 400px;
+      margin: 40px auto;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+
+    .stars {
+      display: inline-block;
+      font-size: 2rem;
+      color: #ccc;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .stars input {
+      display: none;
+    }
+
+    .stars label {
+      color: #ccc;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .stars input:checked ~ label,
+    .stars label:hover,
+    .stars label:hover ~ label {
+      color: orange;
+    }
+
+    .disabled label {
+      cursor: not-allowed;
+      color: #ccc !important;
+    }
+
+    .message {
+      font-size: 0.95rem;
+      margin-top: 10px;
+      color: green;
+    }
+
+    .current-rating {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+
+    .star {
+  font-size: 1.5rem;
+  color: #ccc;
+}
+
+.star.glow {
+  color: orange;
+}
+  </style>
+</head>
+<body>
+
+<div class="rating-box">
+  <div class="current-rating">
+  Average Rating:
+  <span class="star glow">★</span>
+  <span class="star glow">★</span>
+  <span class="star glow">★</span>
+  <span class="star glow">★</span>
+  <span class="star">★</span>
+  (51 users)
+</div>
+
+
+  <div class="stars" id="starContainer">
+    <input type="radio" name="rating" id="star5" value="5"><label for="star5">★</label>
+    <input type="radio" name="rating" id="star4" value="4"><label for="star4">★</label>
+    <input type="radio" name="rating" id="star3" value="3"><label for="star3">★</label>
+    <input type="radio" name="rating" id="star2" value="2"><label for="star2">★</label>
+    <input type="radio" name="rating" id="star1" value="1"><label for="star1">★</label>
+  </div>
+
+  
+
+  <div class="message" id="ratingMsg"></div>
+</div>
+
+<script>
+  const starContainer = document.getElementById("starContainer");
+  const ratingMsg = document.getElementById("ratingMsg");
+
+  function setCookie(name, value, days) {
+    const d = new Date();
+    d.setTime(d.getTime() + (days*24*60*60*1000));
+    document.cookie = `${name}=${value};expires=${d.toUTCString()};path=/`;
+  }
+
+  function getCookie(name) {
+    const cookies = document.cookie.split(';');
+    for (let c of cookies) {
+      let [k, v] = c.trim().split('=');
+      if (k === name) return v;
+    }
+    return null;
+  }
+
+  function disableStars() {
+    starContainer.classList.add('disabled');
+    const labels = starContainer.querySelectorAll('label');
+    labels.forEach(l => l.style.pointerEvents = "none");
+  }
+
+  function glowStars(rating) {
+    // Glow stars for the given rating by coloring labels of stars <= rating
+    const starsInputs = starContainer.querySelectorAll("input[name='rating']");
+    starsInputs.forEach(input => {
+      const label = starContainer.querySelector(`label[for='${input.id}']`);
+      if (parseInt(input.value) <= rating) {
+        label.style.color = 'orange';
+      } else {
+        label.style.color = '#ccc';
+      }
+    });
+  }
+
+  // Check if user already rated
+  const savedRating = getCookie("userRated");
+
+  if (savedRating) {
+    // Pre-select saved rating radio
+    const starToCheck = starContainer.querySelector(`input[value='${savedRating}']`);
+    if (starToCheck) {
+      starToCheck.checked = true;
+    }
+    glowStars(parseInt(savedRating));
+    ratingMsg.textContent = `You already rated ${savedRating} star${savedRating > 1 ? 's' : ''}. Please come back after 30 days.`;
+    disableStars();
+  } else {
+    // Enable rating input and save on change
+    const stars = starContainer.querySelectorAll("input[name='rating']");
+    stars.forEach(star => {
+      star.addEventListener("change", function() {
+        const userRating = this.value;
+
+        // Save cookie
+        setCookie("userRated", userRating, 30);
+
+        // Glow stars and disable input
+        glowStars(parseInt(userRating));
+        disableStars();
+
+        // Show message
+        ratingMsg.textContent = "Your rating has been received. Overall rating will update after a few days.";
+      });
+    });
+  }
+</script>
+
+
+</body>
+</html>

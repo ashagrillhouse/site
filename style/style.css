@@ -1,0 +1,564 @@
+:root {
+  --primary-color: #c62828; /* Darker red */
+  --secondary-color: #f44336; /* Lighter red */
+  --accent-color: #ff9800; /* Orange */
+  --dark-color: #333;
+  --light-color: #f5f5f5;
+  --text-color: #444;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  color: var(--text-color);
+  line-height: 1.6;
+  background-color: #fff;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* Header */
+.main-header {
+  background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('../images/grill-banner.jpg');
+  background-position: center;
+  color: white;
+  text-align: center;
+  padding: 120px 20px;
+  position: relative;
+}
+
+.main-header h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.main-header p {
+  font-size: 1.3rem;
+  max-width: 800px;
+  margin: 0 auto 30px;
+}
+
+/* Sidebar */
+.w3-sidebar {
+  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  position: relative;
+  background-image: url("../images/Window-Grill.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: rgba(0, 0, 0, 0.5);
+  background-blend-mode: multiply;
+  color: white;
+}
+
+.side_icon {
+  width: 80%;
+  display: block;
+  margin: 20px auto;
+  filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+}
+
+.w3-bar-block a {
+  padding: 16px 24px;
+  font-size: 1.1rem;
+  transition: all 0.3s;
+  border-left: 4px solid transparent;
+}
+
+.w3-bar-block a:hover {
+  background-color: rgba(255,255,255,0.1);
+  border-left: 4px solid white;
+}
+
+/* Gallery slider */
+.gallery-section {
+  padding: 60px 0;
+  background-color: var(--light-color);
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.section-title h2 {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title h2:after {
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 3px;
+  background-color: var(--accent-color);
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.gallery-container {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+.gallery-slider {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.gallery-slide {
+  min-width: calc(100% / 4);
+  padding: 0 10px;
+  box-sizing: border-box;
+  transition: all 0.3s;
+}
+
+.gallery-slide:hover {
+  transform: translateY(-5px);
+}
+
+.gallery-slide img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transition: all 0.3s;
+}
+
+.gallery-slide img:hover {
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.3s;
+}
+
+.slider-btn:hover {
+  background-color: var(--secondary-color);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.slider-btn.prev {
+  left: 0;
+}
+
+.slider-btn.next {
+  right: 0;
+}
+
+/* About section */
+.about-section {
+  padding: 80px 0;
+  background-color: white;
+}
+
+.about-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+.about-content p {
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}
+
+/* Owner section */
+.owner-section {
+  padding: 80px 0;
+  background-color: var(--light-color);
+  text-align: center;
+}
+
+.owner-card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 40px;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.owner-img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 20px;
+  border: 5px solid var(--primary-color);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.owner-name {
+  color: var(--primary-color);
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.owner-title {
+  color: var(--accent-color);
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+/* Partners section */
+.partners-section {
+  padding: 80px 0;
+  background-color: white;
+}
+
+.partners-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+  align-items: center;
+}
+
+.partner-logo {
+  max-width: 100%;
+  height: auto;
+  filter: grayscale(100%);
+  opacity: 0.7;
+  transition: all 0.3s;
+}
+
+.partner-logo:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+/* Contact section */
+.contact-section {
+  padding: 80px 0;
+  background-color: white;
+}
+
+.contact-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 30px 0;
+}
+
+.contact-table tr:nth-child(even) {
+  background-color: var(--light-color);
+}
+
+.contact-table th {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 15px;
+  text-align: left;
+}
+
+.contact-table td {
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.contact-table a {
+  color: var(--secondary-color);
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.contact-table a:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+/* Footer */
+.main-footer {
+  background-color: var(--dark-color);
+  color: white;
+  padding: 50px 0 20px;
+  text-align: center;
+}
+
+.footer-icons {
+  margin: 30px 0;
+}
+
+.footer-icons a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background-color: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  margin: 0 10px;
+  color: white;
+  font-size: 20px;
+  transition: all 0.3s;
+}
+
+.footer-icons a:hover {
+  background-color: var(--accent-color);
+  transform: translateY(-5px);
+}
+
+.contact-info {
+  margin-bottom: 30px;
+}
+
+.contact-info i {
+  margin-right: 10px;
+  color: var(--accent-color);
+}
+
+.copyright {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.7);
+}
+
+/* Gallery button */
+.gallery-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 50px;
+  text-align: center;
+}
+
+.gallery-btn div {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-btn button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  background-color: #f44336;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.gallery-btn button:hover {
+  background-color: #444;
+}
+
+/* Falling leaves */
+.leaf {
+  position: fixed;
+  top: -50px;
+  z-index: 9999;
+  color: #8BC34A;
+  pointer-events: none;
+  animation: falling linear infinite;
+}
+
+
+.about {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+
+  /* full-width justification, but don’t justify the last line */
+  text-align: justify;
+  /* Remove text-align-last: justify; so the last line stays left-aligned */
+
+  /* allow hyphenation to avoid crazy gaps */
+  hyphens: auto;
+  
+  /* restore normal word-spacing */
+  word-spacing: normal;
+
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+/* tighter paragraph spacing */
+.about p {
+  margin-bottom: 1em;  /* instead of 1.5em */
+}
+
+/* if you're still using <br><br>, make that spacing smaller: */
+.about br + br {
+  margin-bottom: 1em;
+  display: block;
+  line-height: 0;
+}
+
+/*//////////rating style////////////////////*/
+.rating-box {
+      text-align: center;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      max-width: 400px;
+      margin-bottom: 100px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+
+    .stars {
+      display: inline-block;
+      font-size: 2rem;
+      color: #ccc;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .stars input {
+      display: none;
+    }
+
+    .stars label {
+      color: #ccc;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .stars input:checked ~ label,
+    .stars label:hover,
+    .stars label:hover ~ label {
+      color: orange;
+    }
+
+    .disabled label {
+      cursor: not-allowed;
+      color: #ccc !important;
+    }
+
+    .message {
+      font-size: 0.95rem;
+      margin-top: 10px;
+      color: green;
+    }
+
+    .current-rating {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+/*//////////////////////////////////////////*/
+
+@keyframes falling {
+  0% {
+    transform: translate(0, -50px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--end-x), calc(100vh + 50px)) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .w3-main {
+    margin-left: 0;
+  }
+  
+  .main-header {
+    margin-left: 0;
+    padding: 100px 20px;
+  }
+  
+  .gallery-slide {
+    min-width: calc(100% / 3);
+  }
+  
+  /* Hide arrows when sidebar is open on mobile */
+  .w3-sidebar.w3-show ~ .w3-main .slider-btn {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-header h1 {
+    font-size: 2.5rem;
+  }
+  
+  .gallery-slide {
+    min-width: calc(100% / 2);
+  }
+  
+  .contact-table td, .contact-table th {
+    padding: 10px;
+  }
+  
+  .partners-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .main-header {
+    padding: 80px 20px;
+  }
+  
+  .main-header h1 {
+    font-size: 2rem;
+  }
+  
+  .gallery-slide {
+    min-width: 100%;
+  }
+  
+  .slider-btn {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .partners-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.8s ease forwards;
+}
+
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.4s; }
+.delay-3 { animation-delay: 0.6s; }
+
+.fade-text {
+  opacity: 1;
+  transition: opacity 1s ease-in-out;
+}
+
+.fade-text.hidden {
+  opacity: 0;
+}
