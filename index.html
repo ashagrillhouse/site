@@ -19,9 +19,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-<link rel="stylesheet" href="style/style.css">
-<link rel="stylesheet" href="style/add.css">
-<script type="module" src="js/script.js"></script>
+<link rel="stylesheet" href="style/index.css">
+<script type="module" src="js/index.js"></script>
 </head>
 <body>
 
@@ -41,6 +40,7 @@
   </div>
 
 <div class="add_side_pannel" >
+  <button class="close_btn_side_pannel" onclick="this.parentElement.style.display='none';">×</button>
   <img src="#" id="add4">
 </div>
 
@@ -78,11 +78,11 @@
     </div>
     
     <div class="gallery-container">
-      <!-- <button class="slider-btn prev" onclick="moveSlide(-1)">❮</button> -->
+      <button class="slider-btn prev" id="moveleft">❮</button>
       <div class="gallery-slider" id="gallerySlider">
         <!-- Slides will be added by JavaScript -->
       </div>
-      <!-- <button class="slider-btn next" onclick="moveSlide(1)">❯</button> -->
+      <button class="slider-btn next" id="moveright">❯</button>
     </div>
     <div class="gallery-btn">
         <a href="gallery.html"><button>Show All</button></a>
@@ -283,7 +283,7 @@
 
 
 <div class="add_above_footer" id="adFooter">
-  <button class="close-btn" onclick="document.getElementById('adFooter').style.display='none'">×</button>
+  <button class="close_btn_footer" onclick="document.getElementById('adFooter').style.display='none'">×</button>
   <img src="#" id="add3">
 </div>
 
@@ -320,8 +320,9 @@
   </footer>
 
 </div>
+
 <script>
-  // Script to open and close sidebar
+    // Script to open and close sidebar
 function w3_open() {
   document.getElementById("mySidebar").style.display = "block";
   document.getElementById("myOverlay").style.display = "block";
@@ -334,6 +335,7 @@ function w3_close() {
   document.body.style.overflow = "auto"; // Re-enable scrolling
 }
 </script>
+
 
 </body>
 </html>

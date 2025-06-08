@@ -20,37 +20,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="images/favicon.ico">
+  <link rel="stylesheet" href="style/gallery.css">
 
-  <style>
-    :root { --primary:#c62828; --secondary:#f44336; --accent:#ff9800; --dark:#333; --light:#f5f5f5; --text:#444; }
-    * { box-sizing:border-box; margin:0; padding:0; }
-    body { font-family:'Poppins',sans-serif; background:var(--light); color:var(--text); }
-    .gallery-header { background: linear-gradient(rgba(0,0,0,0.85),rgba(0,0,0,0.85)), url('images/grill-banner.jpg') center/cover no-repeat; text-align:center; padding:80px 20px; color:#fff; }
-    .gallery-header h1 { font-size:2.5rem; margin-bottom:10px; }
-    .back-btn { display:inline-block; margin:20px; padding:10px 20px; background:var(--primary); color:#fff; text-decoration:none; border-radius:5px; transition:background-color .3s; }
-    .back-btn:hover { background:var(--secondary); }
-    .grid { display:grid; gap:20px; padding:20px; max-width:1200px; margin:0 auto; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); }
-    .gallery-item { position:relative; overflow:hidden; border-radius:8px; background:#eee; cursor:pointer; aspect-ratio:4/3; box-shadow:0 4px 8px rgba(0,0,0,0.1); transition:transform .3s,box-shadow .3s; }
-    .gallery-item:hover { transform:translateY(-5px); box-shadow:0 8px 16px rgba(0,0,0,0.2); }
-    .gallery-item img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s; }
-    .gallery-item:hover img { transform:scale(1.05); }
-    .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); align-items:center; justify-content:center; z-index:1000; }
-    .lightbox-content img { max-width:90%; max-height:90vh; display:block; margin:0 auto; }
-    .close-btn, .nav-btn { position:absolute; background:rgba(0,0,0,0.5); color:#fff; font-size:2rem; width:50px; height:50px; border:none; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; }
-    .close-btn { top:20px; right:30px; }
-    .prev-btn { left:30px; top:50%; transform:translateY(-50%); }
-    .next-btn { right:30px; top:50%; transform:translateY(-50%); }
-    .main-footer { background:var(--dark); color:#fff; padding:50px 20px 20px; text-align:center; }
-    .footer-icons a { display:inline-flex; align-items:center; justify-content:center; width:50px; height:50px; background:rgba(255,255,255,0.1); border-radius:50%; margin:0 10px; color:#fff; font-size:20px; transition:all .3s; }
-    .footer-icons a:hover { background:var(--accent); transform:translateY(-5px); }
-    .contact-info p { margin:10px 0; }
-    .contact-info i { margin-right:8px; color:var(--accent); }
-    .copyright { margin-top:30px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); }
-    @media (max-width:768px) { .grid { grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); } }
-    @media (max-width:480px) { .grid { grid-template-columns:1fr; } .gallery-header h1 { font-size:2rem; } }
-  </style>
 </head>
-<body onmousedown="runOnce()">
+<body >
   <header class="gallery-header">
     <h1>Our Grill Gallery</h1>
     <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
@@ -65,6 +38,13 @@
     <button class="nav-btn next-btn" id="nextBtn">&#10095;</button>
   </div>
 
+   <!-- Ad Popup -->
+  <div id="adPopup" class="popup-container">
+    <div class="popup-content">
+      <span id="closePopup" class="close_add_btn">✖</span>
+      <img src="#" id="add5" alt="Ad Image">
+    </div>
+  </div>
  
 
   <!-- Footer -->
@@ -94,107 +74,6 @@
 
 
 
-    <script type="module">
-    
-    import { imagePaths } from './js/items.js';
-
-    // document.getElementById('year').textContent = new Date().getFullYear();
-    const imageGrid = document.getElementById('imageGrid');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImage = document.getElementById('lightboxImage');
-    const closeBtn = document.getElementById('closeBtn');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    let currentImageIndex = 0;
-
-    // Populate grid
-    imagePaths.forEach((src, i) => {
-      const div = document.createElement('div'); div.className = 'gallery-item';
-      const img = document.createElement('img');
-      img.dataset.src = src; img.loading='lazy'; img.decoding='async'; img.alt = `Grill work ${i+1}`;
-      div.appendChild(img);
-      div.addEventListener('click', () => openLightbox(i));
-      imageGrid.appendChild(div);
-    });
-
-    // Lazy-load
-    const io = new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const img = entry.target.querySelector('img'); img.src = img.dataset.src; obs.unobserve(entry.target);
-        }
-      });
-    }, { rootMargin: '200px' });
-    document.querySelectorAll('.gallery-item').forEach(el => io.observe(el));
-
-    // Lightbox
-    function openLightbox(index) {
-      currentImageIndex = index;
-      lightboxImage.src = imagePaths[index];
-      lightbox.style.display = 'flex'; document.body.style.overflow='hidden';
-    }
-    function closeLightbox() { lightbox.style.display='none'; document.body.style.overflow='auto'; }
-    function navigate(direction) {
-      currentImageIndex = (currentImageIndex + direction + imagePaths.length) % imagePaths.length;
-      lightboxImage.src = imagePaths[currentImageIndex];
-    }
-    closeBtn.onclick = closeLightbox;
-    prevBtn.onclick = () => navigate(-1);
-    nextBtn.onclick = () => navigate(1);
-    lightbox.addEventListener('click', e => e.target===lightbox && closeLightbox());
-    document.addEventListener('keydown', e => {
-      if (lightbox.style.display==='flex') {
-        if (e.key==='Escape') closeLightbox();
-        if (e.key==='ArrowLeft') navigate(-1);
-        if (e.key==='ArrowRight') navigate(1);
-      }
-    });
-
-
-
-
-
-
-    function copyToClipboard(text) {
-        navigator.clipboard.writeText(text)
-            .then(() => {
-                console.log('Text copied to clipboard:', text);
-            })
-            .catch(err => {
-                console.error('Failed to copy text: ', err);
-            });
-    }
-    
-
-    function playBackgroundMusic(musicFile) {
-        const audio = new Audio(musicFile);
-        audio.loop = true;
-        audio.play().catch(err => console.error('Failed to play music:', err));
-        return audio;
-    }
-
-    let hasRun = false;
-    function runOnce() {
-        if (hasRun) return;  // Prevent further execution
-        
-        //playBackgroundMusic('others/music.mp3');
-        copyToClipboard('+91 9932134803');
-        
-        hasRun = true;  // Set flag to true after first execution
-    }
-    
-    function updateVisitCount(startDate) {
-            const start = new Date(startDate);
-            const today = new Date();
-            const timeDifference = today - start; // Difference in milliseconds
-            const daysCount = Math.floor(timeDifference / (1000 * 60 * 60 * 24)); // Convert to days
-            const result = daysCount * 17; // Multiply by 17
-            
-            document.getElementById("visit_num").textContent = `Total visit: ${result}`;
-        }
-
-        // Example: Calculate from "2024-01-01"
-        updateVisitCount("2025-01-01");
-  </script>
+    <script type="module" src="js/gallery.js"></script>
 </body>
 </html>

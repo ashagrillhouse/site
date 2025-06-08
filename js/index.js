@@ -4,6 +4,21 @@ import { imagePaths } from './items.js';
 
 
 
+document.addEventListener("DOMContentLoaded", () => {
+  const openBtn = document.getElementById("slide_open");
+  const closeBtn = document.getElementById("slide_close");
+
+  if (openBtn) {
+    openBtn.addEventListener("click", w3_open);
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", w3_close);
+  }
+});
+
+
+
 let currentSlide = 0;
 const slider = document.getElementById('gallerySlider');
 let slidesToShow = 4; // Default for large screens
@@ -69,6 +84,12 @@ window.addEventListener('resize', function() {
   updateSlidesToShow();
   updateSlider();
 });
+
+document.getElementById("moveleft").addEventListener("click", () => moveSlide(-1));
+document.getElementById("moveright").addEventListener("click", () => moveSlide(1));
+
+
+
 
 // Falling leaves effect
 function createLeaves() {
@@ -138,40 +159,40 @@ function playBackgroundMusic(musicFile) {
     return audio;
     }
 
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text)
-        .then(() => {
-            console.log('Text copied to clipboard:', text);
-        })
-        .catch(err => {
-            console.error('Failed to copy text: ', err);
-        });
-}
+// function copyToClipboard(text) {
+//     navigator.clipboard.writeText(text)
+//         .then(() => {
+//             console.log('Text copied to clipboard:', text);
+//         })
+//         .catch(err => {
+//             console.error('Failed to copy text: ', err);
+//         });
+// }
 
-// Example usage
+// // Example usage
 
-let hasRun = false;
-function runOnce() {
-    if (hasRun) return;  // Prevent further execution
+// let hasRun = false;
+// function runOnce() {
+//     if (hasRun) return;  // Prevent further execution
     
-    //playBackgroundMusic('others/music.mp3');
-    copyToClipboard('+91 9932134803');
+//     //playBackgroundMusic('others/music.mp3');
+//     copyToClipboard('+91 9932134803');
     
-    hasRun = true;  // Set flag to true after first execution
-}
+//     hasRun = true;  // Set flag to true after first execution
+// }
     
 function updateVisitCount(startDate) {
             const start = new Date(startDate);
             const today = new Date();
             const timeDifference = today - start; // Difference in milliseconds
             const daysCount = Math.floor(timeDifference / (1000 * 60 * 60 * 24)); // Convert to days
-            const result = daysCount * 17; // Multiply by 17
+            const result = daysCount * 7; // Multiply by 17
             
             document.getElementById("visit_num").textContent = `Total visit: ${result}`;
         }
 
         // Example: Calculate from "2024-01-01"
-        updateVisitCount("2025-01-01");
+        updateVisitCount("2025-04-01");
 
 
 
