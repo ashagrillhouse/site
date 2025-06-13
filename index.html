@@ -31,12 +31,12 @@
   </div>
   <br>
   <div class="w3-bar-block">
-    <a href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a> 
-    <a href="#gallery" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Gallery</a> 
-    <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">About</a> 
-    <a href="#owner" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Owner</a> 
-    <a href="#partners" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Partners</a>
-    <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Contact</a>
+    <a href="#" id="side_close" class="w3-bar-item w3-button w3-hover-white">Home</a> 
+    <a href="#gallery" id="side_close" class="w3-bar-item w3-button w3-hover-white">Gallery</a> 
+    <a href="#about" id="side_close" class="w3-bar-item w3-button w3-hover-white">About</a> 
+    <a href="#owner" id="side_close" class="w3-bar-item w3-button w3-hover-white">Owner</a> 
+    <a href="#partners" id="side_close" class="w3-bar-item w3-button w3-hover-white">Partners</a>
+    <a href="#contact" id="side_close" class="w3-bar-item w3-button w3-hover-white">Contact</a>
   </div>
 
 <div class="add_side_pannel" >
@@ -49,12 +49,12 @@
 
 <!-- Top menu on small screens -->
 <header class="w3-container w3-top w3-hide-large w3-red w3-xlarge w3-padding">
-  <a href="javascript:void(0)" class="w3-button w3-red w3-margin-right" onclick="w3_open()">☰</a>
+  <a href="javascript:void(0)" class="w3-button w3-red w3-margin-right"  id="side_pannel">☰</a>
   <span>Asha Grill House</span>
 </header>
 
 <!-- Overlay effect when opening sidebar on small screens -->
-<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+<div class="w3-overlay w3-hide-large" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
 <!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-left:340px;margin-right:40px">
@@ -67,7 +67,13 @@
        style="border-radius: 30px; font-weight: 600; letter-spacing: 1px;">
       CONTACT US TODAY
     </a>
-   
+
+
+    <div id="weather">Loading...</div>
+    
+
+
+
   </header>
 
   <!-- Gallery Section -->
@@ -240,11 +246,11 @@
         </tr>
         <tr>
           <td>Payment Methods</td>
-          <td>Cash, Check, UPI, Netbanking</td>
+          <td>Cash, Check, UPI, Netbanking <img class="payment_app_img" src="images/payment_app.png"> </td>
         </tr>
         <tr>
           <td>Services</td>
-          <td>Home Delivery & Installation (Local area)</td>
+          <td>Delivery & Installation (Local area)</td>
         </tr>
         <tr>
           <td>Phone</td>
@@ -256,7 +262,7 @@
         </tr>
         <tr>
           <td>Experience</td>
-          <td>8+ years serving the community</td>
+          <td><span id="experience">8+</span> years serving the community</td>
         </tr>
         <tr>
           <td>Location</td>
@@ -321,21 +327,10 @@
 
 </div>
 
-<script>
-    // Script to open and close sidebar
-function w3_open() {
-  document.getElementById("mySidebar").style.display = "block";
-  document.getElementById("myOverlay").style.display = "block";
-  document.body.style.overflow = "hidden"; // Prevent scrolling when sidebar is open
-}
- 
-function w3_close() {
-  document.getElementById("mySidebar").style.display = "none";
-  document.getElementById("myOverlay").style.display = "none";
-  document.body.style.overflow = "auto"; // Re-enable scrolling
-}
-</script>
 
+
+<!-- Scroll Indicator -->
+<div id="scroll-indicator">👆</div>
 
 </body>
 </html>

@@ -67,14 +67,150 @@
         updateVisitCount("2025-04-01");
 
 
-    window.onload = function() {
-    // Show popup after 5 seconds
-    setTimeout(() => {
-        document.getElementById('adPopup').style.display = 'flex';
-    }, 5000);
+    // window.onload = function() {
+    // // Show popup after 5 seconds
+    // setTimeout(() => {
+    //     document.getElementById('adPopup').style.display = 'flex';
+    // }, 5000);
 
-    // Close popup on click
-    document.getElementById('closePopup').addEventListener('click', () => {
-        document.getElementById('adPopup').style.display = 'none';
-    });
-    };
+    // // Close popup on click
+    // document.getElementById('closePopup').addEventListener('click', () => {
+    //     document.getElementById('adPopup').style.display = 'none';
+    // });
+    // };
+
+
+
+
+    // index.js (or your external script)
+(function() {
+  const popup = document.getElementById('adPopup');
+  const closeBtn = document.getElementById('closePopup');
+  let popupTimer;
+
+  // Show the popup and clean up
+  function showPopup() {
+    cleanupListeners();
+    popup.style.display = 'flex';
+  }
+
+  // Remove all interaction listeners and clear timer
+  function cleanupListeners() {
+    window.removeEventListener('click',  startTimer);
+    window.removeEventListener('touchstart', startTimer);
+    window.removeEventListener('mousemove',   startTimer);
+    window.removeEventListener('scroll',      startTimer);
+    clearTimeout(popupTimer);
+  }
+
+  // On first user interaction, start a 5s timer to show the popup
+  function startTimer() {
+    cleanupListeners();              // only fire once
+    popupTimer = setTimeout(showPopup, 5000);
+  }
+
+  // Hook up the close button
+  closeBtn.addEventListener('click', () => {
+    popup.style.display = 'none';
+    clearTimeout(popupTimer);
+  });
+
+  // Wait until DOM is ready, then listen for the first interaction
+  document.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('click',       startTimer, { once: true });
+    window.addEventListener('touchstart',  startTimer, { once: true });
+    window.addEventListener('mousemove',   startTimer, { once: true });
+    window.addEventListener('scroll',      startTimer, { once: true });
+  });
+})();
+
+
+
+
+
+//Scroll Animation/////////////////////////////////////////////////////////////
+// Scroll Animation (replace your old block with this)
+document.addEventListener("DOMContentLoaded", () => {
+  const indicator = document.getElementById("scroll-indicator");
+  let shown = false;
+  let userInteracted = false;
+  let showTimeout;
+
+  // Show after 5s of no interaction
+  function maybeShowIndicator() {
+    if (!userInteracted && !shown) {
+      indicator.classList.add("show");
+      shown = true;
+    }
+  }
+
+  // Hide immediately on any interaction
+  function hideIndicator() {
+    indicator.classList.remove("show");
+    clearTimeout(showTimeout);
+  }
+
+  function onUserInteract() {
+    userInteracted = true;
+    hideIndicator();
+    window.removeEventListener("scroll", onUserInteract);
+    window.removeEventListener("touchstart", onUserInteract);
+    window.removeEventListener("click", onUserInteract);
+    window.removeEventListener("mousemove", onUserInteract);
+  }
+
+  // Start the 5s timer as soon as DOM is ready
+  showTimeout = setTimeout(maybeShowIndicator, 5000);
+
+  // If the user scrolls/touches/clicks/moves, cancel the popup
+  window.addEventListener("scroll", onUserInteract);
+  window.addEventListener("touchstart", onUserInteract);
+  window.addEventListener("click", onUserInteract);
+  window.addEventListener("mousemove", onUserInteract);
+});
+
+
+
+
+///Weather condition check //////////////////////////////
+    //[, ]
+    const lat = 23.530668;
+    const lon = 88.404787;
+
+    function getWeatherTheme(code) {
+      if ([0, 1, 2].includes(code))
+        return { label: "Clear"};
+      if ([3, 45, 48].includes(code))
+        return { label: "Cloudy"};
+      if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82))
+        return { label: "Rainy"};
+      if ((code >= 71 && code <= 77) || code === 85 || code === 86)
+        return { label: "Snowy"};
+      if (code >= 95 && code <= 99)
+        return { label: "Stormy"};
+      return { label: "Unknown"};
+    }
+
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        const weather = data.current_weather;
+        const temp = weather.temperature;
+        const wind = weather.windspeed;
+        const code = weather.weathercode;
+        const theme = getWeatherTheme(code);
+
+        // Show weather data
+        document.getElementById("weather").innerHTML = `
+           ${theme.label},
+           ${temp} °C<br>
+          Wind: ${wind} km/h
+        `;
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById("weather").textContent = "Fetching failed.";
+        document.body.className = "unknown";
+      });

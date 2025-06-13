@@ -21,12 +21,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="images/favicon.ico">
   <link rel="stylesheet" href="style/gallery.css">
-
+  <script type="module" src="js/gallery.js"></script>
 </head>
 <body >
   <header class="gallery-header">
     <h1>Our Grill Gallery</h1>
     <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+    <div id="weather">Loding...</div>
   </header>
 
   <div class="grid" id="imageGrid"></div>
@@ -46,6 +47,8 @@
     </div>
   </div>
  
+  <!-- Scroll Indicator -->
+  <div id="scroll-indicator">👆</div>
 
   <!-- Footer -->
   <footer class="main-footer fade-in delay-2">
@@ -74,6 +77,6 @@
 
 
 
-    <script type="module" src="js/gallery.js"></script>
+    
 </body>
 </html>

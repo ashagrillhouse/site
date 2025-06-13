@@ -2,22 +2,42 @@ import { imagePaths } from './items.js';
 
 
 
+    // Script to open and close sidebar
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("myOverlay").style.display = "block";
+  document.body.style.overflow = "hidden"; // Prevent scrolling when sidebar is open
+}
+ 
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("myOverlay").style.display = "none";
+  //document.body.style.overflow = "auto"; // Re-enable scrolling
+}
+
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  const openBtn = document.getElementById("slide_open");
-  const closeBtn = document.getElementById("slide_close");
+  //alert(1);
+  const openBtn = document.getElementById("side_pannel");
+  const closeBtn1 = document.getElementById("side_close");
+  const closeBtn2 = document.getElementById("myOverlay");
 
   if (openBtn) {
+    //alert(2);
     openBtn.addEventListener("click", w3_open);
   }
 
-  if (closeBtn) {
-    closeBtn.addEventListener("click", w3_close);
+  if (closeBtn1 || closeBtn1) {
+    closeBtn1.addEventListener("click", w3_close);
+    closeBtn2.addEventListener("click", w3_close);
   }
 });
 
 
+
+
+/// Slide gallery images ///////////////////////////////////////////////////////////////////////
 
 let currentSlide = 0;
 const slider = document.getElementById('gallerySlider');
@@ -29,43 +49,156 @@ function updateSlidesToShow() {
   if (window.innerWidth < 576) slidesToShow = 1;
 }
 
-function initSlider() {
-  updateSlidesToShow();
-  slider.innerHTML = ''; // Clear existing slides
+// function initSlider() {
+//   updateSlidesToShow();
+//   slider.innerHTML = ''; // Clear existing slides
   
+//   imagePaths.forEach((image, index) => {
+//     const slide = document.createElement('div');
+//     slide.className = 'gallery-slide';
+//     slide.innerHTML = `<img src="${image}" alt="Grill Work ${index + 1}" class="fade-in">`;
+//     slider.appendChild(slide);
+//   });
+//   updateSlider();
+// }
+
+// function updateSlider() {
+//   const slideWidth = 100 / slidesToShow;
+//   slider.style.transform = `translateX(-${currentSlide * slideWidth}%)`;
+// }
+
+// function moveSlide(direction) {
+//   updateSlidesToShow();
+//   currentSlide += direction;
+  
+//   // Check boundaries
+//   if (currentSlide < 0) {
+//     currentSlide = 0;
+//   } else if (currentSlide > imagePaths.length - slidesToShow) {
+//     currentSlide = imagePaths.length - slidesToShow;
+//   }
+  
+//   updateSlider();
+// }
+
+// // Initialize the slider when page loads
+// window.onload = function() {
+//   initSlider();
+  
+//   // Set interval for auto-sliding
+//   setInterval(() => {
+//     if (currentSlide < imagePaths.length - slidesToShow) {
+//       moveSlide(1);
+//     } else {
+//       currentSlide = 0;
+//       updateSlider();
+//     }
+//   }, 4000);
+  
+//   // Start falling leaves effect
+//   //createLeaves();
+// };
+
+// // Handle window resize
+// window.addEventListener('resize', function() {
+//   updateSlidesToShow();
+//   updateSlider();
+// });
+
+/////End slider images list ///////// load at ones time/////////////////////
+
+// Helper: load the real image only once
+function lazyLoadImage(slideEl) {
+  const img = slideEl.querySelector('img');
+  if (img && img.dataset.src) {
+    img.src = img.dataset.src;
+    img.removeAttribute('data-src');
+  }
+}
+
+function initSlider() 
+{
+  updateSlidesToShow();
+  slider.innerHTML = '';
+
   imagePaths.forEach((image, index) => {
     const slide = document.createElement('div');
     slide.className = 'gallery-slide';
-    slide.innerHTML = `<img src="${image}" alt="Grill Work ${index + 1}" class="fade-in">`;
+    // Use data-src so browser won’t fetch until we set img.src
+    slide.innerHTML = `
+      <img 
+        data-src="${image}" 
+        alt="Grill Work ${index + 1}" 
+        class="fade-in"
+        style="min-height:200px; background:#f0f0f0;"
+      >
+    `;
     slider.appendChild(slide);
   });
+
+  // Position the carousel and immediately load the first 'slidesToShow' images
   updateSlider();
+  const slides = slider.querySelectorAll('.gallery-slide');
+  // for (let i = 0; i < slidesToShow; i++) 
+  // {
+  //   lazyLoadImage(slides[i]);
+  // }
+
+  // preload the first window **plus one extra** slide
+  for (let i = 0; i < slidesToShow + 1; i++) 
+  {
+    if (slides[i]) lazyLoadImage(slides[i]);
+  }
+
 }
 
-function updateSlider() {
+// function updateSlider() {
+//   const slideWidth = 100 / slidesToShow;
+//   slider.style.transform = `translateX(-${currentSlide * slideWidth}%)`;
+
+//   // Lazy-load the newly visible slide
+//   const slides = slider.querySelectorAll('.gallery-slide');
+//   lazyLoadImage(slides[currentSlide]);
+// }
+
+function updateSlider() 
+{
   const slideWidth = 100 / slidesToShow;
   slider.style.transform = `translateX(-${currentSlide * slideWidth}%)`;
+
+  // Lazy-load all slides in the current window
+  const slides = slider.querySelectorAll('.gallery-slide');
+
+  // for (let i = currentSlide; i < currentSlide + slidesToShow; i++) 
+  // {
+  //   if (slides[i]) lazyLoadImage(slides[i]);
+  // }
+
+  // preload all visible slides **plus the next** one
+  for (let i = currentSlide; i < currentSlide + slidesToShow + 1; i++) 
+  {
+    if (slides[i]) lazyLoadImage(slides[i]);
+  }
+
 }
 
+
+
+
+// Whenever you move slides, updateSlider() will fire and lazy-load on demand
 function moveSlide(direction) {
   updateSlidesToShow();
   currentSlide += direction;
-  
-  // Check boundaries
-  if (currentSlide < 0) {
-    currentSlide = 0;
-  } else if (currentSlide > imagePaths.length - slidesToShow) {
+  if (currentSlide < 0) currentSlide = 0;
+  else if (currentSlide > imagePaths.length - slidesToShow) {
     currentSlide = imagePaths.length - slidesToShow;
   }
-  
   updateSlider();
 }
 
-// Initialize the slider when page loads
+// In your `window.onload`, nothing else changes:
 window.onload = function() {
   initSlider();
-  
-  // Set interval for auto-sliding
   setInterval(() => {
     if (currentSlide < imagePaths.length - slidesToShow) {
       moveSlide(1);
@@ -73,17 +206,14 @@ window.onload = function() {
       currentSlide = 0;
       updateSlider();
     }
-  }, 4000);
-  
-  // Start falling leaves effect
-  createLeaves();
+  }, 5000);
 };
 
-// Handle window resize
-window.addEventListener('resize', function() {
-  updateSlidesToShow();
-  updateSlider();
-});
+////Load images in lazy times /////////////////////////////////////////////////
+
+
+
+
 
 document.getElementById("moveleft").addEventListener("click", () => moveSlide(-1));
 document.getElementById("moveright").addEventListener("click", () => moveSlide(1));
@@ -92,8 +222,9 @@ document.getElementById("moveright").addEventListener("click", () => moveSlide(1
 
 
 // Falling leaves effect
-function createLeaves() {
-  const leafSymbols = ['🍁', '🍂', '🍃', '🌿', '🍀'];
+function createLeaves(leafSymbols) {
+  //alert(leafSymbols);
+  //const leafSymbols = ['🍁', '🍂', '🍃', '🌿', '🍀'];
   const colors = ['#8BC34A', '#4CAF50', '#2E7D32', '#689F38', '#558B2F'];
   
   function createLeaf() {
@@ -377,3 +508,116 @@ setTimeout(() => {
     titleEl.classList.remove("hidden");
 }, 1500); // Match with transition duration
 }, 5000); // Change every 4 seconds
+
+
+
+//Expreriencs calcuated dinamicly//////////////////////////////////////////////
+const startDate = new Date("2015-08-01"); // August 2015
+const now = new Date();
+
+const diffInMs = now - startDate;
+const years = diffInMs / (1000 * 60 * 60 * 24 * 365.25); // includes leap years
+
+const experience = years.toFixed(1); // keep 1 decimal place
+
+document.getElementById("experience").textContent = experience;
+
+
+
+
+
+//Scroll Animation/////////////////////////////////////////////////////////////
+
+const indicator = document.getElementById("scroll-indicator");
+
+    let shown = false;
+    let userInteracted = false;
+    let showTimeout;
+
+    // Function to show the indicator if no interaction
+    function maybeShowIndicator() {
+      if (!userInteracted && !shown) {
+        indicator.classList.add("show");
+        shown = true;
+      }
+    }
+
+    // Function to hide indicator immediately
+    function hideIndicator() {
+      indicator.classList.remove("show");
+      clearTimeout(showTimeout);
+    }
+
+    // Detect any user interaction
+    function onUserInteract() {
+      userInteracted = true;
+      hideIndicator();
+      removeListeners();
+    }
+
+    function removeListeners() {
+      window.removeEventListener("scroll", onUserInteract);
+      window.removeEventListener("touchstart", onUserInteract);
+      window.removeEventListener("click", onUserInteract);
+      window.removeEventListener("mousemove", onUserInteract);
+    }
+
+    // Set up after page loads
+    window.addEventListener("load", () => {
+      // If no interaction for 5s, show indicator
+      showTimeout = setTimeout(maybeShowIndicator, 5000);
+
+      // Listen for any user input
+      window.addEventListener("scroll", onUserInteract);
+      window.addEventListener("touchstart", onUserInteract);
+      window.addEventListener("click", onUserInteract);
+      window.addEventListener("mousemove", onUserInteract);
+    });
+
+
+
+
+
+    ///Weather condition check //////////////////////////////
+    //[, ]
+    const lat = 23.530668;
+    const lon = 88.404787;
+
+    function getWeatherTheme(code) {
+      if ([0, 1, 2].includes(code))
+        return { label: "Clear", emoji: ['☀️','🍃', '🌿', '🍀','🌻'] };
+      if ([3, 45, 48].includes(code))
+        return { label: "Cloudy", emoji: ['☁️','🌥️','🌺','🌤️'] };
+      if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82))
+        return { label: "Rainy", emoji: ['🌧️','☔','💧','⛈️'] };
+      if ((code >= 71 && code <= 77) || code === 85 || code === 86)
+        return { label: "Snowy", emoji: ['❄️','☃️','🧤','🍁', '🍂'] };
+      if (code >= 95 && code <= 99)
+        return { label: "Stormy", emoji: ['🌩️','⚡','🌪️','⛈️'] };
+      return { label: "Unknown", emoji: "" };
+    }
+
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        const weather = data.current_weather;
+        const temp = weather.temperature;
+        const wind = weather.windspeed;
+        const code = weather.weathercode;
+        const theme = getWeatherTheme(code);
+
+        // Show weather data
+        document.getElementById("weather").innerHTML = `
+           ${theme.label},
+           ${temp} °C<br>
+          Wind: ${wind} km/h
+        `;
+        createLeaves(theme.emoji);
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById("weather").textContent = "Fetching failed.";
+        document.body.className = "unknown";
+      });

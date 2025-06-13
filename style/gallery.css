@@ -1,8 +1,20 @@
  :root { --primary:#c62828; --secondary:#f44336; --accent:#ff9800; --dark:#333; --light:#f5f5f5; --text:#444; }
     * { box-sizing:border-box; margin:0; padding:0; }
     body { font-family:'Poppins',sans-serif; background:var(--light); color:var(--text); }
-    .gallery-header { background: linear-gradient(rgba(0,0,0,0.85),rgba(0,0,0,0.85)), url('../images/grill-banner.jpg') center/cover no-repeat; text-align:center; padding:80px 20px; color:#fff; }
+    
+    .gallery-header 
+    { 
+      position: relative;
+      background: linear-gradient(rgba(0,0,0,0.85),rgba(0,0,0,0.85)), url('../images/grill-banner.jpg') center/cover no-repeat; 
+      text-align:center; 
+      padding:80px 20px; 
+      color:#fff; 
+    }
+   
+
+
     .gallery-header h1 { font-size:2.5rem; margin-bottom:10px; }
+    
     .back-btn { display:inline-block; margin:20px; padding:10px 20px; background:var(--primary); color:#fff; text-decoration:none; border-radius:5px; transition:background-color .3s; }
     .back-btn:hover { background:var(--secondary); }
     .grid { display:grid; gap:20px; padding:20px; max-width:1200px; margin:0 auto; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); }
@@ -16,9 +28,10 @@
     .close-btn { top:20px; right:30px; }
     .prev-btn { left:30px; top:50%; transform:translateY(-50%); }
     .next-btn { right:30px; top:50%; transform:translateY(-50%); }
-    .main-footer { background:var(--dark); color:#fff; padding:50px 20px 20px; text-align:center; }
+    .main-footer { background:var(--dark); color:#fff; padding:30px 20px 30px; text-align:center; }
     .footer-icons a { display:inline-flex; align-items:center; justify-content:center; width:50px; height:50px; background:rgba(255,255,255,0.1); border-radius:50%; margin:0 10px; color:#fff; font-size:20px; transition:all .3s; }
     .footer-icons a:hover { background:var(--accent); transform:translateY(-5px); }
+    .contact-info{margin:30px;}
     .contact-info p { margin:10px 0; }
     .contact-info i { margin-right:8px; color:var(--accent); }
     .copyright { margin-top:30px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); }
@@ -72,3 +85,45 @@ justify-content:center;
 cursor:pointer; }
     
 
+/*Animater ///////////////////*/
+  #scroll-indicator {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10rem;
+    z-index: 1000;
+    animation: bounce 3s infinite;
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+  }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateX(-50%) translateY(30px);
+    }
+    50% {
+      transform: translateX(-50%) translateY(100px);
+    }
+  }
+
+  #scroll-indicator.show {
+    opacity: 1;
+  }
+  /*///////////////////////////////*/
+
+
+
+
+/* 2) Reposition the Date box */
+#weather {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 0.8em;         /* bump up just a little */
+  position: absolute;
+  right: 0px;              /* space from right edge */
+  bottom: 0px;             /* move down to bottom of header */
+  color: #fff;                 /* ensure it’s visible on the dark banner */
+  z-index: 10;
+}
