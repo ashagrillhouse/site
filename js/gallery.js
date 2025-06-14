@@ -83,46 +83,6 @@
 
 
     // index.js (or your external script)
-(function() {
-  const popup = document.getElementById('adPopup');
-  const closeBtn = document.getElementById('closePopup');
-  let popupTimer;
-
-  // Show the popup and clean up
-  function showPopup() {
-    cleanupListeners();
-    popup.style.display = 'flex';
-  }
-
-  // Remove all interaction listeners and clear timer
-  function cleanupListeners() {
-    window.removeEventListener('click',  startTimer);
-    window.removeEventListener('touchstart', startTimer);
-    window.removeEventListener('mousemove',   startTimer);
-    window.removeEventListener('scroll',      startTimer);
-    clearTimeout(popupTimer);
-  }
-
-  // On first user interaction, start a 5s timer to show the popup
-  function startTimer() {
-    cleanupListeners();              // only fire once
-    popupTimer = setTimeout(showPopup, 5000);
-  }
-
-  // Hook up the close button
-  closeBtn.addEventListener('click', () => {
-    popup.style.display = 'none';
-    clearTimeout(popupTimer);
-  });
-
-  // Wait until DOM is ready, then listen for the first interaction
-  document.addEventListener('DOMContentLoaded', () => {
-    window.addEventListener('click',       startTimer, { once: true });
-    window.addEventListener('touchstart',  startTimer, { once: true });
-    window.addEventListener('mousemove',   startTimer, { once: true });
-    window.addEventListener('scroll',      startTimer, { once: true });
-  });
-})();
 
 
 
