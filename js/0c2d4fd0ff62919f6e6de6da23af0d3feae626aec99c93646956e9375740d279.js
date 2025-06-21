@@ -1,4 +1,4 @@
-    import { imagePaths } from './items.js';
+    import { imagePaths } from './aa5006f12bf855428efa6acee55c51cd965c71af51626a0e0e3f1bf3c5ca3925.js';
 
     // document.getElementById('year').textContent = new Date().getFullYear();
     const imageGrid = document.getElementById('imageGrid');

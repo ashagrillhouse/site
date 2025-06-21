@@ -1,3 +1,5 @@
+// items.js
+
 export const ITEMS = [
     "10 এর বার",
     "12 এর বার",

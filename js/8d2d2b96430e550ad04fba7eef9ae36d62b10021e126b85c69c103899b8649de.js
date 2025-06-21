@@ -1,4 +1,4 @@
-import { imagePaths } from './items.js';
+import { imagePaths } from './aa5006f12bf855428efa6acee55c51cd965c71af51626a0e0e3f1bf3c5ca3925.js';
 
 
 
@@ -410,7 +410,7 @@ function updateVisitCount(startDate) {
 
 
   //Raitng part
-  fetch('js/rating.json')
+  fetch('js/f1f21fe7e8f8dbec9a900cf895c1260789a5c0bbfba1f841d6968baca68a4958.json')
   .then(response => {
     if (!response.ok) {
       throw new Error('Network response was not ok');
