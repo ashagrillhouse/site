@@ -6,6 +6,6 @@ Disallow: /js/
 Disallow: /images/
 Disallow: /partners/
 Allow: /grill/
-Disallow : /Admin/
+Disallow: /Admin/
 
-Sitemap: https://ashagrillhouse.github.io/site//sitemap.xml
+Sitemap: https://ashagrillhouse.github.io/site/sitemap.xml
