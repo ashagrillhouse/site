@@ -1,3 +1,47 @@
-<html>
-    <p>No permission</p>
+<!-- login.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Login - Asha Grill House</title>
+  <link rel="stylesheet" href="../style/6a4ece4caa3da173d69174126b2bc45c466f632f5c487f27685203eef0d61f1a.css" />
+</head>
+<body>
+  <div class="login-container">
+    <h1>Admin Login</h1>
+    <form id="login-form">
+      <label for="username">Username</label>
+      <input type="text" id="username" value="Biggyan Das" readonly />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter secure password" required />
+
+      <div class="captcha-box">
+        <input type="checkbox" id="captcha-check" required/>
+        <label for="captcha-check">
+          <span>I'm not a robot</span>
+          <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="captcha" />
+        </label>
+      </div>
+
+      <div id="error-message"></div>
+      <button type="submit">Login</button>
+    </form>
+    <div id="success-message"></div>
+  </div>
+
+  <div id="popup" class="popup-container">
+    <div class="popup-content">
+      <span id="close-btn">&times;</span>
+      <div id="question-content"></div>
+      <input type="text" id="answer-input" placeholder="Your answer" />
+      <button id="submit-answer">Submit</button>
+      <div id="feedback"></div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/js-sha256@0.9.0/build/sha256.min.js"></script>
+  <script src="../js/91ecd3260cd0174583da10a00e654f7c2157476084a672c0e51974be7b41de50.js"></script>
+  <script src="../js/bbc5f7914d84662049e2038483fd63401dfdf68f51c633c838d5d2ec3758d695.js"></script>
+</body>
 </html>

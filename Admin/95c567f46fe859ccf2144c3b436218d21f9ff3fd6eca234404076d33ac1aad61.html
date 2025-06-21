@@ -1,0 +1,59 @@
+<!-- admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel - Asha Grill House</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5f9ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .message {
+      text-align: center;
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      font-size: 20px;
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+  <div class="message" id="admin-message">Checking login...</div>
+
+  <script>
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    async function checkLogin() {
+      try {
+        const response = await fetch('../js/1a68919261999e9d6edf19ec43ef300354e8f8ed32f99cb87192828bfaa8ce9f.json');
+        const data = await response.json();
+        const PASS_HASH = data.password;
+
+        if (getCookie("adminAuth") === PASS_HASH) {
+          document.getElementById("admin-message").textContent =
+            "✅ Login Successful. Welcome to the Admin Panel.";
+        } else {
+          window.location.href = "index.html";
+        }
+      } catch (error) {
+        console.error('Error loading password JSON:', error);
+        window.location.href = "index.html";
+      }
+    }
+
+    checkLogin();
+  </script>
+</body>
+</html>
