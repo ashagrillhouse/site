@@ -1,8 +1,8 @@
-<!-- admin.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Panel - Asha Grill House</title>
   <style>
     body {
@@ -23,16 +23,39 @@
       font-size: 20px;
       color: #2c3e50;
     }
+    .logout-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .logout-btn:hover {
+      background: #cc0000;
+    }
   </style>
 </head>
 <body>
-  <div class="message" id="admin-message">Checking login...</div>
+  <div class="message" id="admin-message">
+    Checking login...
+    <br /><br />
+    <button class="logout-btn" onclick="logout()" style="display: none;">Logout</button>
+  </div>
 
   <script>
     function getCookie(name) {
       const value = `; ${document.cookie}`;
       const parts = value.split(`; ${name}=`);
       if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    function logout() {
+      document.cookie = "adminAuth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      window.location.href = "index.html";
     }
 
     async function checkLogin() {
@@ -42,8 +65,9 @@
         const PASS_HASH = data.password;
 
         if (getCookie("adminAuth") === PASS_HASH) {
-          document.getElementById("admin-message").textContent =
-            "✅ Login Successful. Welcome to the Admin Panel.";
+          document.getElementById("admin-message").innerHTML =
+            "✅ Login Successful. Welcome to the Admin Panel.<br><br>" +
+            "<button class='logout-btn' onclick='logout()'>Logout</button>";
         } else {
           window.location.href = "index.html";
         }
