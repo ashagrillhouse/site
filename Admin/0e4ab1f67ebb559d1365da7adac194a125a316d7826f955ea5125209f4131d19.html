@@ -171,9 +171,9 @@
 <body>
   <header>
     <div class="header-content">
-      <img src="images/icon.jpg" alt="Logo" class="logo">
+      <img src="../images/icon.jpg" alt="Logo" class="logo">
       <h1>Asha Grill House</h1>
-      <img src="images/delete_icon.jpg" alt="delete History" class="delete_history" id="delete-btn">
+      <img src="../images/delete_icon.jpg" alt="delete History" class="delete_history" id="delete-btn">
     </div>
   </header>
   <main>
@@ -223,7 +223,7 @@
 
   <script type="module">
     
-    import { ITEMS } from './js/items.js';
+    import { ITEMS } from '../js/aa5006f12bf855428efa6acee55c51cd965c71af51626a0e0e3f1bf3c5ca3925.js';
 
     const COOKIE_NAME = 'orders';
     const HISTORY_COOKIE = 'orders_history';
@@ -312,5 +312,40 @@
 
     renderLists();
   </script>
+
+
+<script>
+    function getCookie(name) 
+    {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    async function checkLogin() 
+    {
+      try {
+        const res = await fetch('../js/1a68919261999e9d6edf19ec43ef300354e8f8ed32f99cb87192828bfaa8ce9f.json');
+        const data = await res.json();
+        const PASS_HASH = data.password;
+
+        if (getCookie("adminAuth") !== PASS_HASH) {
+          window.location.href = "index.html";
+        }
+      } catch (err) {
+        console.error('Error:', err);
+        window.location.href = "index.html";
+      }
+    }
+
+    function logout() 
+    {
+      document.cookie = "adminAuth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      window.location.href = "index.html";
+    }
+
+    checkLogin();
+  </script>
+  
 </body>
 </html>

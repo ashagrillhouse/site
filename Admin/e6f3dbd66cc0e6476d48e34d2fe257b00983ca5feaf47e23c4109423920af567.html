@@ -1,12 +1,432 @@
-<!-- receipt.html -->
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Receipt - Asha Grill House</title>
+  <style>
+    :root {
+      --accent: #2563eb;
+      --danger: #dc2626;
+      --bg: #f9fafb;
+      --text: #111827;
+    }
 
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 10px;
+    }
+
+    .header {
+      text-align: center;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      margin: 5px 0;
+    }
+
+    .header p {
+      font-size: 14px;
+      margin: 0;
+    }
+
+    #receipt-no {
+      font-weight: bold;
+      font-size: 16px;
+      text-align: right;
+      margin: 10px 0;
+    }
+
+    .customer-line {
+      font-size: 15px;
+      margin: 20px 0;
+      background: #eef;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    th {
+      background-color: #e0e7ff;
+    }
+
+    select, input[type="number"] {
+      /* width: 100%; */
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      font-size: 15px;
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #1d4ed8;
+    }
+
+    .btn-danger {
+      background-color: var(--danger);
+    }
+
+    .btn-danger:hover {
+      background-color: #b91c1c;
+    }
+
+    #total {
+      text-align: right;
+      font-weight: bold;
+      font-size: 18px;
+      margin: 20px 0;
+    }
+
+    .stamp {
+      text-align: right;
+      margin-top: 50px;
+    }
+
+    .stamp img {
+      height: 130px;
+      opacity: 0.6;
+    }
+
+    #popup {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    #popup-content {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    #popup-content input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 15px;
+    }
+
+    .price{
+        width:50px;
+        text-align: center;
+    }
+    .qty{
+        width: 80px;
+        text-align: center;
+    }
+
+    @media print {
+      .btn, #popup {
+        display: none !important;
+      }
+        input, select {
+        border: none;
+        background: none;
+        appearance: none;
+        -webkit-appearance: none;
+        font-weight: bold;
+        pointer-events: none;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+        }
+        .action{
+            display:none;
+        }
+    }
+  </style>
 </head>
-
 <body>
-    
+
+  <div id="popup">
+    <div id="popup-content">
+      <h3>Enter Customer Info</h3>
+      <input type="text" id="cust-name" placeholder="Name">
+      <input type="text" id="cust-address" placeholder="Address">
+      <input type="text" id="cust-phone" placeholder="Phone">
+      <button class="btn" onclick="saveCustomer()">Save</button>
+    </div>
+  </div>
+
+  <div class="header">
+    <h1>Asha Grill House</h1>
+    <p>👤 Biggyan Das | 📞 +91-9932134803</p>
+  </div>
+
+  <div id="receipt-no">Receipt No: <span id="receipt-id"></span></div>
+  <div class="customer-line" id="customer-line"></div>
+
+  <table id="items-table">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Unit</th>
+        <th>Price (₹)</th>
+        <th>Cost (₹)</th>
+        <th class="action">Action</th>
+      </tr>
+    </thead>
+    <tbody id="items-body"></tbody>
+  </table>
+
+  <div style="text-align: right;">
+    <button class="btn" onclick="addRow()">➕ Add Item</button>
+    <button class="btn btn-danger" onclick="clearAll()">🧹 Clear All</button>
+    <button class="btn" onclick="window.print()">🖨️ Print</button>
+  </div>
+
+  <div id="total">Total: ₹0.00</div>
+
+  <div class="stamp">
+    <img src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/received-stamp-design-template-bd8ef2fd5b4b34ddaf2c56e8d1d10368_screen.jpg?ts=1737128805" alt="Official Stamp">
+  </div>
+
+  <script>
+    const itemsList = ["Iron", "Flower", "Lefs", "Sheet", "Oil", "Gas", "Wood"];
+    const units = ["KG", "Piece", "Litres", "Meter"];
+
+    const getCookie = (name) => {
+      const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+      return match ? decodeURIComponent(match[2]) : null;
+    };
+
+    const setCookie = (name, value) => {
+      document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=31536000`;
+    };
+
+    function saveCustomer() {
+      const name = document.getElementById("cust-name").value;
+      const address = document.getElementById("cust-address").value;
+      const phone = document.getElementById("cust-phone").value;
+      if (name && address && phone) {
+        setCookie("custName", name);
+        setCookie("custAddr", address);
+        setCookie("custPhone", phone);
+        document.getElementById("popup").style.display = "none";
+        updateCustomerLine();
+      }
+    }
+
+    function updateCustomerLine() {
+      const name = getCookie("custName");
+      const address = getCookie("custAddr");
+      const phone = getCookie("custPhone");
+      const now = new Date().toLocaleString("en-IN", {
+        day: "2-digit", month: "short", year: "numeric",
+        hour: "2-digit", minute: "2-digit", hour12: true
+      });
+      if (name && address && phone) {
+        document.getElementById("customer-line").innerHTML = 
+  `This receipt has been digitally generated for Mr./Ms. <strong>${name}</strong> by <strong>Asha Grill House</strong> on ${now} (IST). It confirms the details of the transaction between the customer and our establishment. Kindly find the complete itemized breakdown and billing summary below for your reference.`;
+      }
+    }
+
+   function generateReceiptID() {
+  const now = new Date();
+  const fullMonth = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+  const mon = fullMonth[now.getMonth()].split('');
+  const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+  const year = String(now.getFullYear()).slice(-2);
+  const rand = Math.floor(10 + Math.random() * 90); // 2-digit random
+
+  return `${mon[0]}${String(dayOfYear).padStart(3, '0')}${mon[1]}${year}${mon[2]}${rand}`;
+}
+
+
+
+    function createSelect(options, selected = "") {
+      const select = document.createElement("select");
+      options.forEach(opt => {
+        const option = document.createElement("option");
+        option.value = opt;
+        option.textContent = opt;
+        if (opt === selected) option.selected = true;
+        select.appendChild(option);
+      });
+      return select;
+    }
+
+    function createInput(value = "") {
+      const input = document.createElement("input");
+      input.type = "number";
+      input.min = 0;
+      input.step = "any";
+      input.value = value;
+      return input;
+    }
+
+    function calculateCost(row) {
+      const qty = parseFloat(row.querySelector(".qty").value) || 0;
+      const price = parseFloat(row.querySelector(".price").value) || 0;
+      const cost = qty * price;
+      row.querySelector(".cost").textContent = `₹${cost.toFixed(2)}`;
+      saveItemsToCookie();
+      updateTotal();
+    }
+
+    function updateTotal() {
+      let total = 0;
+      document.querySelectorAll(".cost").forEach(cell => {
+        total += parseFloat(cell.textContent.replace("₹", "")) || 0;
+      });
+      document.getElementById("total").textContent = `Total: ₹${total.toFixed(2)}`;
+    }
+
+    function addRow(item = "", qty = "", unit = "", price = "") {
+      const row = document.createElement("tr");
+
+      const itemCell = document.createElement("td");
+      const itemSelect = createSelect(itemsList, item);
+      itemCell.appendChild(itemSelect);
+
+      const qtyCell = document.createElement("td");
+      const qtyInput = createInput(qty);
+      qtyInput.className = "qty";
+      qtyInput.oninput = () => calculateCost(row);
+      qtyCell.appendChild(qtyInput);
+
+      const unitCell = document.createElement("td");
+      unitCell.appendChild(createSelect(units, unit));
+
+      const priceCell = document.createElement("td");
+      const priceInput = createInput(price);
+      priceInput.className = "price";
+      priceInput.oninput = () => calculateCost(row);
+      priceCell.appendChild(priceInput);
+
+      const costCell = document.createElement("td");
+      costCell.className = "cost";
+      costCell.textContent = `₹${(qty * price).toFixed(2) || "0.00"}`;
+
+      const actionCell = document.createElement("td");
+      actionCell.className = "action";
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "🗑️";
+      delBtn.className = "btn btn-danger";
+      delBtn.onclick = () => {
+        row.remove();
+        saveItemsToCookie();
+        updateTotal();
+      };
+      actionCell.appendChild(delBtn);
+
+      [itemCell, qtyCell, unitCell, priceCell, costCell, actionCell].forEach(cell => row.appendChild(cell));
+      document.getElementById("items-body").appendChild(row);
+
+      calculateCost(row);
+    }
+
+    function saveItemsToCookie() {
+      const rows = document.querySelectorAll("#items-body tr");
+      const items = Array.from(rows).map(row => ({
+        item: row.querySelector("select").value,
+        qty: row.querySelector(".qty").value,
+        unit: row.querySelectorAll("select")[1].value,
+        price: row.querySelector(".price").value
+      }));
+      setCookie("itemsData", JSON.stringify(items));
+    }
+
+    function loadItemsFromCookie() {
+      const data = getCookie("itemsData");
+      if (data) {
+        JSON.parse(data).forEach(i => addRow(i.item, i.qty, i.unit, i.price));
+      } else {
+        addRow();
+      }
+    }
+
+    function clearAll() {
+      document.cookie = "custName=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+      document.cookie = "custAddr=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+      document.cookie = "custPhone=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+      document.cookie = "itemsData=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+      location.reload();
+    }
+
+    document.getElementById("receipt-id").textContent = generateReceiptID();
+
+    window.onload = () => {
+      if (getCookie("custName")) {
+        document.getElementById("popup").style.display = "none";
+        updateCustomerLine();
+      }
+      loadItemsFromCookie();
+    };
+  </script>
+
+
+<script>
+    // function getCookie(name) 
+    // {
+    //   const value = `; ${document.cookie}`;
+    //   const parts = value.split(`; ${name}=`);
+    //   if (parts.length === 2) return parts.pop().split(';').shift();
+    // }
+
+    async function checkLogin() 
+    {
+      try {
+        const res = await fetch('../js/1a68919261999e9d6edf19ec43ef300354e8f8ed32f99cb87192828bfaa8ce9f.json');
+        const data = await res.json();
+        const PASS_HASH = data.password;
+
+        if (getCookie("adminAuth") !== PASS_HASH) {
+          window.location.href = "index.html";
+        }
+      } catch (err) {
+        console.error('Error:', err);
+        window.location.href = "index.html";
+      }
+    }
+
+    function logout() 
+    {
+      document.cookie = "adminAuth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      window.location.href = "index.html";
+    }
+
+    checkLogin();
+  </script>
 </body>
 </html>
