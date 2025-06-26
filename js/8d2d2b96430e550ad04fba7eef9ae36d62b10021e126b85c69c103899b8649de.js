@@ -464,9 +464,9 @@ function setupLanguageToggle(buttonId, classPrefix, languages) {
     if (nextLang=='eng')
      nextLang= 'English';
     else if (nextLang=='ben')
-     nextLang= 'Bengali';
+     nextLang= 'বাংলা';
     else if (nextLang=='hin')
-     nextLang= 'Hindi';
+     nextLang= 'हिन्दी';
    
     btn.textContent = nextLang.charAt(0).toUpperCase() + nextLang.slice(1);
   }
