@@ -1,4 +1,11 @@
-    import { imagePaths } from './aa5006f12bf855428efa6acee55c51cd965c71af51626a0e0e3f1bf3c5ca3925.js';
+//gallery.js
+
+import { imagePaths } from './aa5006f12bf855428efa6acee55c51cd965c71af51626a0e0e3f1bf3c5ca3925.js';
+import { bgImages } from './aa5006f12bf855428efa6acee55c51cd965c71af51626a0e0e3f1bf3c5ca3925.js'; // adjust path if needed
+
+
+
+
 
     // document.getElementById('year').textContent = new Date().getFullYear();
     const imageGrid = document.getElementById('imageGrid');
@@ -174,3 +181,24 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("weather").textContent = "Fetching failed.";
         document.body.className = "unknown";
       });
+
+    
+      //DINAMIC BACKGROUND CHNAGE
+
+    // Get the current day number since Unix epoch
+    const today = new Date();
+    const dayNumber = Math.floor(today.getTime() / (1000 * 60 * 60 * 24));
+
+    // Pick the background image based on the day
+    const index = dayNumber % bgImages.length;
+    const selectedImage = bgImages[index];
+
+    // Apply the background to the element with class 'gallery-header'
+    const header = document.querySelector('.gallery-header');
+    if (header) {
+      header.style.background = `
+        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+        url(${selectedImage}) center / cover no-repeat
+      `;
+    }
+    ////////////////////////////////

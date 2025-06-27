@@ -109,5 +109,13 @@ export const imagePaths =  [
       'grill/grill56.jpg','grill/grill57.jpg','grill/grill58.jpg','grill/grill59.jpg','grill/grill60.jpg',
 
       'grill/grill61.jpg','grill/grill62.jpg','grill/grill63.jpg','grill/grill64.jpg','grill/grill65.jpg',
-      'grill/grill66.jpg','grill/grill67.jpg','grill/grill68.jpg'
+      'grill/grill66.jpg','grill/grill67.jpg','grill/grill68.jpg','grill/grill69.jpg','grill/grill70.jpg',
+      
+      'grill/grill71.jpg','grill/grill72.jpg'
     ];
+
+
+export const bgImages = [
+     //'images/bg1.jpg','images/bg2.jpg','images/bg3.jpg','iamges/bg4.jpg',
+     'images/bg5.jpg'
+]

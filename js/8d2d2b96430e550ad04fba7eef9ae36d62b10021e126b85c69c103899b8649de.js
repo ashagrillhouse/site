@@ -1,5 +1,7 @@
-import { imagePaths } from './aa5006f12bf855428efa6acee55c51cd965c71af51626a0e0e3f1bf3c5ca3925.js';
+//index.js
 
+import { imagePaths } from './aa5006f12bf855428efa6acee55c51cd965c71af51626a0e0e3f1bf3c5ca3925.js';
+import { bgImages } from './aa5006f12bf855428efa6acee55c51cd965c71af51626a0e0e3f1bf3c5ca3925.js';
 
 
     // Script to open and close sidebar
@@ -621,3 +623,97 @@ const indicator = document.getElementById("scroll-indicator");
         document.getElementById("weather").textContent = "Fetching failed.";
         document.body.className = "unknown";
       });
+
+
+
+
+function closeImageModal() {
+  document.getElementById("imageModal").style.display = "none";
+  document.getElementById("popupImage").src = "";
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const classMap = [
+    "grill", "door", "window", "glass", "boundary",
+    "ralling", "shade", "collapsible", "shutter",
+    "steel_stair", "iron_stair"
+  ];
+
+  // Add click listeners to each span
+  classMap.forEach(field => {
+    const el = document.querySelector(`.${field}`);
+    if (el) {
+      el.addEventListener("click", function () {
+        wordlink(field);
+      });
+    }
+  });
+
+
+  
+
+
+  const closeBtn = document.querySelector("#imageModal .close-btn");
+    
+
+
+  closeBtn.addEventListener("click", function () {
+  //console.log("❌ Close button clicked");
+  closeImageModal();
+  });
+
+  closeBtn?.addEventListener("click", closeImageModal);
+
+  // ✅ Optional: click outside modal to close
+  document.getElementById("imageModal").addEventListener("click", function (e) {
+    if (e.target.id === "imageModal") {
+      closeImageModal();
+    }
+  });
+});
+
+function wordlink(field) {
+  const imageMap = {
+    grill: "grill/grill1.jpg",
+    door: "grill/grill2.jpg",
+    window: "grill/grill3.jpg",
+    glass: "grill/glass.jpg",
+    boundary: "grill/boundary.jpg",
+    ralling: "grill/ralling.jpg",
+    shade: "grill/shade.jpg",
+    collapsible: "grill/collapsible.jpg",
+    shutter: "grill/shutter.jpg",
+    steel_stair: "grill/steel_stair.jpg",
+    iron_stair: "grill/iron_stair.jpg"
+  };
+
+  const imageUrl = imageMap[field];
+  if (imageUrl) {
+    document.getElementById("popupImage").src = imageUrl;
+    document.getElementById("imageModal").style.display = "flex";
+  } else {
+    alert("Image not found for: " + field);
+  }
+}
+
+
+
+//DINAMIC BACKGROUND CHNAGE
+
+// Get the current day number since Unix epoch
+const today = new Date();
+const dayNumber = Math.floor(today.getTime() / (1000 * 60 * 60 * 24));
+
+// Pick the background image based on the day
+const indexx = dayNumber % bgImages.length;
+const selectedImage = bgImages[indexx];
+
+// Apply the background to the element with class 'gallery-header'
+const header = document.querySelector('.main-header');
+if (header) {
+  header.style.background = `
+    linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url(${selectedImage}) center / cover no-repeat
+  `;
+}
+////////////////////////////
