@@ -115,7 +115,9 @@ export const imagePaths =  [
     ];
 
 
-export const bgImages = [
-     //'images/bg1.jpg','images/bg2.jpg','images/bg3.jpg','iamges/bg4.jpg',
-     'images/bg5.jpg'
-]
+
+export const specialBgImages = {
+  '27/06/2025': 'images/bg5.jpg'
+};
+
+export const defaultBg = 'images/bg1.jpg';

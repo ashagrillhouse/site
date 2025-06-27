@@ -1,7 +1,6 @@
 //index.js
 
-import { imagePaths } from './aa5006f12bf855428efa6acee55c51cd965c71af51626a0e0e3f1bf3c5ca3925.js';
-import { bgImages } from './aa5006f12bf855428efa6acee55c51cd965c71af51626a0e0e3f1bf3c5ca3925.js';
+import { imagePaths,specialBgImages, defaultBg } from './aa5006f12bf855428efa6acee55c51cd965c71af51626a0e0e3f1bf3c5ca3925.js';
 
 
     // Script to open and close sidebar
@@ -700,20 +699,22 @@ function wordlink(field) {
 
 //DINAMIC BACKGROUND CHNAGE
 
-// Get the current day number since Unix epoch
+// Format today's date as dd/mm/yyyy
 const today = new Date();
-const dayNumber = Math.floor(today.getTime() / (1000 * 60 * 60 * 24));
+const day = String(today.getDate()).padStart(2, '0');
+const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+const year = today.getFullYear();
+const todayStr = `${day}/${month}/${year}`;
 
-// Pick the background image based on the day
-const indexx = dayNumber % bgImages.length;
-const selectedImage = bgImages[indexx];
+// Check if today is a special date
+const selectedImage = specialBgImages[todayStr] || defaultBg;
 
-// Apply the background to the element with class 'gallery-header'
+// Apply background to the element
 const header = document.querySelector('.main-header');
 if (header) {
   header.style.background = `
     linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-    url(${selectedImage}) center / cover no-repeat
+    url(${selectedImage}) center / 100% 100% no-repeat
   `;
 }
 ////////////////////////////
