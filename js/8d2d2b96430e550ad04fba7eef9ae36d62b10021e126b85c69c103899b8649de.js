@@ -673,17 +673,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function wordlink(field) {
   const imageMap = {
-    grill: "grill/grill1.jpg",
-    door: "grill/grill2.jpg",
-    window: "grill/grill3.jpg",
-    glass: "grill/glass.jpg",
-    boundary: "grill/boundary.jpg",
-    ralling: "grill/ralling.jpg",
+    grill: "grill/grill11.jpg",
+    door: "grill/grill50.jpg",
+    window: "grill/grill59.jpg",
+    glass: "grill/grill44.jpg",
+    boundary: "grill/grill1.jpg",
+    ralling: "grill/grill71.jpg",
     shade: "grill/shade.jpg",
     collapsible: "grill/collapsible.jpg",
     shutter: "grill/shutter.jpg",
-    steel_stair: "grill/steel_stair.jpg",
-    iron_stair: "grill/iron_stair.jpg"
+    steel_stair: "grill/grill16.jpg",
+    iron_stair: "grill/grill4.jpg"
   };
 
   const imageUrl = imageMap[field];

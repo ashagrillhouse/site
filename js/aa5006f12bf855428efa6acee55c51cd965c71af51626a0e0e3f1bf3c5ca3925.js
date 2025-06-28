@@ -117,7 +117,9 @@ export const imagePaths =  [
 
 
 export const specialBgImages = {
-  '27/06/2025': 'images/bg5.jpg'
+  '27/06/2025': 'images/Roth.jpg',
+  '04/07/2025': 'images/Roth.jpg',
+  '15/08/2025': 'images/independence.jpg',
 };
 
-export const defaultBg = 'images/bg1.jpg';
+export const defaultBg = 'images/defaultBG.jpg';
