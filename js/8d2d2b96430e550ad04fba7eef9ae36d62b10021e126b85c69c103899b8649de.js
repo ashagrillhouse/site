@@ -639,14 +639,24 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   // Add click listeners to each span
-  classMap.forEach(field => {
-    const el = document.querySelector(`.${field}`);
-    if (el) {
-      el.addEventListener("click", function () {
-        wordlink(field);
-      });
-    }
+  // classMap.forEach(field => {
+  //   const el = document.querySelector(`.${field}`);
+  //   if (el) {
+  //     el.addEventListener("click", function () {
+  //       wordlink(field);
+  //     });
+  //   }
+  // });
+
+
+    classMap.forEach(field => {
+    // select *all* elements with that class
+    const els = document.querySelectorAll(`.${field}`);
+    els.forEach(el => {
+      el.addEventListener("click", () => wordlink(field));
+    });
   });
+
 
 
   
@@ -718,3 +728,25 @@ if (header) {
   `;
 }
 ////////////////////////////
+
+
+
+
+
+
+  const scrollBtn = document.getElementById('scrollTopBtn');
+
+  window.addEventListener('scroll', () => {
+    // Show the button whenever the page is not at the very top:
+    if (window.scrollY > 0) {
+      scrollBtn.classList.add('show');
+    } else {
+      scrollBtn.classList.remove('show');
+    }
+  });
+
+  scrollBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+

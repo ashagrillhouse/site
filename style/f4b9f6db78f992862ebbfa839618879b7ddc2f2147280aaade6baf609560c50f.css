@@ -129,3 +129,33 @@ cursor:pointer; }
   color: #fff;                 /* ensure it’s visible on the dark banner */
   z-index: 10;
 }
+
+
+#scrollTopBtn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 4rem;
+    height: 4rem;
+    background: #686262;
+    color: limegreen;
+    border: none;
+    font-size: 2.5rem;
+    line-height: 1;
+    border-radius: 50%;
+    display: none;             /* hide by default */
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    cursor: pointer;
+    z-index: 1000;
+    transition: opacity 0.3s, transform 0.2s;
+  }
+  #scrollTopBtn.show {
+    display: flex;             /* show when .show is present */
+    opacity: 0.8;
+  }
+  #scrollTopBtn:hover {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
