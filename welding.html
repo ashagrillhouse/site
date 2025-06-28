@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Prevent scrolling/zoom on mobile -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Realistic Continuous Welding</title>
   <style>
     /* Reset & base */
@@ -13,6 +14,7 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
+      touch-action: none; /* disable touch-based scrolling */
     }
 
     /* Full-screen overlay for welding animation */
@@ -23,15 +25,15 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 9999; /* ensure always top */
+      z-index: 9999;
     }
 
     /* The welding rod */
     .rod {
       position: absolute;
-      width: 80vw;       /* responsive width */
+      width: 80vw;
       max-width: 800px;
-      height: 1vh;        /* relative height */
+      height: 1vh;
       max-height: 12px;
       background: #505b61;
       transform: rotate(-45deg);
@@ -52,7 +54,7 @@
       max-width: 60px;
       height: 100%;
       background: #96b3c4;
-      clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
+      clip-path: polygon(0 0,100% 0,100% 70%,0 100%);
     }
 
     /* Electrode block */
@@ -80,7 +82,7 @@
         rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s;
+      transition: opacity 0.1s;
       z-index: 20;
     }
 
@@ -95,15 +97,15 @@
       border-radius: 50%;
       pointer-events: none;
       opacity: 1;
-      box-shadow: 0 0 15px yellow, 0 0 25px orange, 0 0 35px white;
+      box-shadow: 0 0 15px yellow,0 0 25px orange,0 0 35px white;
       z-index: 30;
       animation: fly 1.2s ease-out forwards;
     }
     @keyframes fly {
-      to { transform: translate(var(--dx), var(--dy)) scale(0.5); opacity: 0; }
+      to { transform: translate(var(--dx),var(--dy)) scale(0.5); opacity: 0; }
     }
 
-    /* Shop info overlay (hidden until welding ends) */
+    /* Shop info overlay */
     #shop-text {
       position: absolute;
       top: 50%; left: 50%;
@@ -111,22 +113,17 @@
       text-align: center;
       color: #fff;
       opacity: 0;
-      transition: opacity 1s ease-in-out;
+      transition: opacity 3s ease-in-out;
       z-index: 40;
       width: 90%;
+       background:
+    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+    url('images/bg2.jpg') center/cover no-repeat;
+    padding: 2rem;
+    border-radius: 1rem;
     }
-    #shop-text h1 {
-      margin: 0;
-      font-size: 8vw;
-      max-font-size: 4rem;
-      font-weight: 800;
-    }
-    #shop-text p {
-      margin: 0.5rem 0;
-      font-size: 4vw;
-      max-font-size: 1.5rem;
-      opacity: 0.8;
-    }
+    #shop-text h1 { margin:0; font-size:5vw; max-font-size:4rem; font-weight:800; }
+    #shop-text p  { margin:.5rem 0; font-size:2vw; max-font-size:1.5rem; opacity:0.8; }
   </style>
 </head>
 <body>
@@ -137,71 +134,45 @@
     <div class="flash" id="flash"></div>
     <div id="shop-text">
       <h1>ASHA GRILL HOUSE</h1>
-      <p>Murgachha, Nadia · Pro.: Biggyan Das</p>
-      <p>Mobile: 9932134803</p>
+      <p>Postoffice Daspara, Murgachha, Nadia</p>
+      <p>Biggyan Das | 9932134803</p>
     </div>
   </div>
   <script>
-    window.addEventListener('load', function () {
+    window.addEventListener('load', function(){
       const rod = document.getElementById('rod');
       const electrode = document.getElementById('electrode');
       const flash = document.getElementById('flash');
       const shopText = document.getElementById('shop-text');
-
-      const rodWidth = rod.offsetWidth;
-      const rodHeight = rod.offsetHeight;
-      const startLeft = window.innerWidth - rodWidth;
-      const startTop = -rodHeight;
-
-      const eRect = electrode.getBoundingClientRect();
-      const contactX = eRect.left + eRect.width / 2;
-      const contactY = eRect.top;
-
-      const offset = Math.SQRT1_2 * rodWidth;
-      const pivotX = contactX + offset;
-      const pivotY = contactY - offset;
-      const finalLeft = pivotX - rodWidth;
-      const finalTop = pivotY - rodHeight;
-
-      setTimeout(() => {
-        rod.style.left = finalLeft + 'px';
-        rod.style.top = finalTop + 'px';
-      }, 100);
-
-      rod.addEventListener('transitionend', function onReach() {
-        flash.style.opacity = 1;
-        let sparkInterval = setInterval(() => createSparks(contactX, contactY), 100);
-
-        setTimeout(() => {
-          clearInterval(sparkInterval);
-          flash.style.opacity = 0;
-          rod.style.left = startLeft + 'px';
-          rod.style.top = startTop + 'px';
-
-          shopText.style.opacity = 1;
-        //   setTimeout(() => window.location.href = 'index.html', 5000);
-        }, 4000);
-
-        rod.removeEventListener('transitionend', onReach);
-        setTimeout(() => {
-          rod.style.display = 'none';
-          electrode.style.display = 'none';
-          flash.style.display = 'none';
-        }, 5500);
+      const rodW = rod.offsetWidth, rodH = rod.offsetHeight;
+      const startL = window.innerWidth - rodW, startT = -rodH;
+      const eR = electrode.getBoundingClientRect();
+      const cx = eR.left+eR.width/2, cy = eR.top;
+      const offset = Math.SQRT1_2*rodW;
+      const finalL = cx+offset-rodW, finalT = cy-offset;
+      setTimeout(()=>{ rod.style.left=finalL+'px'; rod.style.top=finalT+'px'; },100);
+      rod.addEventListener('transitionend',function on(){
+        flash.style.opacity=1;
+        let si=setInterval(()=>createSparks(cx,cy),100);
+        setTimeout(()=>{
+          clearInterval(si);
+          flash.style.opacity=0;
+          rod.style.left=startL+'px'; rod.style.top=startT+'px';
+          shopText.style.opacity=1;
+        //   setTimeout(()=>location.href='index.html',5000);
+        },4000);
+        rod.removeEventListener('transitionend',on);
+        setTimeout(()=>{ rod.style.display='none'; electrode.style.display='none'; flash.style.display='none'; },5500);
       });
-
-      function createSparks(x, y) {
-        for (let i = 0; i < 10; i++) {
-          const spark = document.createElement('div');
-          spark.className = 'spark';
-          spark.style.left = x + 'px';
-          spark.style.top = y + 'px';
-          const angle = Math.random() * 2 * Math.PI;
-          const dist = 0.6 * Math.min(window.innerWidth, window.innerHeight) + Math.random()*0.4*window.innerWidth;
-          spark.style.setProperty('--dx', Math.cos(angle)*dist + 'px');
-          spark.style.setProperty('--dy', Math.sin(angle)*dist + 'px');
-          document.body.appendChild(spark);
-          setTimeout(() => spark.remove(), 1500);
+      function createSparks(x,y){
+        for(let i=0;i<10;i++){
+          const s=document.createElement('div'); s.className='spark';
+          s.style.left=x+'px'; s.style.top=y+'px';
+          const a=Math.random()*2*Math.PI, d=0.6*Math.min(window.innerWidth,window.innerHeight)+Math.random()*0.4*window.innerWidth;
+          s.style.setProperty('--dx',Math.cos(a)*d+'px');
+          s.style.setProperty('--dy',Math.sin(a)*d+'px');
+          document.body.appendChild(s);
+          setTimeout(()=>s.remove(),1500);
         }
       }
     });
