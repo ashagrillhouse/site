@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Realistic Continuous Welding</title>
   <style>
     /* Reset & base */
@@ -9,30 +10,34 @@
       margin: 0;
       padding: 0;
       background: #111;
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
       overflow: hidden;
     }
 
     /* Full-screen overlay for welding animation */
     #welding-overlay {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
+      z-index: 9999; /* ensure always top */
     }
 
     /* The welding rod */
     .rod {
       position: absolute;
-      width: 800px;
-      height: 12px;
+      width: 80vw;       /* responsive width */
+      max-width: 800px;
+      height: 1vh;        /* relative height */
+      max-height: 12px;
       background: #505b61;
       transform: rotate(-45deg);
       transform-origin: 100% 100%;
-      top: -8px;
-      left: calc(100vw - 600px);
+      top: -1vh;
+      left: calc(100% - 80vw);
       transition: top 1.5s linear, left 1.5s linear;
       z-index: 10;
       border-radius: 20px 0 0 20px;
@@ -41,8 +46,11 @@
     .rod::before {
       content: '';
       position: absolute;
-      right: 0; top: 0;
-      width: 60px; height: 100%;
+      right: 0;
+      top: 0;
+      width: 6vw;
+      max-width: 60px;
+      height: 100%;
       background: #96b3c4;
       clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
     }
@@ -50,23 +58,26 @@
     /* Electrode block */
     .electrode {
       position: absolute;
-      width: 120px;
-      height: 30px;
+      width: 12vw;
+      max-width: 120px;
+      height: 3vh;
+      max-height: 30px;
       background: #999;
       border-radius: 5px;
-      bottom: 20px;
-      left: 20px;
+      bottom: 2vh;
+      left: 2vw;
       z-index: 5;
     }
 
     /* Bright flash on contact */
     .flash {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: radial-gradient(circle at left bottom,
-        rgba(255,255,255,1) 0%,
-        rgba(255,255,255,0) 70%);
+        rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%);
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.3s;
@@ -76,7 +87,10 @@
     /* Sparks */
     .spark {
       position: absolute;
-      width: 20px; height: 20px;
+      width: 5vw;
+      max-width: 20px;
+      height: 5vw;
+      max-height: 20px;
       background: orange;
       border-radius: 50%;
       pointer-events: none;
@@ -86,10 +100,7 @@
       animation: fly 1.2s ease-out forwards;
     }
     @keyframes fly {
-      to {
-        transform: translate(var(--dx), var(--dy)) scale(0.5);
-        opacity: 0;
-      }
+      to { transform: translate(var(--dx), var(--dy)) scale(0.5); opacity: 0; }
     }
 
     /* Shop info overlay (hidden until welding ends) */
@@ -102,35 +113,34 @@
       opacity: 0;
       transition: opacity 1s ease-in-out;
       z-index: 40;
+      width: 90%;
     }
     #shop-text h1 {
       margin: 0;
-      font-size: 4rem;
+      font-size: 8vw;
+      max-font-size: 4rem;
       font-weight: 800;
     }
     #shop-text p {
       margin: 0.5rem 0;
-      font-size: 1.5rem;
+      font-size: 4vw;
+      max-font-size: 1.5rem;
       opacity: 0.8;
     }
   </style>
 </head>
 <body>
-
   <div id="welding-overlay">
     <div class="rod" id="rod"></div>
     <div class="holder"></div>
     <div class="electrode" id="electrode"></div>
     <div class="flash" id="flash"></div>
-
-    <!-- Shop Info -->
     <div id="shop-text">
       <h1>ASHA GRILL HOUSE</h1>
       <p>Murgachha, Nadia · Pro.: Biggyan Das</p>
       <p>Mobile: 9932134803</p>
     </div>
   </div>
-
   <script>
     window.addEventListener('load', function () {
       const rod = document.getElementById('rod');
@@ -138,52 +148,41 @@
       const flash = document.getElementById('flash');
       const shopText = document.getElementById('shop-text');
 
-      // Calculate start/end positions
-      const rodWidth   = rod.offsetWidth;
-      const rodHeight  = rod.offsetHeight;
-      const startLeft  = window.innerWidth - rodWidth;
-      const startTop   = -rodHeight;
+      const rodWidth = rod.offsetWidth;
+      const rodHeight = rod.offsetHeight;
+      const startLeft = window.innerWidth - rodWidth;
+      const startTop = -rodHeight;
 
-      const eRect   = electrode.getBoundingClientRect();
-      const contactX = eRect.left + eRect.width/2;
+      const eRect = electrode.getBoundingClientRect();
+      const contactX = eRect.left + eRect.width / 2;
       const contactY = eRect.top;
 
-      const offset  = Math.SQRT1_2 * rodWidth;
-      const pivotX  = contactX + offset;
-      const pivotY  = contactY - offset;
+      const offset = Math.SQRT1_2 * rodWidth;
+      const pivotX = contactX + offset;
+      const pivotY = contactY - offset;
       const finalLeft = pivotX - rodWidth;
-      const finalTop  = pivotY - rodHeight;
+      const finalTop = pivotY - rodHeight;
 
-      // Step 1: move rod in
       setTimeout(() => {
         rod.style.left = finalLeft + 'px';
-        rod.style.top  = finalTop  + 'px';
+        rod.style.top = finalTop + 'px';
       }, 100);
 
       rod.addEventListener('transitionend', function onReach() {
-        // Flash and sparks
         flash.style.opacity = 1;
         let sparkInterval = setInterval(() => createSparks(contactX, contactY), 100);
 
-        // After 4s of welding...
         setTimeout(() => {
           clearInterval(sparkInterval);
           flash.style.opacity = 0;
           rod.style.left = startLeft + 'px';
-          rod.style.top  = startTop  + 'px';
+          rod.style.top = startTop + 'px';
 
-          // Fade in shop info
           shopText.style.opacity = 1;
-
-          // Redirect after another 5s
-          setTimeout(() => {
-            window.location.href = 'index.html';
-          }, 5000);
+          setTimeout(() => window.location.href = 'index.html', 5000);
         }, 4000);
 
         rod.removeEventListener('transitionend', onReach);
-
-        // Cleanup rod & electrode visibility once returned
         setTimeout(() => {
           rod.style.display = 'none';
           electrode.style.display = 'none';
@@ -192,17 +191,15 @@
       });
 
       function createSparks(x, y) {
-        for (let i=0; i<10; i++) {
+        for (let i = 0; i < 10; i++) {
           const spark = document.createElement('div');
           spark.className = 'spark';
           spark.style.left = x + 'px';
-          spark.style.top  = y + 'px';
-
+          spark.style.top = y + 'px';
           const angle = Math.random() * 2 * Math.PI;
-          const dist  = 300 + Math.random() * 300;
+          const dist = 0.6 * Math.min(window.innerWidth, window.innerHeight) + Math.random()*0.4*window.innerWidth;
           spark.style.setProperty('--dx', Math.cos(angle)*dist + 'px');
           spark.style.setProperty('--dy', Math.sin(angle)*dist + 'px');
-
           document.body.appendChild(spark);
           setTimeout(() => spark.remove(), 1500);
         }
