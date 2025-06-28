@@ -15,6 +15,7 @@
       height: 100%;
       overflow: hidden;
       touch-action: none; /* disable touch-based scrolling */
+      font-family: "Poppins", sans-serif;
     }
 
     /* Full-screen overlay for welding animation */
@@ -116,6 +117,7 @@
       transition: opacity 3s ease-in-out;
       z-index: 40;
       width: 90%;
+      padding:20px;
        background:
     linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
     url('images/bg2.jpg') center/cover no-repeat;
@@ -159,7 +161,7 @@
           flash.style.opacity=0;
           rod.style.left=startL+'px'; rod.style.top=startT+'px';
           shopText.style.opacity=1;
-          setTimeout(()=>location.href='index.html',5000);
+          setTimeout(()=>location.href='index.html',10000);
         },4000);
         rod.removeEventListener('transitionend',on);
         setTimeout(()=>{ rod.style.display='none'; electrode.style.display='none'; flash.style.display='none'; },5500);

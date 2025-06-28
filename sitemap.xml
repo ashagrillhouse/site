@@ -37,4 +37,10 @@
     <priority>0.4</priority>
   </url>
 
+  <url>
+    <loc>https://ashagrillhouse.github.io/site/welding.html</loc>
+    <lastmod>2025-06-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>
