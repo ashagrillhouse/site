@@ -693,10 +693,10 @@ function wordlink(field) {
     collapsible: "grill/collapsible.jpg",
     shutter: "grill/shutter.jpg",
     steel_stair: "grill/grill16.jpg",
-    iron_stair: "grill/grill4.jpg"
+    iron_stair: "grill/grill4.jpg",
 
-    tin_gate:"grill/tin_gate.jpg"
-    wood_grill:"grill/grill73.jpg"
+    tin_gate:"grill/tin_gate.jpg",
+    wood_grill:"grill/grill11.jpg"
   };
 
   const imageUrl = imageMap[field];
