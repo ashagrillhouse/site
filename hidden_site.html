@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hidden Site Access</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0d1117;
+      color: #c9d1d9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      background-color: #161b22;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .onion-link {
+      font-size: 1.1em;
+      color: #58a6ff;
+      margin: 15px 0;
+      word-wrap: break-word;
+    }
+
+    .button {
+      background-color: #238636;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1em;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      width: 100%;
+      max-width: 250px;
+    }
+
+    .button:hover {
+      background-color: #2ea043;
+    }
+
+    .progress-container {
+      width: 100%;
+      background-color: #30363d;
+      border-radius: 5px;
+      margin-top: 20px;
+      overflow: hidden;
+      height: 25px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      background-color: #58a6ff;
+      text-align: center;
+      color: white;
+      line-height: 25px;
+      font-weight: bold;
+      transition: width 0.1s;
+    }
+
+    .message {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #3fb950;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px;
+      }
+
+      .button {
+        padding: 10px;
+        font-size: 0.95em;
+      }
+
+      .onion-link {
+        font-size: 1em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p>To visit our hidden site, copy this address and open it in the TOR browser:</p>
+    <p class="onion-link">gamlslu33gg2iqiltg55zl7qsdlpmm4yvvqywkti4a6qw3cnz6vbgrad.onion</p>
+
+    <button class="button" onclick="startDownload()">Download</button>
+
+    <div class="progress-container" id="progressContainer" style="display: none;">
+      <div class="progress-bar" id="progressBar">0%</div>
+    </div>
+
+    <p class="message" id="downloadMessage"></p>
+  </div>
+
+  <script>
+
+    function startDownload() {
+      const progressContainer = document.getElementById('progressContainer');
+      const progressBar = document.getElementById('progressBar');
+      const message = document.getElementById('downloadMessage');
+
+      progressContainer.style.display = 'block';
+      progressBar.style.width = '0%';
+      progressBar.textContent = '0%';
+      message.textContent = '';
+
+      // Create a dummy file using Blob
+      const fileContent = `; Fake ASM File for Prank\nmov eax, 0xDEAD\nret\n`;
+      const blob = new Blob([fileContent], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'evadrop.asm';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      // Fake progress bar (1% per 100ms = 10 seconds total)
+      let percent = 0;
+      const interval = setInterval(() => {
+        percent++;
+        progressBar.style.width = percent + '%';
+        progressBar.textContent = percent + '%';
+
+        if (percent >= 100) {
+          clearInterval(interval);
+          message.textContent = 'Cookies collected Successful!';
+        }
+      }, 100);
+    }
+
+
+    
+  </script>
+
+
+</body>
+</html>

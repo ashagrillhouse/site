@@ -622,7 +622,7 @@ body {
 
 
 
-  .add_side_pannel {
+  /* .add_side_pannel {
     padding: 0px;
     margin: 30px;
     position: absolute;
@@ -645,11 +645,11 @@ body {
   }
 
  .add_side_pannel img {
-    width: 200px; /* Changed from 5px so it's visible */
+    width: 200px; 
     height: 130px;
     margin: 10px;
     object-fit: cover;
-  }
+  } */
 
 
 
@@ -895,4 +895,29 @@ body {
   #scrollTopBtn:hover {
     opacity: 1;
     transform: translateY(-3px);
+  }
+
+
+
+
+  .sitemap_admin {
+    margin: 20px;
+    padding: 50px;
+    display: flex;
+    flex-wrap: wrap; /* allow wrapping */
+    gap: 20px;
+    justify-content: center;
+    max-width: 600px; /* optional, to limit row width */
+    margin: 0 auto;   /* center on page */
+  }
+
+  .sitemap_admin a {
+    text-decoration: none;
+    color: #7dc6e7;
+    flex: 1 1 30%; /* 3 links per row max */
+    text-align: center;
+  }
+
+  .sitemap_admin a:hover {
+    text-decoration: underline;
   }
