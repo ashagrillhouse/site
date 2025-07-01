@@ -46,16 +46,20 @@
  <style>
   .sitemap_admin {
     margin: 20px;
-    padding: 20px; /* fixed typo */
-    text-decoration: none;
+    padding: 20px;
     display: flex;
-    gap: 20px; /* spacing between links */
+    flex-wrap: wrap; /* allow wrapping */
+    gap: 20px;
     justify-content: center;
+    max-width: 600px; /* optional, to limit row width */
+    margin: 0 auto;   /* center on page */
   }
 
   .sitemap_admin a {
     text-decoration: none;
     color: #0077cc;
+    flex: 1 1 30%; /* 3 links per row max */
+    text-align: center;
   }
 
   .sitemap_admin a:hover {
@@ -64,6 +68,8 @@
 </style>
 
 <small class="sitemap_admin">
+  <a href="./sitemap.xml">Sitemap</a>
+  <a href="Admin">Admin</a>
   <a href="./sitemap.xml">Sitemap</a>
   <a href="Admin">Admin</a>
 </small>
