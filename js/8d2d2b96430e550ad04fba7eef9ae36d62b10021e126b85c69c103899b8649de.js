@@ -635,7 +635,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const classMap = [
     "grill", "door", "window", "glass", "boundary",
     "ralling", "shade", "collapsible", "shutter",
-    "steel_stair", "iron_stair"
+    "steel_stair", "iron_stair","tin_gate","wood_grill"
   ];
 
   // Add click listeners to each span
@@ -694,9 +694,8 @@ function wordlink(field) {
     shutter: "grill/shutter.jpg",
     steel_stair: "grill/grill16.jpg",
     iron_stair: "grill/grill4.jpg",
-
     tin_gate:"grill/tin_gate.jpg",
-    wood_grill:"grill/grill11.jpg"
+    wood_grill:"grill/grill73.jpg"
   };
 
   const imageUrl = imageMap[field];
@@ -706,6 +705,8 @@ function wordlink(field) {
   } else {
     alert("Image not found for: " + field);
   }
+
+ // console.log(field);
 }
 
 
