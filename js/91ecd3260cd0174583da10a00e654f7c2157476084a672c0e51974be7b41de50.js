@@ -18,7 +18,7 @@ const questions = [
   },
   {
     image: "../math_imgs/owl_height.jpg",
-    question: "Write only the height in digit of this owl?",
+    question: "Write only the height of this owl in digit only?",
     answer: "15",
     type: "number"
   },
