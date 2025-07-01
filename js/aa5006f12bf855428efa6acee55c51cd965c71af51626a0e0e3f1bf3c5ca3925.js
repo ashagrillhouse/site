@@ -117,8 +117,10 @@ export const imagePaths =  [
 
 
 export const specialBgImages = {
+  '05/06/2026': 'images/plant.jpg',
   '27/06/2025': 'images/Roth.jpg',
   '04/07/2025': 'images/Roth.jpg',
+  '07/07/2025': 'images/dhoni.jpg',
   '15/08/2025': 'images/independence.jpg',
 };
 
