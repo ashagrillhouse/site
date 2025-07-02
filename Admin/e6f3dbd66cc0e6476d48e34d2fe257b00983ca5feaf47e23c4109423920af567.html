@@ -1,8 +1,11 @@
+<!-- Receipt.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
   <title>Receipt - Asha Grill House</title>
   <style>
     :root {
@@ -16,19 +19,47 @@
       box-sizing: border-box;
     }
 
+   
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Courier New', Courier, monospace;
+      
       background: var(--bg);
       color: var(--text);
       margin: 0;
       padding: 10px;
     }
 
-    .header {
-      text-align: center;
-      line-height: 1.5;
-      margin-bottom: 10px;
+    body::before {
+      content: "Asha Grill House";
+      position: fixed;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-30deg);
+      font-size: 60px;
+      color: rgba(0, 0, 0, 0.05);
+      z-index: 0;
+      white-space: nowrap;
+      pointer-events: none;
     }
+
+
+    .header {
+      display: none;
+      text-align: center;
+      line-height: 1.6;
+      margin: 20px auto;
+      padding: 15px;
+      max-width: 700px;
+
+      color: #0b2a74; /* deep dark blue */
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
+
+      border: 4px double #0b2a74;
+      border-radius: 12px;
+      background-color: #f0f4ff; /* soft background for contrast */
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
 
     .header h1 {
       font-size: 24px;
@@ -45,6 +76,7 @@
       font-size: 16px;
       text-align: right;
       margin: 10px 0;
+      margin-top: 60px;
     }
 
     .customer-line {
@@ -60,6 +92,10 @@
       border-collapse: collapse;
       margin-bottom: 20px;
     }
+
+    
+
+
 
     th, td {
       border: 1px solid #ccc;
@@ -111,6 +147,7 @@
     .stamp {
       text-align: right;
       margin-top: 50px;
+      display:none;
     }
 
     .stamp img {
@@ -145,12 +182,19 @@
     }
 
     .price{
-        width:50px;
+        width:81px;
         text-align: center;
     }
     .qty{
         width: 80px;
         text-align: center;
+    }
+
+    .footer{
+      font-size: smaller;
+      position:fixed;
+      bottom: 0px;
+      display: none;
     }
 
     @media print {
@@ -172,7 +216,17 @@
         .action{
             display:none;
         }
+        .stamp{display:block;}
+
+         body::before {
+          display: block !important;
+        }
+
+        .footer{display:block;}
+        .header{display: block;}
     }
+
+    
   </style>
 </head>
 <body>
@@ -190,6 +244,7 @@
   <div class="header">
     <h1>Asha Grill House</h1>
     <p>👤 Biggyan Das | 📞 +91-9932134803</p>
+    <p>Postoffice Daspara,Muragachha,Nadia,741154,WB,IND</p>
   </div>
 
   <div id="receipt-no">Receipt No: <span id="receipt-id"></span></div>
@@ -198,11 +253,11 @@
   <table id="items-table">
     <thead>
       <tr>
-        <th>Item</th>
-        <th>Qty</th>
-        <th>Unit</th>
-        <th>Price (₹)</th>
-        <th>Cost (₹)</th>
+        <th>Item(বস্তু)</th>
+        <th>Qty(পরিমাণ)</th>
+        <th>Unit(একক)</th>
+        <th>Price(দাম)(₹)</th>
+        <th>Cost(দাম)(₹)</th>
         <th class="action">Action</th>
       </tr>
     </thead>
@@ -215,15 +270,18 @@
     <button class="btn" onclick="window.print()">🖨️ Print</button>
   </div>
 
-  <div id="total">Total: ₹0.00</div>
+  <div id="total">Total(মোট): ₹0.00</div>
 
-  <div class="stamp">
-    <img src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/received-stamp-design-template-bd8ef2fd5b4b34ddaf2c56e8d1d10368_screen.jpg?ts=1737128805" alt="Official Stamp">
-  </div>
+  <div class="stamp" id="image-container"></div>
+
+  <div class="footer">
+    <p>Ad: এখানে শাটার, গ্রিল, উইন্ডো, কোলাপ্সিবল-গেট, ইত্যাদি তৈরী করা হয়।</p>
+    <p>Note: Computer-generated receipt. Only signed copies are valid.</p>
+</div>
 
   <script>
-    const itemsList = ["Iron", "Flower", "Lefs", "Sheet", "Oil", "Gas", "Wood"];
-    const units = ["KG", "Piece", "Litres", "Meter"];
+    const itemsList = ["Old Grill(পুরোনো গ্রিল)","Wages(মজুরি)","Iron(লোহা)", "Sheet(শিট)","Tin(টিন)","Flower(ফুল)", "Leaf(পাতা)","Ball(বল)","Cone(কোন)","Design(ডিজাইন)","Hinges(কব্জা)","Others(অন্যান্য)"];
+    const units = ["Kg(কেজি)", "Piece(টা)", "Packet(প্যাকেট)","Box(বাক্স)","Day(দিন)","--"];
 
     const getCookie = (name) => {
       const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
@@ -257,8 +315,7 @@
       });
       if (name && address && phone) {
         document.getElementById("customer-line").innerHTML = 
-  `This receipt has been digitally generated for Mr./Ms. <strong>${name}</strong> by <strong>Asha Grill House</strong> on ${now} (IST). It confirms the details of the transaction between the customer and our establishment. Kindly find the complete itemized breakdown and billing summary below for your reference.`;
-      }
+  `This receipt has been digitally issued to <strong>Mr./Ms. ${name}</strong> by <strong>Asha Grill House</strong> on ${now} (IST). Please find the billing details below.`;      }
     }
 
    function generateReceiptID() {
@@ -309,7 +366,7 @@
       document.querySelectorAll(".cost").forEach(cell => {
         total += parseFloat(cell.textContent.replace("₹", "")) || 0;
       });
-      document.getElementById("total").textContent = `Total: ₹${total.toFixed(2)}`;
+      document.getElementById("total").textContent = `Total(মোট): ₹${total.toFixed(2)}`;
     }
 
     function addRow(item = "", qty = "", unit = "", price = "") {
@@ -427,6 +484,20 @@
     }
 
     checkLogin();
+
+
+    fetch("../images/stamp.enc")
+    .then(response => response.text())
+    .then(base64 => {
+      // If your image is PNG, change image/jpeg → image/png
+      const img = new Image();
+      img.src = "data:image/jpeg;base64," + base64.trim(); 
+      document.getElementById("image-container").appendChild(img);
+    })
+    .catch(error => {
+      console.error("Failed to load Base64 image:", error);
+    });
+
   </script>
 </body>
 </html>

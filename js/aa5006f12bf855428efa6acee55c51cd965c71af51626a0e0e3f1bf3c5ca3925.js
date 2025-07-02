@@ -111,7 +111,7 @@ export const imagePaths =  [
       'grill/grill61.jpg','grill/grill62.jpg','grill/grill63.jpg','grill/grill64.jpg','grill/grill65.jpg',
       'grill/grill66.jpg','grill/grill67.jpg','grill/grill68.jpg','grill/grill69.jpg','grill/grill70.jpg',
       
-      'grill/grill71.jpg','grill/grill72.jpg','grill/grill73.jpg'
+      'grill/grill71.jpg','grill/grill72.jpg','grill/grill73.jpg','grill/grill74.jpg','grill/grill75.jpg'
     ];
 
 

@@ -681,6 +681,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+
 function wordlink(field) {
   const imageMap = {
     grill: "grill/grill11.jpg",
@@ -690,7 +691,7 @@ function wordlink(field) {
     boundary: "grill/grill1.jpg",
     ralling: "grill/grill71.jpg",
     shade: "grill/shade.jpg",
-    collapsible: "grill/collapsible.jpg",
+    collapsible: "grill/grill75.jpg",
     shutter: "grill/shutter.jpg",
     steel_stair: "grill/grill16.jpg",
     iron_stair: "grill/grill4.jpg",

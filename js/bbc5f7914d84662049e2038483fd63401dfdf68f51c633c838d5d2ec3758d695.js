@@ -20,7 +20,7 @@ loadPassword();
 // Login logic runs *after* password is loaded
 function initLogin() {
   if (getCookie("adminAuth") === PASS_HASH) {
-    window.location.href = "./95c567f46fe859ccf2144c3b436218d21f9ff3fd6eca234404076d33ac1aad61.html";
+    window.location.href = "./Admin/95c567f46fe859ccf2144c3b436218d21f9ff3fd6eca234404076d33ac1aad61.html";
   }
 
   const form = document.getElementById("login-form");
