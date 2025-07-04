@@ -1,48 +1,145 @@
-<!-- login.html -->
+<!-- admin.html -->
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Login - Asha Grill House</title>
-  <link rel="stylesheet" href="../style/6a4ece4caa3da173d69174126b2bc45c466f632f5c487f27685203eef0d61f1a.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel | Asha Grill House</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style/admin.css" />
 </head>
 <body>
-  <div class="login-container">
-    <h1>Admin Login</h1>
-    <form id="login-form">
-      <label for="username">Username</label>
-      <input type="text" id="username" value="Biggyan Das" readonly />
 
-      <label for="password">Password</label>
-      <input type="password" id="password" placeholder="Enter secure password" required />
+  
 
-      <div class="captcha-box">
-        <input type="checkbox" id="captcha-check" required/>
-        <label for="captcha-check">
-          <span>I'm not a robot</span>
-          <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="captcha" />
-        </label>
+
+  <div class="container">
+    <div class="topbar">
+  <div id="current-time">🕒 Loading time...</div>
+</div>
+    <div class="profile">
+      <img src="../images/owner.jpg" alt="Admin Photo">
+      <div class="profile-info">
+        <h1>Biggyan Das</h1>
+        <p>Shop: <strong>Asha Grill House</strong></p>
+        <p id="session-duration">⏳ Page open for: 0 seconds</p>
+
+        <p>Welcome to your admin dashboard. Manage everything from one place.</p>
       </div>
+    </div>
 
-      <div id="error-message"></div>
-      <button type="submit">Login</button>
-    </form>
-    <div id="success-message"></div>
-  </div>
+    <div class="nav">
+      <a href="./order.html">📦 Orders</a>
+      <a href="./receipt.html">🧾 Receipts</a>
+      <a href="#">🛍️ Products</a>
+      <a href="#">📈 Analytics</a>
+      <a href="#">⚙️ Settings</a>
+      <a href="#">➕ Add Module</a>
+    </div>
 
-  <div id="popup" class="popup-container">
-    <div class="popup-content">
-      <span id="close-btn">&times;</span>
-      <div id="question-content"></div>
-      <input type="text" id="answer-input" placeholder="Your answer" />
-      <button id="submit-answer">Submit</button>
-      <div id="feedback"></div>
+    <div class="loding">
+      <img src="../images/loding.gif">
+    </div>
+    <div class="logout">
+      <button onclick="logout()">Logout</button>
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/js-sha256@0.9.0/build/sha256.min.js"></script>
-  <script src="../js/91ecd3260cd0174583da10a00e654f7c2157476084a672c0e51974be7b41de50.js"></script>
-  <script src="../js/bbc5f7914d84662049e2038483fd63401dfdf68f51c633c838d5d2ec3758d695.js"></script>
+
+  <!-- <script>
+    function getCookie(name) 
+    {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    async function checkLogin() 
+    {
+      try {
+        const res = await fetch('../js/1a68919261999e9d6edf19ec43ef300354e8f8ed32f99cb87192828bfaa8ce9f.json');
+        const data = await res.json();
+        const PASS_HASH = data.password;
+
+        if (getCookie("adminAuth") !== PASS_HASH) {
+          window.location.href = "index.html";
+        }
+      } catch (err) {
+        console.error('Error:', err);
+        window.location.href = "index.html";
+      }
+    }
+
+    function logout() 
+    {
+      document.cookie = "adminAuth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      window.location.href = "index.html";
+    }
+
+    checkLogin();
+  </script> -->
+
+  <script>
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
+
+  async function checkLogin() {
+    try {
+      const res = await fetch('../js/password_hash.json');
+      const data = await res.json();
+      const PASS_HASH = data.password;
+
+      if (getCookie("adminAuth") !== PASS_HASH) {
+        window.location.href = "login.html";
+      }
+    } catch (err) {
+      console.error('Error:', err);
+      window.location.href = "login.html";
+    }
+  }
+
+  function logout() {
+    document.cookie = "adminAuth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    window.location.href = "index.html";
+  }
+
+function updateClock() {
+  const now = new Date();
+
+  const day = now.getDate();
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  const month = monthNames[now.getMonth()];
+  const year = now.getFullYear().toString().slice(-2); // Get last 2 digits of year
+
+  let hours = now.getHours();
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  const ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12 || 12;
+
+  const formattedTime = `${day} ${month}, ${year}, ${hours}:${minutes}${ampm}`;
+  document.getElementById("current-time").textContent = `🕒 ${formattedTime}`;
+}
+
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // Session timer
+  let seconds = 0;
+  setInterval(() => {
+    seconds++;
+    document.getElementById("session-duration").textContent =
+      `⏳ Page open for: ${seconds} second${seconds === 1 ? "" : "s"}`;
+  }, 1000);
+
+  checkLogin();
+</script>
+
 </body>
 </html>

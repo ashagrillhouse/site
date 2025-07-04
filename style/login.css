@@ -1,8 +1,22 @@
-body {
+/* body {
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(135deg, #e8f0f7, #d2e3fc);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #52c155, #8218c5, #0ea9eb, #ebf8e1);
+  background-size: 400% 400%;
+  animation: gradientMove 15s ease infinite;
+  color: var(--text);
+  margin: 0;
+  padding: 10;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -70,11 +84,13 @@ input[readonly] {
 .captcha-box input {
   width: 16px;
   height: 16px;
+  margin-top: 16px;
 }
 
 .captcha-box img {
   width: 16px;
   height: 16px;
+  margin-left: 5px;
 }
 
 button {
@@ -199,4 +215,12 @@ button:hover {
     align-items: center;
     gap: 6px;
   }
+}
+
+.forgot_area{
+margin-top:25px;
+}
+
+.forgot_area a{
+  text-decoration: none;
 }

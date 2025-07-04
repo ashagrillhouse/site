@@ -3,7 +3,7 @@ var PASS_HASH = "";
 // Load password from JSON file
 async function loadPassword() {
   try {
-    const response = await fetch('../js/1a68919261999e9d6edf19ec43ef300354e8f8ed32f99cb87192828bfaa8ce9f.json');
+    const response = await fetch('../js/password_hash.json');
     const data = await response.json();
     PASS_HASH = data.password;
     console.log("PASS_HASH loaded:", PASS_HASH);
@@ -20,7 +20,7 @@ loadPassword();
 // Login logic runs *after* password is loaded
 function initLogin() {
   if (getCookie("adminAuth") === PASS_HASH) {
-    window.location.href = "./Admin/95c567f46fe859ccf2144c3b436218d21f9ff3fd6eca234404076d33ac1aad61.html";
+    window.location.href = "./Admin/admin.html";
   }
 
   const form = document.getElementById("login-form");
@@ -44,7 +44,7 @@ function initLogin() {
       const expiryDate = new Date();
       expiryDate.setDate(expiryDate.getDate() + 7);
       document.cookie = `adminAuth=${hash}; expires=${expiryDate.toUTCString()}; path=/`;
-      window.location.href = "./95c567f46fe859ccf2144c3b436218d21f9ff3fd6eca234404076d33ac1aad61.html";
+      window.location.href = "./admin.html";
     } else {
       errorMessage.textContent = "❌ Incorrect password.";
     }

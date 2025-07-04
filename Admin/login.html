@@ -1,0 +1,51 @@
+<!-- login.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Asha Grill House</title>
+  <link rel="stylesheet" href="../style/login.css" />
+</head>
+<body>
+  <div class="login-container">
+    <h1>Admin Login</h1>
+    <form id="login-form">
+      <label for="username">Username *</label>
+      <input type="text" id="username" value="Biggyan Das" readonly />
+
+      <label for="password">Password *</label>
+      <input type="password" id="password" placeholder="Enter secure password" required />
+
+      <div class="captcha-box">
+        <input type="checkbox" id="captcha-check" required/>
+        <label for="captcha-check">
+          <span>I'm not a robot</span>
+          <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="captcha" />
+        </label>
+      </div>
+
+      <div id="error-message"></div>
+      <button type="submit">Login</button>
+        <div class="forgot_area">
+            <a href="./forgot_password.html">Forgot Password</a>, <a href=../index.html>Return Home</a>
+        </div>
+        </form>
+    <div id="success-message"></div>
+  </div>
+
+  <div id="popup" class="popup-container">
+    <div class="popup-content">
+      <span id="close-btn">&times;</span>
+      <div id="question-content"></div>
+      <input type="text" id="answer-input" placeholder="Your answer" />
+      <button id="submit-answer">Submit</button>
+      <div id="feedback"></div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/js-sha256@0.9.0/build/sha256.min.js"></script>
+  <script src="../js/captcha_questions.js"></script>
+  <script src="../js/login.js"></script>
+</body>
+</html>

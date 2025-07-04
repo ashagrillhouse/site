@@ -1,6 +1,6 @@
 //gallery.js
 
-import { imagePaths,specialBgImages, defaultBg} from './aa5006f12bf855428efa6acee55c51cd965c71af51626a0e0e3f1bf3c5ca3925.js';
+import { imagePaths,specialBgImages, defaultBg} from './mymodule.js';
 
 
 
