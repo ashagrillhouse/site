@@ -201,3 +201,5 @@ function formatTime(sec) {
   const s = Math.floor(sec % 60) || 0;
   return `${m}:${s < 10 ? '0' : ''}${s}`;
 }
+
+alert('Present');
