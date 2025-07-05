@@ -18,6 +18,18 @@ body {
   justify-content: center;
 }
 
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url('your-image.jpg'); /* Replace with your image file name */
+  background-size: cover;
+  background-position: center;
+  opacity: 0.15; /* Adjust opacity as you wish (0.1 to 0.3 recommended) */
+  z-index: -1;
+}
+
+
 #app {
   width: 100%;
   max-width: 400px;
