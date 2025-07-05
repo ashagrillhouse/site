@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CSV Music Player</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <h1>Asha Grill House Player</h1>
+    <div id="main-ui">
+      <div id="song-info">No song selected<br><span class="album-text"></span></div>
+      <audio id="audio"></audio>
+      <div id="audio-controls">
+        <button id="prev">⏮️</button>
+        <button id="play-pause">▶️</button>
+        <button id="next">⏭️</button>
+      </div>
+      <div id="progress-container">
+        <span id="current-time">0:00</span>
+        <input type="range" id="seek-slider" value="0" min="0" step="0.01">
+        <span id="duration">0:00</span>
+      </div>
+      <div id="volume-container">
+        <span id="volume-icon">🔊</span>
+        <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
+      </div>
+      <div id="player-fav">
+        <button id="fav-btn">♡</button>
+      </div>
+      <div id="controls-bottom">
+        <button id="search-btn">🔍 Search</button>
+        <button id="play-favorites">❤️ Play Favorites</button>
+      </div>
+    </div>
+
+    <div id="search-view" class="hidden">
+      <input id="search-input" type="text" placeholder="Search songs...">
+      <button id="close-search">Close</button>
+      <div id="search-results"></div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
