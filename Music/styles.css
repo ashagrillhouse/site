@@ -85,7 +85,7 @@ h1 {
 #audio-controls button {
   background: none;
   border: none;
-  font-size: 1.5em;
+  font-size: 2.5em;
   margin: 0 15px;
   cursor: pointer;
   color: #4a90e2;
@@ -204,4 +204,11 @@ h1 {
   border: none;
   border-radius: 15px;
   cursor: pointer;
+}
+.go_back{
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    cursor: pointer;
 }

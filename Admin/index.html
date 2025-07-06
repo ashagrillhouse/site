@@ -94,17 +94,17 @@
       const PASS_HASH = data.password;
 
       if (getCookie("adminAuth") !== PASS_HASH) {
-        window.location.href = "login.html";
+        window.location.replace('login.html');
       }
     } catch (err) {
       console.error('Error:', err);
-      window.location.href = "login.html";
+      window.location.replace('login.html');
     }
   }
 
   function logout() {
     document.cookie = "adminAuth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    window.location.href = "index.html";
+   window.location.replace('index.html');
   }
 
 function updateClock() {

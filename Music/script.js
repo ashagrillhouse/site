@@ -202,3 +202,7 @@ function formatTime(sec) {
   return `${m}:${s < 10 ? '0' : ''}${s}`;
 }
 
+// script.js
+document.getElementById('go_back').addEventListener('click', () => {
+  window.location.replace('../index.html');
+});
