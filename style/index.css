@@ -1091,7 +1091,7 @@ body {
 
 @media (max-width: 600px) {
   .custom-header span {
-    font-size: 1.2rem; /* Shrink text on mobile */
+    font-size: 1.8rem; /* Shrink text on mobile */
   }
 
   .header-sketch {
