@@ -994,7 +994,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 15px;
+  gap: 30px;
   flex-wrap: wrap; /* allows wrapping on mobile */
   padding: 20px;
 }
