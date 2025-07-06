@@ -194,14 +194,51 @@ body {
   text-align: center;
 }
 
-.owner-card {
+/* .owner-card {
   background-color: white;
   border-radius: 10px;
   padding: 40px;
   max-width: 600px;
   margin: 0 auto;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+} */
+
+
+
+.owner-card {
+  position: relative;
+  background: #fff; /* fallback color */
+  padding: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  z-index: 1;
 }
+
+.owner-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('../images/leaf_sketch.jpg'); /* Your small image */
+  background-repeat: no-repeat;
+  background-position: center 80%;
+  background-size: 300px 300px; /* Keep original size */
+  opacity: 0.18; /* Low opacity */
+  z-index: 0;
+}
+
+.owner-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+
+
+
+
+
+
+
+
 
 .owner-img {
   width: 180px;
@@ -386,20 +423,48 @@ body {
   max-width: 800px;
   margin: 40px auto;
   padding: 0 20px;
-
-  /* full-width justification, but don’t justify the last line */
   text-align: justify;
-  /* Remove text-align-last: justify; so the last line stays left-aligned */
-
-  /* allow hyphenation to avoid crazy gaps */
   hyphens: auto;
-  
-  /* restore normal word-spacing */
   word-spacing: normal;
-
   line-height: 1.6;
   font-size: 1.1rem;
 }
+
+.about {
+  position: relative;
+  background: #fff; /* fallback color */
+  padding: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.about::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('../images/sunflower_sketch.jpg'); /* Your small image */
+  background-repeat: no-repeat;
+  background-position: center 80%;
+  background-size: auto; /* Keep original size */
+  opacity: 0.15; /* Low opacity */
+  z-index: 0;
+}
+
+.about > * {
+  position: relative;
+  z-index: 1;
+}
+
+
+
+
+
+
+
+
+
+
 
 /* tighter paragraph spacing */
 .about p {
@@ -751,6 +816,7 @@ body {
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
     max-width: 800px;
     margin: 20px auto;
+    margin-top: 86px;
   }
 
   .thankyou-image {
@@ -921,3 +987,44 @@ body {
   .sitemap_admin a:hover {
     text-decoration: underline;
   }
+
+
+  
+  .sketch-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px; /* Space between elements */
+}
+
+  .hammer2_sketch,.gander_sketch {
+    width: 14.3rem;
+    height: auto;
+  }
+
+  #about_trans_btn {
+    flex-shrink: 0;
+  }
+
+
+
+.sketch_image_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  gap: 10px; /* optional space between images */
+  flex-wrap: wrap; /* allows wrapping on very small screens */
+}
+
+.sketch_image_container img {
+  max-width: 30%;
+  height: auto;
+  object-fit: contain;
+}
+
+@media (min-width: 768px) {
+  .sketch_image_container {
+    gap: 20px;
+  }
+}
