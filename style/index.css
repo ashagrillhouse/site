@@ -1053,3 +1053,30 @@ body {
     gap: 20px;
   }
 }
+
+
+.custom-header {
+  background: linear-gradient(to right, #ff9966, #ff5e62);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* border-radius: 0 0 10px 10px; */
+  position: relative;
+  z-index: 10000;
+}
+
+.header-sketch {
+  height: 40px;
+  width: auto;
+  opacity: 0.5;
+  margin-left: auto;
+  float:right;
+}
+
+
+@media (max-width: 600px) {
+  .header-sketch {
+    height: 30px;
+  }
+}
