@@ -1,11 +1,11 @@
 User-agent: *
 Allow: /
 
-# Prevent indexing of backup or script folders
-Disallow: /js/
-Disallow: /images/
-Disallow: /partners/
-Allow: /grill/
 Disallow: /Admin/
+Disallow: /upload/
+Disallow: /dos.html
+Disallow: /evadrop.asm
+Disallow: /math_imgs/
+Disallow: /partners/
 
 Sitemap: https://ashagrillhouse.github.io/site/sitemap.xml

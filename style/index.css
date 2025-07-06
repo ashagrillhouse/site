@@ -1084,9 +1084,9 @@ body {
 }
 
 .header-sketch {
-  height: 40px;
+  height: 60px;
   width: auto;
-  opacity: 0.5;
+  opacity: 1;
 }
 
 @media (max-width: 600px) {
