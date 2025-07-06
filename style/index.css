@@ -1061,22 +1061,47 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* border-radius: 0 0 10px 10px; */
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+  padding: 10px 15px;
   position: relative;
-  z-index: 10000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.custom-header a {
+  font-size: 1.8rem;
+  color: white;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.custom-header span {
+  font-weight: bold;
+  font-size: 1.6rem;
+  flex: 1;
+  text-align: center;
 }
 
 .header-sketch {
   height: 40px;
   width: auto;
   opacity: 0.5;
-  margin-left: auto;
-  float:right;
 }
-
 
 @media (max-width: 600px) {
+  .custom-header span {
+    font-size: 1.2rem; /* Shrink text on mobile */
+  }
+
   .header-sketch {
-    height: 30px;
+    height: 30px; /* Smaller sketch on mobile */
   }
 }
+
+@media (max-width: 400px) {
+  .header-sketch {
+    display: none; /* Hide sketch if very small screen */
+  }
+}
+
