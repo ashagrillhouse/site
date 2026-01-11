@@ -177,3 +177,36 @@ function updateRating() {
 }
 
 updateRating();
+
+
+
+
+
+const ownerLangs = ["eng", "ben", "hin"];
+let ownerIndex = 0;
+
+const ownerBtn = document.getElementById("owner_trans_btn");
+const ownerSections = {
+    eng: document.querySelector(".owner_eng"),
+    ben: document.querySelector(".owner_ben"),
+    hin: document.querySelector(".owner_hin")
+};
+
+function updateOwnerLang() {
+    Object.values(ownerSections).forEach(sec => sec.classList.remove("owner_active"));
+
+    const lang = ownerLangs[ownerIndex];
+    ownerSections[lang].classList.add("owner_active");
+
+    if (lang === "eng") ownerBtn.textContent = "বাংলা দেখুন";
+    if (lang === "ben") ownerBtn.textContent = "हिन्दी देखें";
+    if (lang === "hin") ownerBtn.textContent = "View English";
+}
+
+ownerBtn.addEventListener("click", () => {
+    ownerIndex = (ownerIndex + 1) % ownerLangs.length;
+    updateOwnerLang();
+});
+
+/* Default language */
+updateOwnerLang();

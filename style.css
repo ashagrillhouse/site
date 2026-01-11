@@ -708,7 +708,7 @@ cursor: pointer;
 .partners-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 30px;
+    gap: 10px;
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 20px;
@@ -717,14 +717,14 @@ cursor: pointer;
 /* Logo Card (fixed size box) */
 .partner-logo {
     width: 100%;
-    height: 90px;                 /* 🔥 FIXED HEIGHT */
+    height: 90px;               /* 🔥 FIXED HEIGHT */
     object-fit: contain;          /* 🔥 KEEP IMAGE RATIO */
     padding: 12px;
-    background: #ffffff;
-    border-radius: 10px;
+    /*background: #ffffff;
+    border-radius: 10px;*/
     filter: grayscale(100%);
     opacity: 0.75;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+    /*box-shadow: 0 6px 14px rgba(0,0,0,0.08);*/
     transition: all 0.35s ease;
 }
 
@@ -748,3 +748,97 @@ cursor: pointer;
 
 
 
+/* Owner Section */
+.owner-section {
+    padding: 80px 20px;
+    background: #ffffff;
+    text-align: center;
+}
+
+/* Card */
+.owner-card {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #f9f9f9;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    padding: 40px 30px 50px;
+    position: relative;
+}
+
+/* Owner Image */
+.owner-img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 6px solid #ff6600;
+    margin-top: -110px;
+    background: #fff;
+}
+
+/* Name & Title */
+.owner-name {
+    font-size: 1.8rem;
+    margin-top: 20px;
+    color: #333;
+}
+
+.owner-title {
+    color: #ff6600;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* Description */
+.owner_line {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #555;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+/* Language Blocks */
+.owner_eng,
+.owner_ben,
+.owner_hin {
+    display: none;
+}
+
+/* Active language */
+.owner_active {
+    display: block;
+}
+
+/* Translate Button */
+#owner_trans_btn {
+margin-top: 35px !important;
+background: #ff6600;
+color: #fff;
+border: none;
+cursor: pointer;
+transition: 0.3s ease;
+}
+
+#owner_trans_btn:hover {
+background: #e05500;
+transform: scale(1.05);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .owner-card {
+        padding: 30px 20px 40px;
+    }
+
+    .owner-img {
+        width: 140px;
+        height: 140px;
+        margin-top: -90px;
+    }
+
+    .owner-name {
+        font-size: 1.5rem;
+    }
+}
