@@ -1,25 +1,24 @@
-$(document).ready(function(){
+import { imagePaths } from 'js/mymodule.js';
 
-    // Login button click demo
-    $('#loginBtn').click(function(){
-        alert('Login functionality will be implemented soon!');
-    });
+const carouselInner = document.getElementById('carouselInner');
 
-    // Carousel functionality
-    let currentIndex = 0;
-    const carouselImages = $('.carousel-inner img');
-    const totalImages = carouselImages.length;
+// Load first few images for slider (performance)
+const sliderImages = imagePaths.slice(0, 6);
 
-    setInterval(function(){
-        currentIndex++;
-        if(currentIndex >= totalImages){
-            currentIndex = 0;
-        }
-        const translateX = -currentIndex * 100 + '%';
-        $('.carousel-inner').css('transform', 'translateX(' + translateX + ')');
-    }, 3000); // change image every 3 seconds
-
+sliderImages.forEach(src => {
+    const img = document.createElement('img');
+    img.src = src;
+    img.loading = "lazy";
+    carouselInner.appendChild(img);
 });
+
+let index = 0;
+const total = sliderImages.length;
+
+setInterval(() => {
+    index = (index + 1) % total;
+    carouselInner.style.transform = `translateX(-${index * 100}%)`;
+}, 3000);
 
 
 
@@ -210,3 +209,11 @@ ownerBtn.addEventListener("click", () => {
 
 /* Default language */
 updateOwnerLang();
+
+
+
+
+
+function printPage() {
+    window.print();
+}

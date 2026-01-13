@@ -43,7 +43,7 @@
             </div-->
             <div class="header-left">
                 <div id="weather" class="weather-box">Loading weather...</div>
-                <button id="login-btn" class="login-btn">Login</button>
+                <button id="login-btn" class="login-btn" onclick="window.location='Admin/index.html'">Login</button>
             </div>
 
 
@@ -57,6 +57,13 @@
             <div class='icon_banner'>
                 <img src="images/icon.png">
             </div>
+
+            <div class="header_bottom_right">
+              <button class="hdr-btn like" title="Like">👍</button>
+              <button class="hdr-btn share" title="Share">🔗</button>
+              <button class="hdr-btn print" title="Print" onclick="printPage()">🖨️</button>
+            </div>
+
 
         </div>
     </header>
@@ -167,14 +174,31 @@
         <h2>Our Work</h2>
         <div class="carousel">
             <div class="carousel-inner">
-                <img src="images/project1.jpg" alt="Project 1">
-                <img src="images/project2.jpg" alt="Project 2">
-                <img src="images/project3.jpg" alt="Project 3">
-                <img src="images/project4.jpg" alt="Project 4">
+                <img src="grill/grill1.jpg" alt="Project 1">
+                <img src="grill/grill2.jpg" alt="Project 2">
+                <img src="grill/grill3.jpg" alt="Project 3">
+                <img src="grill/grill4.jpg" alt="Project 4">
             </div>
         </div>
         <button class="view-gallery-btn" onclick="window.location.href='gallery.html'">View Full Gallery</button>
     </section>
+
+
+    <!-- Gallery Section -->
+    <section class="gallery">
+      <h2>Our Work</h2>
+
+      <div class="carousel">
+        <div class="carousel-inner" id="carouselInner">
+          <!-- Images injected by JS -->
+        </div>
+      </div>
+
+      <button class="view-gallery-btn" onclick="location.href='gallery.html'">
+        View Full Gallery
+      </button>
+    </section>
+
 
 
 
@@ -400,11 +424,83 @@
       <p>&copy; <script>document.write(new Date().getFullYear());</script> Asha Grill House. All Rights Reserved.</p>
     </div>
 
-
-
   </footer>
 
 
-    <script src="script.js"></script>
+
+  <!-- Notice Popup -->
+    <div id="noticeOverlay" class="notice-overlay">
+      <div class="notice-box">
+        <button class="notice-close" onclick="closeNotice()">×</button>
+
+        <h2 id="noticeTitle">Important Notice</h2>
+        <p id="noticeMessage">
+          We have a special update for our valued customers.
+        </p>
+
+        <div class="notice-footer">
+          <span id="noticeTime"></span>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <script type="module" src="script.js"></script>
+
+    <script>
+        // Show notice between this time range
+        const noticeStart = new Date("2026-01-13T00:03:00"); // START
+        const noticeEnd   = new Date("2026-01-13T00:04:00"); // END
+
+        // Auto close after (milliseconds)
+        const autoCloseAfter = 2 * 60 * 1000; // 2 minutes
+
+        // Notice content
+        const noticeData = {
+          title: "🎉 Special Offer!",
+          message: `
+            On the occasion of the New Year,
+            <strong>Asha Grill House</strong> is offering
+            special discounts on Iron Gates & Grill Work.
+            <br><br>
+            📞 Contact us today to know more!
+          `
+        };
+
+
+        function showNotice() {
+          document.getElementById("noticeTitle").innerHTML = noticeData.title;
+          document.getElementById("noticeMessage").innerHTML = noticeData.message;
+          document.getElementById("noticeTime").textContent =
+            "Valid till: " + noticeEnd.toLocaleString();
+
+          document.getElementById("noticeOverlay").style.display = "flex";
+
+          // Auto close
+          setTimeout(closeNotice, autoCloseAfter);
+        }
+
+        function closeNotice() {
+          document.getElementById("noticeOverlay").style.display = "none";
+        }
+
+        // Check time
+        // Check time continuously (every 1 second)
+        const noticeChecker = setInterval(() => {
+          const now = new Date();
+
+          if (now >= noticeStart && now <= noticeEnd) {
+            showNotice();
+            clearInterval(noticeChecker); // stop checking once shown
+          }
+        }, 1000);
+
+</script>
+
+
+
 </body>
 </html>
