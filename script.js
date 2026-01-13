@@ -1,4 +1,4 @@
-import { imagePaths } from './js/mymodule.js';
+import { imagePaths } from '././js/mymodule.js';
 
 const carouselInner = document.getElementById('carouselInner');
 
