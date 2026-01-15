@@ -59,9 +59,8 @@
             </div>
 
             <div class="header_bottom_right">
-              <button class="hdr-btn like" title="Like">👍</button>
-              <button class="hdr-btn share" title="Share">🔗</button>
-              <button class="hdr-btn print" title="Print" onclick="printPage()">🖨️</button>
+              <button class="hdr-btn like"  title="Like"  id='like_page'  >👍</button>
+              <button class="hdr-btn print" title="Print" id='print_page' >🖨️</button>
             </div>
 
 
@@ -74,7 +73,7 @@
 
   <!-- English Version -->
   <div class="about about_eng fade-in">
-    <strong>Welcome to Asha Grill House</strong><br><br>
+    <strong>Welcome to Asha Grill House</strong><br>
     We proudly serve Muragachha, Sadhanpara, Dharmada, Dhumuliya, Gaccha, Bethuya, Kamarhati, and nearby villages in Nadia, as well as distant areas like Krishnanagar, Berhampore, Palashi, and beyond. Since 2015, we have been recognized for reliable, high-quality iron and steel fabrication with honesty and craftsmanship.<br><br>
 
     Our services include:
@@ -101,7 +100,7 @@
 
   <!-- Bengali Version -->
   <div class="about about_ben fade-in">
-    <strong>আশা গ্রিল হাউসে আপনাকে স্বাগতম</strong><br><br>
+    <strong>আশা গ্রিল হাউসে আপনাকে স্বাগতম</strong><br>
     আমরা মুড়াগাছা, সাধনপাড়া, ধর্মদা, ধুমুলিয়া, গাছা, বেথুয়া, কামারহাটি এবং আশেপাশের এলাকায়, এবং দূরবর্তী এলাকা যেমন কৃষ্ণনগর, বহরমপুর, পলাশী ইত্যাদিতে লোহার উন্নতমানের কাজ প্রদান করি। ২০১৫ সাল থেকে আমরা দক্ষতা ও সততার সঙ্গে বিশ্বস্ত এবং উন্নত মানের লোহার কাজ করে আসছি।<br><br>
 
     আমাদের সেবার মধ্যে রয়েছে:
@@ -128,7 +127,7 @@
 
   <!-- Hindi Version -->
   <div class="about about_hin fade-in">
-    <strong>आशा ग्रिल हाउस में आपका स्वागत है</strong><br><br>
+    <strong>आशा ग्रिल हाउस में आपका स्वागत है</strong><br>
     हम मुरगाछा, साधनपाड़ा, धर्मदा, धुमुलिया, गाछा, बेतुआ, कमारहाटी और आसपास के गाँवों में लोहे का उच्च गुणवत्ता वाला काम प्रदान करते हैं, साथ ही दूरस्थ क्षेत्रों जैसे कृष्णनगर, बहारमपुर, पलाशी में भी। 2015 से हम ईमानदारी और कुशलता के साथ भरोसेमंद लोहे का निर्माण कर रहे हैं।<br><br>
 
     हमारी सेवाओं में शामिल हैं:
@@ -153,10 +152,10 @@
     आशा ग्रिल हाउस केवल लोहे के उत्पाद नहीं बनाता—हम भरोसा बनाते हैं। समय पर डिलीवरी, उचित मूल्य और ग्राहक संतुष्टि हमारे प्राथमिक उद्देश्य हैं।
   </div>
 
-  <!-- Language Toggle Button -->
+<!-- Language Toggle Button
   <button id="about_trans_btn" class="language-toggle-btn">
-    Switch Language
-  </button>
+    বাংলা দেখুন
+  </button>-->
 
   <!-- Popup Modal -->
   <div id="imageModal" style="display:none;">
@@ -226,13 +225,13 @@
         15 साल से ज़्यादा लोहे के काम का अनुभव लेकर विज्ञान दास ने “आशा ग्रिल हाउस” की शुरुआत की, ताकि सभी को अच्छा और भरोसेमंद ग्रिल का काम मिल सके। वह हमेशा खुद अपने हाथों से काम करना पसंद करते हैं। उनका अनुभव, मेहनत और ईमानदारी आज भी इस व्यवसाय की तरक्की में अहम भूमिका निभा रहे हैं।
       </div>
 
-
+      <!--
       <button
         id="owner_trans_btn"
         class="w3-button w3-deep-orange w3-round-medium w3-padding-large w3-large"
         style="display:block; margin:80px auto 0;">
+      </button>-->
 
-      </button>
     </div>
 
 
@@ -292,31 +291,31 @@
             </tr>
             <tr>
                 <td>Address</td>
-                <td>Muragachha, Nadia, Post Office opposite</td>
+                <td>📍 Muragachha, Nadia, Post Office opposite</td>
             </tr>
             <tr>
                 <td>Working Hours</td>
-                <td>10:00 am - 9:00 pm (Every day)</td>
+                <td>⏰ 10:00 am - 9:00 pm (Every day)</td>
             </tr>
             <tr>
                 <td>Payment Methods</td>
-                <td>Cash, Check, UPI, Netbanking</td>
+                <td>Cash, Check, UPI, Netbanking<img class="payment_app_img" src="images/payment_app.jpg"></td>
             </tr>
             <tr>
                 <td>Phone</td>
-                <td><a href="tel:+919932134803">+91 9932134803</a></td>
+                <td><a href="tel:+919932134803"><i class="fas fa-phone"></i> +91 9932134803 (Click to call)</a></td>
             </tr>
             <tr>
                 <td>WhatsApp</td>
-                <td><a href="https://wa.me/919932134803?text=Hello%20Asha%20Grill%20House!">+91 9932134803</a></td>
+                <td><a href="https://wa.me/919932134803?text=Hello%20Asha%20Grill%20House!"><i class="fab fa-whatsapp"></i> +91 9932134803 (Click to chat)</a></td>
             </tr>
             <tr>
                 <td>Experience</td>
-                <td>8+ years serving the community</td>
+                <td>🛠️ <span id='experience'>8+<span> years serving the community</td>
             </tr>
             <tr>
                 <td>Location</td>
-                <td><a href="https://www.google.com/maps?q=23.530668,88.404787" target="_blank">View on Google Maps</a></td>
+                <td><a href="https://www.google.com/maps?q=23.530668,88.404787" target="_blank"><i class="fas fa-map"></i>   View on Google Maps</a></td>
             </tr>
         </table>
 
@@ -332,15 +331,7 @@
 
 
 
-<!-- THANK YOU + RATING SECTION -->
-<section class="thank-rating-section">
 
-  <!-- Language Switch -->
-  <div class="lang-switch">
-    <button onclick="setLang('en')">English</button>
-    <button onclick="setLang('hi')">हिन्दी</button>
-    <button onclick="setLang('bn')">বাংলা</button>
-  </div>
 
   <!-- THANK YOU -->
   <div class="thankyou-container">
@@ -349,13 +340,21 @@
     </div>
 
     <div class="thankyou-text" id="thankyouText"></div>
+
+    <!-- Language Switch -->
+    <!--div class="lang-switch">
+      <button onclick="setLang('en')">English</button>
+      <button onclick="setLang('hi')">हिन्दी</button>
+      <button onclick="setLang('bn')">বাংলা</button>
+    </div-->
+
   </div>
 
 
 
 
-
-
+<!-- THANK YOU + RATING SECTION -->
+<section class="thank-rating-section">
 
   <!-- RATING -->
   <div class="rating-box">
@@ -364,12 +363,13 @@
     </div>
 
     <div class="stars" id="starContainer">
-      <input type="radio" name="rating" id="star1" value="1"><label for="star1">★</label>
-      <input type="radio" name="rating" id="star2" value="2"><label for="star2">★</label>
-      <input type="radio" name="rating" id="star3" value="3"><label for="star3">★</label>
-      <input type="radio" name="rating" id="star4" value="4"><label for="star4">★</label>
-      <input type="radio" name="rating" id="star5" value="5"><label for="star5">★</label>
+      <input type="radio" name="rating" id="star5" value="5"><label id="rate5" for="star5">★</label>
+      <input type="radio" name="rating" id="star4" value="4"><label id="rate4" for="star4">★</label>
+      <input type="radio" name="rating" id="star3" value="3"><label id="rate3" for="star3">★</label>
+      <input type="radio" name="rating" id="star2" value="2"><label id="rate2" for="star2">★</label>
+      <input type="radio" name="rating" id="star1" value="1"><label id="rate1" for="star1">★</label>
     </div>
+
 
     <div class="message" id="ratingMsg"></div>
   </div>
@@ -401,7 +401,7 @@
 
     <div class="contact-info">
       <p><i class="fas fa-phone"></i> +91 9932134803</p>
-      <p><i class="fas fa-envelope"></i> biggyandas1977@gmail.com</p>
+      <p><i class="fas fa-envelope"></i> ashagrillhouse@gmail.com</p>
       <p><i class="fas fa-clock"></i> Open daily 9am-10pm</p>
     </div>
 
@@ -430,6 +430,19 @@
         </div>
       </div>
     </div>
+
+
+
+
+
+
+
+
+    <div class="thank_you_msg">
+      <span id='thank_msg'>🌟 Thank you for like</span>
+      <span class="sparks"></span>
+    </div>
+
 
 
 
