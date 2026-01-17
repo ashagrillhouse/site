@@ -26,26 +26,6 @@ setInterval(() => {
 
 $(document).ready(function(){
 
-    // Show English by default
-    $('.about_eng').show();
-
-    // Language toggle button (cycles through EN -> BN -> HI)
-    $('#about_trans_btn').click(function(){
-        if($('.about_eng').is(':visible')){
-            $('.about_eng').hide();
-            $('.about_ben').show();
-            $('#about_trans_btn').html('हिन्दी देखें' );
-
-        } else if($('.about_ben').is(':visible')){
-            $('.about_ben').hide();
-            $('.about_hin').show();
-            $('#about_trans_btn').html('View English');
-        } else {
-            $('.about_hin').hide();
-            $('.about_eng').show();
-            $('#about_trans_btn').html('বাংলা দেখুন' );
-        }
-    });
 
     // Popup on service word click
     $('.service').click(function(){
@@ -118,80 +98,6 @@ fetchWeather();
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-/* THANK YOU TEXT (3 LANGUAGES) */
-const thankYouContent = {
-    en: `
-    <p><strong>We sincerely thank everyone who has supported us, worked with us, and helped us grow.</strong></p>
-    <p>Your trust, suggestions, and cooperation have made us better at what we do.</p>
-    <p>A special thanks to our valuable customers who gave us opportunities to improve.</p>
-    <p><strong>Thank you 🙏</strong></p>
-    `,
-    hi: `
-    <p><strong>हम उन सभी लोगों का दिल से धन्यवाद करते हैं जिन्होंने हमारा समर्थन किया।</strong></p>
-    <p>आपके विश्वास और सुझावों ने हमें और बेहतर बनने में मदद की।</p>
-    <p>हम अपने सभी ग्राहकों के आभारी हैं जिन्होंने हम पर भरोसा किया।</p>
-    <p><strong>धन्यवाद 🙏</strong></p>
-    `,
-    bn: `
-    <p><strong>যারা আমাদের সমর্থন করেছেন তাদের সবাইকে আন্তরিক ধন্যবাদ।</strong></p>
-    <p>আপনাদের বিশ্বাস ও পরামর্শ আমাদের আরও ভালো হতে সাহায্য করেছে।</p>
-    <p>আমাদের মূল্যবান গ্রাহকদের প্রতি বিশেষ কৃতজ্ঞতা।</p>
-    <p><strong>ধন্যবাদ 🙏</strong></p>
-    `
-};
-
-function setLang(lang) {
-    document.getElementById("thankyouText").innerHTML = thankYouContent[lang];
-}
-
-// Default language
-setLang("en");
-
-
-
-
-
-
-
-
-
-/* RATING SYSTEM */
-// let totalRatings = localStorage.getItem("totalRatings") || 0;
-// let ratingSum = localStorage.getItem("ratingSum") || 0;
-//
-// document.querySelectorAll('input[name="rating"]').forEach(star => {
-//     star.addEventListener("change", function () {
-//         totalRatings++;
-//         ratingSum = parseInt(ratingSum) + parseInt(this.value);
-//
-//         localStorage.setItem("totalRatings", totalRatings);
-//         localStorage.setItem("ratingSum", ratingSum);
-//
-//         updateRating();
-//         document.getElementById("ratingMsg").textContent = "Thank you for rating!";
-//     });
-// });
-//
-// function updateRating() {
-//     let avg = (ratingSum / totalRatings).toFixed(1);
-//     document.getElementById("avgRating").textContent =
-//     `Average Rating: ${avg} ⭐ (${totalRatings} users)`;
-// }
-//
-// updateRating();
-
-
 const starContainer = document.getElementById("starContainer");
 const ratingMsg = document.getElementById("ratingMsg");
 const avgRatingBox = document.getElementById("avgRating");
@@ -260,65 +166,6 @@ if (savedRating) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const ownerLangs = ["eng", "ben", "hin"];
-// let ownerIndex = 0;
-//
-// const ownerBtn = document.getElementById("owner_trans_btn");
-// const ownerSections = {
-//     eng: document.querySelector(".owner_eng"),
-//     ben: document.querySelector(".owner_ben"),
-//     hin: document.querySelector(".owner_hin")
-// };
-//
-// function updateOwnerLang() {
-//     Object.values(ownerSections).forEach(sec => sec.classList.remove("owner_active"));
-//
-//     const lang = ownerLangs[ownerIndex];
-//     ownerSections[lang].classList.add("owner_active");
-//
-//     if (lang === "eng") ownerBtn.textContent = "বাংলা দেখুন";
-//     if (lang === "ben") ownerBtn.textContent = "हिन्दी देखें";
-//     if (lang === "hin") ownerBtn.textContent = "View English";
-// }
-//
-// ownerBtn.addEventListener("click", () => {
-//     ownerIndex = (ownerIndex + 1) % ownerLangs.length;
-//     updateOwnerLang();
-// });
-//
-// /* Default language */
-// updateOwnerLang();
 
 
 
@@ -415,3 +262,70 @@ function updateVisitCount(startDate) {
 
 // Example: Calculate from "2024-01-01"
 updateVisitCount("2025-04-01");
+
+
+
+
+
+
+
+
+
+
+/* LANGUAGE CHNAGEES */
+const langSelect = document.getElementById("languageSelect");
+
+// Default language
+setLanguage("en");
+
+langSelect.addEventListener("change", function () {
+    const selectedLang = this.value;
+    setLanguage(selectedLang);
+});
+
+function setLanguage(language) {
+    console.log("Selected language:", language);
+
+
+    if(language === 'bn'){
+        $('.about_ben').show();
+        $('.about_hin').hide();
+        $('.about_eng').hide();
+
+        $('.owner_ben').show();
+        $('.owner_hin').hide();
+        $('.owner_eng').hide();
+
+        $('.thank_ben').show();
+        $('.thank_hin').hide();
+        $('.thank_eng').hide();
+    }
+    if(language === 'hi')
+    {
+        $('.about_ben').hide();
+        $('.about_hin').show();
+        $('.about_eng').hide();
+
+        $('.owner_ben').hide();
+        $('.owner_hin').show();
+        $('.owner_eng').hide();
+
+        $('.thank_ben').hide();
+        $('.thank_hin').show();
+        $('.thank_eng').hide();
+    }
+    if(language === 'en')
+    {
+         $('.about_ben').hide();
+         $('.about_hin').hide();
+         $('.about_eng').show();
+
+         $('.owner_ben').hide();
+         $('.owner_hin').hide();
+         $('.owner_eng').show();
+
+         $('.thank_ben').hide();
+         $('.thank_hin').hide();
+         $('.thank_eng').show();
+    }
+}

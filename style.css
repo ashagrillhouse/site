@@ -544,15 +544,16 @@ background-color: #e65c00;
 
 .contact-info {
     margin-bottom: 30px;
+    text-align:left;
 }
 
 .contact-info i {
     margin-right: 10px;
     color: #ff9800;
+
 }
 
 .copyright {
-    margin-top: 30px;
     padding-top: 0px;
     border-top: 1px solid rgba(255,255,255,0.1);
     color: rgba(255,255,255,0.7);
@@ -780,9 +781,17 @@ cursor: pointer;
     font-size: 14px;
     line-height: 1.5;
     color: #444;
+    text-align:left;
+
+   text-align: justify;
+    text-justify: inter-word;
+
+}
 
 
 
+.thank_eng, .thank_hin, .thank_ben{
+    display:none;
 }
 
 @media (max-width: 600px) {
@@ -792,10 +801,13 @@ cursor: pointer;
     }
     .thankyou-text {
         padding: 10px;
+        font-size: 13px;
+        line-height: 1.7;
     }
     .thankyou-image img {
         width: 110px;
     }
+
 }
 
 
@@ -1177,3 +1189,63 @@ transform: scale(1.05);
     }
 }
 
+
+
+.footer_table{
+width:80%;
+margin-left:auto;
+margin-right:auto;
+border-spacing:5px;
+}
+.footer_table td{
+   text-align:center;
+}
+
+
+.lang-wrapper {
+    display: inline-flex;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 2px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+
+.lang-wrapper select {
+    border: none;
+    background: transparent;
+    padding: 6px 34px 6px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+}
+
+/* Custom arrow */
+.lang-wrapper::after {
+    content: "▾";
+    position: relative;
+    right: 22px;
+    font-size: 13px;
+    color: #666;
+    pointer-events: none;
+}
+
+/* Hover & focus */
+.lang-wrapper:hover {
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+
+.lang-wrapper select:focus {
+    color: #000;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .lang-wrapper select {
+        font-size: 13px;
+        padding: 6px 30px 6px 12px;
+    }
+}
