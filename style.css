@@ -225,23 +225,56 @@ background-color: #e65c00;
 
 
 /* About Section */
-.about {
+/*.abmout {
     padding: 60px 20px;
     text-align: center;
     background-color: #f9f9f9;
 
 
-    text-align: justify;          /* fills the block nicely */
+    text-align: justify;
     text-justify: inter-word;
 
-    max-width: 1100px;            /* keeps text readable */
-    margin: 0 auto;               /* center section on page */
+    max-width: 1100px;
+    margin: 0 auto;
 
     line-height: 1.8;
     font-size: 16px;
     color: #333;
+}*/
 
+
+
+.about {
+    position: relative;
+    padding: 60px 20px;
+    background-color: #f9f9f9;
+
+    text-align: justify;
+    text-justify: inter-word;
+
+    max-width: 1100px;
+    margin: 0 auto;
+
+    line-height: 1.8;
+    font-size: 16px;
+    color: #333;
+    overflow: hidden;
 }
+
+.about::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background-image: url("images/sunflower_sketch.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 320px;
+
+    opacity: 0.2;          /* watermark lightness */
+    pointer-events: none;  /* text selectable */
+}
+
 
 .about strong {
     font-size: 20px;
@@ -748,7 +781,7 @@ cursor: pointer;
 }
 */
 
-.thankyou-container {
+/*.thankyou-container {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -775,7 +808,6 @@ cursor: pointer;
 }
 
 .thankyou-text {
-    /*flex: 3 1 300px;*/
     padding: 5px 10px;
     font-family: 'Segoe UI', sans-serif;
     font-size: 14px;
@@ -808,6 +840,74 @@ cursor: pointer;
         width: 110px;
     }
 
+}*/
+
+.thankyou-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+    max-width: 900px;
+    margin: 86px auto 20px;
+}
+
+/* IMAGE */
+.thankyou-image {
+    flex: 0 0 140px; /* fixed width */
+    text-align: center;
+}
+
+.thankyou-image img {
+    width: 140px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+}
+
+/* TEXT */
+.thankyou-text {
+    flex: 1;
+    padding: 5px 10px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #444;
+
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+/* LANGUAGE BLOCKS */
+.thank_eng,
+.thank_hin,
+.thank_ben {
+    display: none;
+}
+
+/* ---------------- MOBILE FIX ---------------- */
+@media (max-width: 600px) {
+    .thankyou-container {
+        flex-direction: column;
+        text-align: left;
+        padding: 14px;
+    }
+
+    .thankyou-image {
+        flex: none;
+    }
+
+    .thankyou-image img {
+        width: 110px;
+    }
+
+    .thankyou-text {
+        padding: 10px 5px;
+        font-size: 13px;
+        line-height: 1.7;
+    }
 }
 
 
@@ -948,16 +1048,39 @@ cursor: pointer;
     text-align: center;
 }
 
+
 /* Card */
 .owner-card {
     max-width: 900px;
     margin: 0 auto;
     background: #f9f9f9;
     border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+   /* box-shadow: 0 10px 25px rgba(0,0,0,0.1);*/
     padding: 40px 30px 50px;
     position: relative;
+/*
+    overflow: hidden;  keeps watermark inside */
 }
+
+.owner_text{
+    position:relative;
+    overflow:hidden;
+}
+/* Watermark */
+.owner_text::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background-image: url("images/leaf_sketch.jpg"); /* your image */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 260px;     /* adjust size */
+
+    opacity: 0.2;              /* light watermark */
+    pointer-events: none;       /* no interaction issues */
+}
+
 
 /* Owner Image */
 .owner-img {
@@ -1247,5 +1370,55 @@ border-spacing:5px;
     .lang-wrapper select {
         font-size: 13px;
         padding: 6px 30px 6px 12px;
+    }
+}
+
+
+
+
+
+
+
+.sketch-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 18px;
+
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 10px;
+
+    align-items: center;
+    justify-items: center;
+}
+
+/* Images */
+.sketch-container img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+
+    object-fit: contain;
+    opacity: 0.9;
+
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Hover effect (desktop only) */
+@media (hover: hover) {
+    .sketch-container img:hover {
+        transform: scale(1.06);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 600px) {
+    .sketch-container {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 14px;
+    }
+
+    .sketch-container img {
+        max-width: 180px;
     }
 }
