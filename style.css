@@ -1,5 +1,8 @@
 /* Reset */
 
+html{
+    scroll-behavior: smooth;
+}
 
 
 * {

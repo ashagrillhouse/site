@@ -305,7 +305,9 @@ function setLanguage(language) {
         $('.about_ben').hide();
         $('.about_hin').show();
         $('.about_eng').hide();
-
+        $('.thank_ben').hide();
+        $('.thank_hin').hide();
+        $('.thank_eng').hide();
         $('.owner_ben').hide();
         $('.owner_hin').show();
         $('.owner_eng').hide();
@@ -329,3 +331,14 @@ function setLanguage(language) {
          $('.thank_eng').show();
     }
 }
+
+
+
+
+/*NEVIGATION BUTTONS*/
+$('.nav-btn').on('click', function () {
+    const target = $(this).data('target');
+    $('html, body').animate({
+        scrollTop: $('#' + target).offset().top
+    }, 600);
+});
