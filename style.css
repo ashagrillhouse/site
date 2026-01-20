@@ -1425,3 +1425,16 @@ border-spacing:5px;
         max-width: 180px;
     }
 }
+
+
+
+a{
+    cursor:pointer;
+     transition: transform 0.15s ease, box-shadow 0.15s ease;
+     text-decoration:none;
+}
+a:hover{
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    color:#ff9800;
+    transform: scale(10.1)transform: translateY(-1px);;
+}

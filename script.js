@@ -284,7 +284,7 @@ langSelect.addEventListener("change", function () {
 });
 
 function setLanguage(language) {
-    console.log("Selected language:", language);
+    //console.log("Selected language:", language);
 
 
     if(language === 'bn'){
@@ -305,9 +305,7 @@ function setLanguage(language) {
         $('.about_ben').hide();
         $('.about_hin').show();
         $('.about_eng').hide();
-        $('.thank_ben').hide();
-        $('.thank_hin').hide();
-        $('.thank_eng').hide();
+
         $('.owner_ben').hide();
         $('.owner_hin').show();
         $('.owner_eng').hide();

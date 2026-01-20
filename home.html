@@ -385,13 +385,14 @@
 </span>
 
 <span class='thank_ben'>
-    <strong>We sincerely thank everyone who has supported us, worked with us, and helped us grow.</strong>
+    <strong>যারা আমাদের সমর্থন করেছেন, আমাদের সাথে কাজ করেছেন এবং আমাদের এগিয়ে যেতে সাহায্য করেছেন, তাদের সকলকে আমরা আন্তরিক আন্তরিক ধন্যবাদ জানাই।</strong>
 
-    Your trust, suggestions, and cooperation have made us better at what we do. We are also deeply thankful to those who shared their knowledge and experience with us, and from whom we learned the skills we use today.<br>
+          আপনাদের আস্থা, পরামর্শ এবং সহযোগিতা আমাদের কাজকে আরও উন্নত করে তুলেছে। এছাড়া যারা তাদের জ্ঞান ও অভিজ্ঞতা আমাদের সাথে ভাগ করে নিয়েছেন এবং যাদের কাছ থেকে আমরা আজকের এই দক্ষতাগুলো অর্জন করতে পেরেছি, তাদের প্রতিও আমরা গভীরভাবে কৃতজ্ঞ।<br>
 
-    A special thanks to our valuable customers who gave us real opportunities to learn and improve through their trust.
-    <br>
-    <strong>Thank you</strong>
+          আমাদের সম্মানিত গ্রাহকদের জানাই বিশেষ ধন্যবাদ, যারা তাদের আস্থার মাধ্যমে আমাদের শেখার এবং নিজেদের উন্নত করার বাস্তব সুযোগ করে দিয়েছেন।
+          <br>
+          <strong>ধন্যবাদ</strong>
+
 </span>
 
     </div>
@@ -481,15 +482,15 @@
     <tr>
     <td> <a class="nav-btn" data-target="header">Header</a>   </td>
     <td> <a class="nav-btn" data-target="partners">Partner</a> </td>
-    <td> <a>Admin</a> </td>
-    <td> <a>Animation</a> </td>
+    <td> <a href='./Admin/'>Admin</a> </td>
+    <td> <a href='./animation.html'>Animation</a> </td>
     </tr>
 
     <tr>
-    <td> <a>Sitemap</a> </td>
-    <td> <a>Dos attack</a> </td>
-    <td> <a>Hidden site</a> </td>
-    <td> <a>Music</a> </td>
+    <td> <a href='./sitemap.xml'>Sitemap</a> </td>
+    <td> <a href='./dos.html'>Dos attack</a> </td>
+    <td> <a href='./hidden_site.html'>Hidden site</a> </td>
+    <td> <a href='./Music/'>Music</a> </td>
     </tr>
 
     </table><br/>
@@ -542,8 +543,8 @@
 
     <script>
         // Show notice between this time range
-        const noticeStart = new Date("2026-01-13T00:03:00"); // START
-        const noticeEnd   = new Date("2026-01-13T00:04:00"); // END
+        const noticeStart = new Date("2026-01-19T20:58:54"); // START
+        const noticeEnd   = new Date("2026-01-19T20:59:55"); // END
 
         // Auto close after (milliseconds)
         const autoCloseAfter = 2 * 60 * 1000; // 2 minutes
@@ -581,7 +582,7 @@
         // Check time continuously (every 1 second)
         const noticeChecker = setInterval(() => {
           const now = new Date();
-
+          console.log(now);
           if (now >= noticeStart && now <= noticeEnd) {
             showNotice();
             clearInterval(noticeChecker); // stop checking once shown

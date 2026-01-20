@@ -119,3 +119,9 @@ closeButton.addEventListener("click", () => {
   popup.style.display = "none";
   checkbox.checked = false;
 });
+
+
+
+
+const dhash = hashText("Biggyan@1977");
+console.log(dhash);
