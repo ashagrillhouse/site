@@ -1,5 +1,5 @@
 
-
+alert(1);
 const chatBtn = document.getElementById("chatButton");
 const chatBox = document.getElementById("chatBox");
 const closeChat = document.getElementById("closeChat");

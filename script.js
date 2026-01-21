@@ -143,7 +143,7 @@ function fetchWeather() {
         ${theme.label} ${theme.emoji[0]}<br>
         ${temp}°C, Wind: ${wind} km/h
         `;
-        createLeaves(theme.emoji);
+        //createLeaves(theme.emoji);
 
     })
     .catch(err=>{
