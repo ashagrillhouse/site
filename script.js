@@ -1,37 +1,38 @@
 import { imagePaths } from './js/mymodule.js';
 
-const img = document.getElementById('carouselImage');
+const imgCurrent = document.getElementById('imgCurrent');
+const imgNext = document.getElementById('imgNext');
+
 let index = 0;
 const total = imagePaths.length;
 
 // Initial load
-img.src = imagePaths[0];
-img.classList.add('active');
-
-// Preload next
+imgCurrent.src = imagePaths[index];
 preloadNext();
 
-setInterval(slideNext, 3000);
+setInterval(slideNext, 3500);
 
 function slideNext() {
-    img.classList.remove('active');
-    img.classList.add('exit');
+    imgNext.src = imagePaths[(index + 1) % total];
+
+    imgNext.classList.add('active');
+    imgCurrent.classList.add('exit');
 
     setTimeout(() => {
-        index = (index + 1) % total;
+        imgCurrent.src = imgNext.src;
 
-        img.src = imagePaths[index];
-        img.classList.remove('exit');
-        img.classList.add('active');
+        imgCurrent.className = 'slide active';
+        imgNext.className = 'slide';
+
+        index = (index + 1) % total;
         preloadNext();
-    }, 800); // match CSS transition
+    }, 1000);
 }
 
 function preloadNext() {
-    const next = new Image();
-    next.src = imagePaths[(index + 1) % total];
+    const preload = new Image();
+    preload.src = imagePaths[(index + 2) % total];
 }
-
 
 
 
