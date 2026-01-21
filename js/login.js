@@ -122,6 +122,3 @@ closeButton.addEventListener("click", () => {
 
 
 
-
-const dhash = hashText("Biggyan@1977");
-console.log(dhash);

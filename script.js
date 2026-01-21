@@ -1,24 +1,39 @@
 import { imagePaths } from './js/mymodule.js';
 
-const carouselInner = document.getElementById('carouselInner');
-
-// Load first few images for slider (performance)
-const sliderImages = imagePaths.slice(0, 6);
-
-sliderImages.forEach(src => {
-    const img = document.createElement('img');
-    img.src = src;
-    img.loading = "lazy";
-    carouselInner.appendChild(img);
-});
-
+const img = document.getElementById('carouselImage');
 let index = 0;
-const total = sliderImages.length;
+const total = imagePaths.length;
 
-setInterval(() => {
-    index = (index + 1) % total;
-    carouselInner.style.transform = `translateX(-${index * 100}%)`;
-}, 3000);
+// Initial load
+img.src = imagePaths[0];
+img.classList.add('active');
+
+// Preload next
+preloadNext();
+
+setInterval(slideNext, 3000);
+
+function slideNext() {
+    img.classList.remove('active');
+    img.classList.add('exit');
+
+    setTimeout(() => {
+        index = (index + 1) % total;
+
+        img.src = imagePaths[index];
+        img.classList.remove('exit');
+        img.classList.add('active');
+        preloadNext();
+    }, 800); // match CSS transition
+}
+
+function preloadNext() {
+    const next = new Image();
+    next.src = imagePaths[(index + 1) % total];
+}
+
+
+
 
 
 //"বাংলা দেখুন"  "हिन्दी देखें" "View English";
@@ -47,6 +62,53 @@ $(document).ready(function(){
     });
 
 });
+
+
+
+
+
+
+function createLeaves(leafSymbols) {
+    //const leafSymbols = ['🍁', '🍂', '🍃', '🌿', '🍀'];
+    const colors = ['#8BC34A', '#4CAF50', '#2E7D32', '#689F38', '#558B2F'];
+
+    function createLeaf() {
+        const leaf = document.createElement('div');
+        leaf.className = 'leaf';
+
+        const symbol = leafSymbols[Math.floor(Math.random() * leafSymbols.length)];
+        const size = Math.random() * 20 + 15;
+        const duration = Math.random() * 10 + 5;
+        const delay = Math.random() * 5;
+        const endX = (Math.random() * 200 - 100) + 'px';
+
+        leaf.textContent = symbol;
+        leaf.style.left = Math.random() * window.innerWidth + 'px';
+        leaf.style.fontSize = size + 'px';
+        leaf.style.color = colors[Math.floor(Math.random() * colors.length)];
+        leaf.style.setProperty('--end-x', endX);
+        leaf.style.animationDuration = duration + 's';
+        leaf.style.animationDelay = delay + 's';
+
+        document.body.appendChild(leaf);
+
+        setTimeout(() => leaf.remove(), duration * 1000);
+    }
+
+    for (let i = 0; i < 15; i++) createLeaf();
+    setInterval(createLeaf, 1000);
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Weather coordinates
@@ -80,6 +142,8 @@ function fetchWeather() {
         ${theme.label} ${theme.emoji[0]}<br>
         ${temp}°C, Wind: ${wind} km/h
         `;
+        createLeaves(theme.emoji);
+
     })
     .catch(err=>{
         console.error(err);
@@ -348,82 +412,3 @@ $('.nav-btn').on('click', function () {
 
 
 
-
-
-const chatBtn = document.getElementById("chatButton");
-const chatBox = document.getElementById("chatBox");
-const closeChat = document.getElementById("closeChat");
-const sendBtn = document.getElementById("sendBtn");
-const chatInput = document.getElementById("chatInput");
-const chatBody = document.getElementById("chatBody");
-const typing = document.getElementById("typing");
-
-chatBtn.onclick = () => chatBox.style.display = "flex";
-closeChat.onclick = () => chatBox.style.display = "none";
-
-sendBtn.onclick = sendMessage;
-chatInput.addEventListener("keypress", e => {
-    if (e.key === "Enter") sendMessage();
-});
-
-function sendMessage() {
-    const msg = chatInput.value.trim();
-    if (!msg) return;
-
-    addMessage(msg, "user");
-    chatInput.value = "";
-
-    typing.style.display = "block";
-
-    setTimeout(() => {
-        typing.style.display = "none";
-        botReply(msg.toLowerCase());
-    }, 1200);
-}
-
-function addMessage(text, type) {
-    const row = document.createElement("div");
-    row.className = "msg-row " + type;
-
-    const msg = document.createElement("div");
-    msg.className = "chat-msg " + type;
-    msg.textContent = text;
-
-    const time = document.createElement("div");
-    time.className = "msg-time";
-    time.textContent = getTime();
-
-    row.appendChild(msg);
-    row.appendChild(time);
-    chatBody.appendChild(row);
-
-    chatBody.scrollTop = chatBody.scrollHeight;
-}
-
-
-function botReply(text) {
-    let reply = "Sorry, I didn’t understand that.";
-
-    if (text.includes("hi") || text.includes("hello")) {
-        reply = "Hello 👋 How can we help you?";
-    }
-    else if (text.includes("price") || text.includes("cost")) {
-        reply = "Prices depend on design & size. Please contact us 📞";
-    }
-    else if (text.includes("location") || text.includes("address")) {
-        reply = "We are located in West Bengal 📍";
-    }
-    else if (text.includes("time") || text.includes("open")) {
-        reply = "We are open daily from 9 AM to 10 PM ⏰";
-    }
-    else if (text.includes("contact")) {
-        reply = "Call or WhatsApp: +91 9932134803 📲";
-    }
-
-    addMessage(reply, "bot");
-}
-
-function getTime() {
-    const now = new Date();
-    return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-}

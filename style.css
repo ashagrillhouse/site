@@ -352,6 +352,7 @@ background-color: #e65c00;
 
 
 /* Gallery Section */
+/*
 .gallery {
     padding: 60px 16px;
     text-align: center;
@@ -364,7 +365,7 @@ background-color: #e65c00;
     color:#c62828;
 }
 
-/* Carousel container */
+
 .carousel {
     max-width: 900px;
     margin: 0 auto 20px;
@@ -374,13 +375,12 @@ background-color: #e65c00;
     background: #000;
 }
 
-/* Slider track */
+
 .carousel-inner {
     display: flex;
     transition: transform 0.8s ease-in-out;
 }
 
-/* Each slide */
 .carousel-inner img {
     width: 100%;
     height: 380px;
@@ -388,7 +388,7 @@ background-color: #e65c00;
     flex-shrink: 0;
 }
 
-/* Button */
+
 .view-gallery-btn {
     padding: 12px 28px;
     font-size: 1rem;
@@ -405,12 +405,21 @@ background-color: #e65c00;
     transform: translateY(-2px);
 }
 
-/* Mobile */
+#carouselImage {
+width: 100%;
+height: auto;
+transition: opacity 0.5s ease-in-out;
+}
+
+
 @media (max-width: 768px) {
     .carousel-inner img {
         height: 240px;
     }
 }
+*/
+
+
 
 
 
@@ -1451,7 +1460,7 @@ a:hover{
 
 
 /* CHAT BUTTON */
-#chatButton {
+/*#chatButton {
 position: fixed;
 bottom: 20px;
 right: 20px;
@@ -1467,7 +1476,7 @@ cursor: pointer;
 font-size: 22px;
 box-shadow: 0 4px 10px rgba(0,0,0,.3);
 z-index: 9999;
-}
+}*/
 
 /* CHAT BOX */
 #chatBox {
@@ -1477,7 +1486,7 @@ right: 20px;
 width: 320px;
 height: 420px;
 background: #fff;
-border-radius: 10px;
+border-radius: 11px;
 display: none;
 flex-direction: column;
 box-shadow: 0 5px 15px rgba(0,0,0,.3);
@@ -1493,11 +1502,16 @@ z-index: 9999;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-radius:10px 10px 0px 0px;
 }
 
 .chat-header span {
     cursor: pointer;
     font-size: 18px;
+}
+
+.chat-header img{
+   width:25px;
 }
 
 /* BODY */
@@ -1506,6 +1520,7 @@ z-index: 9999;
     padding: 10px;
     overflow-y: auto;
     background: #f5f5f5;
+    border-radius:10px 10px 0px 0px;
 }
 
 
@@ -1603,3 +1618,31 @@ z-index: 9999;
     height: 85vh;
     }
 }
+
+
+
+
+
+
+.leaf {
+    position: fixed;
+    top: -50px;
+    pointer-events: none;
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    z-index: 9999;
+}
+
+/* Falling animation */
+@keyframes fall {
+    0% {
+        transform: translateX(0) translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(var(--end-x)) translateY(110vh) rotate(360deg);
+        opacity: 0.7;
+    }
+}
+
