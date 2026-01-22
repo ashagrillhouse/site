@@ -8,8 +8,8 @@ const MAX_CHAT_MESSAGES = 100;
 /* =======================
  *   ELEMENTS
  * ======================= */
-const chatBtn   = document.getElementById("chatButton");
-const chatBox   = document.getElementById("chatBox");
+const chatBtn   = document.getElementById("chatButton"); //Hello tis is for identyfy the id element fo rthis tags
+const chatBox   = document.getElementById("chatBox");    // this the for tags for the the gaing the void main joginff
 const closeChat = document.getElementById("closeChat");
 const sendBtn   = document.getElementById("sendBtn");
 const chatInput = document.getElementById("chatInput");
@@ -21,8 +21,8 @@ const typing    = document.getElementById("typing");
  * ======================= */
 chatBtn.onclick = () => {
     chatBox.style.display = "flex";
-    //addMessage('Hello','bot');
     loadChatHistory();
+    chatBody.innerHTML="<p class='default_chat_msg'>🔒Messages are end-to-end encrypted. Only people in theis chat can read, listen to, or share them. <a href='#'>Learn more</a>.<p>"+chatBody.innerHTML;
 };
 
 closeChat.onclick = () => {

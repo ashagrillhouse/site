@@ -1,17 +1,17 @@
  // Show notice between this time range
-        const noticeStart = new Date("2026-01-21T23:40:15"); // START
-        const noticeEnd   = new Date("2026-01-21T23:52:55"); // END
+        const noticeStart = new Date("2026-01-23T00:00:00"); // START
+        const noticeEnd   = new Date("2026-01-23T23:59:59"); // END
 
         // Auto close after (milliseconds)
         const autoCloseAfter = 2 * 60 * 1000; // 2 minutes
 
         // Notice content
         const noticeData = {
-          title: "🎉 Special Offer!",
+          title: "🎉 Special Day!",
           message: `
-            On the occasion of the New Year,
-            <strong>Asha Grill House</strong> is offering
-            special discounts on Iron Gates & Grill Work.
+            On the occasion of the Basanth Panchami and Netaji's Birthday,
+            <strong>Asha Grill House</strong> is wishing you
+            very wonderful, joyful and a proud day.
             <br><br>
             📞 Contact us today to know more!
           `

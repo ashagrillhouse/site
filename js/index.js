@@ -284,6 +284,15 @@ fadeElements.forEach(el => {
 });
 
 
+
+
+
+
+
+
+
+
+
 function playBackgroundMusic(musicFile) {
     const audio = new Audio(musicFile);
     audio.loop = true;
