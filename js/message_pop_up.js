@@ -45,4 +45,3 @@
           }
         }, 1000);
 
-        //showNotice()showNotice;

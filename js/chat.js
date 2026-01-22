@@ -1,56 +1,88 @@
 
-alert(1);
-const chatBtn = document.getElementById("chatButton");
-const chatBox = document.getElementById("chatBox");
+/* =======================
+ *   CONFIG
+ * ======================= */
+const CHAT_KEY = "site_chat_history";
+const MAX_CHAT_MESSAGES = 100;
+
+/* =======================
+ *   ELEMENTS
+ * ======================= */
+const chatBtn   = document.getElementById("chatButton");
+const chatBox   = document.getElementById("chatBox");
 const closeChat = document.getElementById("closeChat");
-const sendBtn = document.getElementById("sendBtn");
+const sendBtn   = document.getElementById("sendBtn");
 const chatInput = document.getElementById("chatInput");
-const chatBody = document.getElementById("chatBody");
-const typing = document.getElementById("typing");
+const chatBody  = document.getElementById("chatBody");
+const typing    = document.getElementById("typing");
 
-chatBtn.onclick = () => chatBox.style.display = "flex";
-closeChat.onclick = () => chatBox.style.display = "none";
+/* =======================
+ *   OPEN / CLOSE
+ * ======================= */
+chatBtn.onclick = () => {
+    chatBox.style.display = "flex";
+    //addMessage('Hello','bot');
+    loadChatHistory();
+};
 
+closeChat.onclick = () => {
+    chatBox.style.display = "none";
+};
+
+/* =======================
+ *   SEND EVENTS
+ * ======================= */
 sendBtn.onclick = sendMessage;
+
 chatInput.addEventListener("keypress", e => {
     if (e.key === "Enter") sendMessage();
 });
 
+/* =======================
+ *   SEND MESSAGE
+ * ======================= */
 function sendMessage() {
-    const msg = chatInput.value.trim();
-    if (!msg) return;
+    const text = chatInput.value.trim();
+    if (!text) return;
 
-    addMessage(msg, "user");
+    addMessage(text, "user");
+    saveMessage(text, "user");
+
     chatInput.value = "";
 
     typing.style.display = "block";
 
     setTimeout(() => {
         typing.style.display = "none";
-        botReply(msg.toLowerCase());
+        botReply(text.toLowerCase());
     }, 1200);
 }
 
-function addMessage(text, type) {
+/* =======================
+ *   ADD MESSAGE TO UI
+ * ======================= */
+function addMessage(text, type, time = getTime(), date = getDate()) {
     const row = document.createElement("div");
     row.className = "msg-row " + type;
 
-    const msg = document.createElement("div");
-    msg.className = "chat-msg " + type;
-    msg.textContent = text;
+    const bubble = document.createElement("div");
+    bubble.className = "chat-msg " + type;
+    bubble.textContent = text;
 
-    const time = document.createElement("div");
-    time.className = "msg-time";
-    time.textContent = getTime();
+    const meta = document.createElement("div");
+    meta.className = "msg-time";
+    meta.textContent = `${time}`;
 
-    row.appendChild(msg);
-    row.appendChild(time);
+    row.appendChild(bubble);
+    row.appendChild(meta);
     chatBody.appendChild(row);
 
     chatBody.scrollTop = chatBody.scrollHeight;
 }
 
-
+/* =======================
+ *   BOT REPLY
+ * ======================= */
 function botReply(text) {
     let reply = "Sorry, I didn’t understand that.";
 
@@ -66,14 +98,60 @@ function botReply(text) {
     else if (text.includes("time") || text.includes("open")) {
         reply = "We are open daily from 9 AM to 10 PM ⏰";
     }
-    else if (text.includes("contact")) {
+    else if (text.includes("contact") || text.includes("phone")) {
         reply = "Call or WhatsApp: +91 9932134803 📲";
     }
 
     addMessage(reply, "bot");
+    saveMessage(reply, "bot");
 }
 
+/* =======================
+ *   STORAGE SAVE (WITH LIMIT)
+ * ======================= */
+function saveMessage(text, type) {
+    let history = JSON.parse(localStorage.getItem(CHAT_KEY)) || [];
+
+    history.push({
+        text,
+        type,
+        time: getTime(),
+                 date: getDate()
+    });
+
+    // LIMIT CONTROL (FIFO)
+    if (history.length > MAX_CHAT_MESSAGES) {
+        history = history.slice(history.length - MAX_CHAT_MESSAGES);
+    }
+
+    localStorage.setItem(CHAT_KEY, JSON.stringify(history));
+}
+
+/* =======================
+ *   LOAD CHAT HISTORY
+ * ======================= */
+function loadChatHistory() {
+    chatBody.innerHTML = "";
+
+    const history = JSON.parse(localStorage.getItem(CHAT_KEY)) || [];
+
+    history.forEach(msg => {
+        addMessage(msg.text, msg.type, msg.time, msg.date);
+    });
+}
+
+/* =======================
+ *   TIME & DATE
+ * ======================= */
 function getTime() {
     const now = new Date();
-    return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return now.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+}
+
+function getDate() {
+    const now = new Date();
+    return now.toLocaleDateString();
 }
