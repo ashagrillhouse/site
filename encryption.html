@@ -1,3 +1,61 @@
-<html>
-Yes your message is end to end encrypted
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>End-to-End Encryption Demo</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="dark">
+
+<header>
+  <h1 id="title">End-to-End Encryption Demo</h1>
+
+  <div class="controls">
+    <select id="lang">
+      <option value="en">English</option>
+      <option value="bn">বাংলা</option>
+      <option value="hi">हिन्दी</option>
+    </select>
+
+    <button id="themeToggle">🌙 Dark</button>
+    <button id="downloadPDF">📄 Download Guide</button>
+  </div>
+</header>
+
+<main>
+  <section class="panel">
+    <h2 id="plainTitle">Plain Message</h2>
+    <textarea id="plainText" placeholder="Type your message..."></textarea>
+  </section>
+
+  <div class="arrow">🔐 Encrypt 🔄</div>
+
+  <section class="panel encrypted">
+    <h2 id="encryptedTitle">Encrypted Data</h2>
+    <pre id="encryptedText">---</pre>
+  </section>
+
+  <div class="arrow">🔓 Decrypt 🔄</div>
+
+  <section class="panel">
+    <h2 id="decryptedTitle">Decrypted Message</h2>
+    <pre id="decryptedText">---</pre>
+  </section>
+
+  <section class="image-demo">
+    <h2 id="imageTitle">Image Encryption Visualization</h2>
+    <img id="demoImage" src="https://picsum.photos/300" alt="demo">
+    <p id="imageInfo">Image bytes are encrypted the same way as text.</p>
+  </section>
+
+  <button id="runDemo">▶ Run Encryption</button>
+</main>
+
+<footer>
+  <p>Educational demo using AES-GCM + RSA-OAEP (Web Crypto API)</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
 </html>
