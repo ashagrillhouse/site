@@ -15,10 +15,10 @@ html{
 /* Header Banner */
 .header {
     height: 100vh;
-    background: url('./images/background.jpg') center/cover no-repeat;
+    background: url('../images/background.jpg') center/cover no-repeat;
     position: relative;
     color: white;
-}
+}style.css
 
 .header .overlay {
     background: rgba(0,0,0,0.5);
@@ -269,7 +269,7 @@ background-color: #e65c00;
     position: absolute;
     inset: 0;
 
-    background-image: url("images/sunflower_sketch.jpg");
+    background-image: url("../images/sunflower_sketch.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: 320px;
@@ -1177,7 +1177,7 @@ cursor: pointer;
     position: absolute;
     inset: 0;
 
-    background-image: url("images/leaf_sketch.jpg"); /* your image */
+    background-image: url("../images/leaf_sketch.jpg"); /* your image */
     background-repeat: no-repeat;
     background-position: center;
     background-size: 260px;     /* adjust size */
