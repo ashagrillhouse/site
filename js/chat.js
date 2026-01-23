@@ -22,7 +22,7 @@ const typing    = document.getElementById("typing");
 chatBtn.onclick = () => {
     chatBox.style.display = "flex";
     loadChatHistory();
-    chatBody.innerHTML="<p class='default_chat_msg'>🔒Messages are end-to-end encrypted. Only people in theis chat can read, listen to, or share them. <a href='../encryption.html'>Learn more</a>.<p>"+chatBody.innerHTML;
+    chatBody.innerHTML="<p class='default_chat_msg'>🔒Messages are end-to-end encrypted. Only people in theis chat can read, listen to, or share them. <a href='./encryption.html'>Learn more</a>.<p>"+chatBody.innerHTML;
 };
 
 closeChat.onclick = () => {
