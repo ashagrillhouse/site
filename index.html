@@ -8,236 +8,217 @@
           If you ask me then I will reply you that I know you have enough brain right ?
 -->
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Asha Grill House | Home</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="google-site-verification" content="RLBzfsxCMqJHuSv8IhUnzXjrqY38uFlujvMO0FH29Wc" />
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <title>Asha Grill House | Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="RLBzfsxCMqJHuSv8IhUnzXjrqY38uFlujvMO0FH29Wc" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 
-<link rel="stylesheet" href="style/index.css">
-
-<script type="module" src="js/index.js"></script>
-<script src="js/add.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
 
-<!-- Sidebar/menu -->
-<nav class="w3-sidebar w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
-  <div class="w3-container">
-    <img src="images/icon.png" class="side_icon" alt="Asha Grill House Logo">
-  </div>
-  <br>
-  <div class="w3-bar-block">
-    <a href="#" id="side_close" class="w3-bar-item w3-button w3-hover-white">Home</a> 
-    <a href="#gallery" id="side_close" class="w3-bar-item w3-button w3-hover-white">Gallery</a> 
-    <a href="#about" id="side_close" class="w3-bar-item w3-button w3-hover-white">About</a> 
-    <a href="#owner" id="side_close" class="w3-bar-item w3-button w3-hover-white">Owner</a> 
-    <a href="#partners" id="side_close" class="w3-bar-item w3-button w3-hover-white">Partners</a>
-    <a href="#contact" id="side_close" class="w3-bar-item w3-button w3-hover-white">Contact</a>
-    <a href="./animation.html" class="w3-bar-item w3-button w3-hover-white">Animation</a>
-    <a href="./Music/index.html" class="w3-bar-item w3-button w3-hover-white">Music Player</a>
-  </div>
-
- <style>
-  
-</style>
-
-<small class="sitemap_admin">
-  <a href="./sitemap.xml">Sitemap</a>
-  <a href="Admin/index.html">Admin</a>
-  <a href="hidden_site.html">Hidden site</a>
-  
-</small>
 
 
-<!-- <div class="add_side_pannel" id="add_container2">
-  <button class="close_btn_side_pannel" onclick="this.parentElement.style.display='none';">×</button>
-  <img src="#" id="add4">
-</div> -->
 
 
-</nav>
 
-<!-- Top menu on small screens -->
-<header class="w3-container w3-top w3-hide-large w3-padding w3-xlarge custom-header">
-  <a href="javascript:void(0)" class="w3-button w3-white w3-margin-right w3-round-large" id="side_pannel">☰</a>
-  <span>Asha Grill House</span>
-  <a href="./animation.html" style="background: none;"><img src="./images/welding.jpg" alt="Sketch" class="header-sketch"></a>
-</header>
-
-
-<!-- Overlay effect when opening sidebar on small screens -->
-<div class="w3-overlay w3-hide-large" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
-
-<!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left:340px;margin-right:40px">
+    <!-- Header with Banner -->
+    <header class="header" id='header'>
+        <div class="overlay">
+            <!--div class="login-container">
+                <button id="loginBtn">Login</button>
+            </div-->
+            <div class="header-left">
+                <div id="weather" class="weather-box">Loading weather...</div>
+                <button id="login-btn" class="login-btn" onclick="window.location='Admin/index.html'">Login</button>
+            </div>
 
 
-  <!-- Header Section -->
-  <header class="main-header fade-in">
-     <h1 id="mainTitle" class="fade-text">Asha Grill House</h1>
-    <p class="delay-1">Crafting Excellence in Metalwork Since 2015</p>
-    <a href="#contact" class="w3-button w3-padding-large w3-red w3-margin-top delay-2" 
-       style="border-radius: 30px; font-weight: 600; letter-spacing: 1px;">
-      CONTACT US TODAY
-    </a>
-    <div id="weather">Loading...</div>
-  </header>
+            <div class="header-content">
+                <h1>ASHA GRILL HOUSE</h1>
+                <p>Postoffice Daspara Muragachha Nadia</p>
+                <p>Biggyan Das | 9932134803</p>
+                <p>Expert Craftsmanship in Iron Gates, Railings & Grill Work Since 2015</p>
+            </div>
 
-  <!-- Gallery Section -->
-  <section class="gallery-section" id="gallery">
-    <div class="section-title fade-in">
-      <h2>Gallery</h2>
-      <p>Explore our premium grill designs and installations</p>
-    </div>
-    
-    <div class="gallery-container">
-      <button class="slider-btn prev" id="moveleft">❮</button>
-      <div class="gallery-slider" id="gallerySlider">
-        <!-- Slides will be added by JavaScript -->
-      </div>
-      <button class="slider-btn next" id="moveright">❯</button>
-    </div>
-    <div class="gallery-btn">
-        <a href="gallery.html"><button>Show All</button></a>
-    </div>
-  </section>
+            <div class='icon_banner'>
+                <img src="images/icon.png">
+            </div>
 
-  <!-- About Section -->
-  <section class="about-section" id="about">
-    <div class="section-title fade-in">
-      <h2>About Us</h2>
-      <p>Quality craftsmanship you can trust</p>
+            <div class="header_bottom_right">
+              <button class="hdr-btn like"  title="Like"  id='like_page'  >👍</button>
+              <button class="hdr-btn print" title="Print" id='print_page' >🖨️</button>
+            </div>
 
-    </div>
-    
-    <!-- English Version -->
-    <div class="about about_eng fade-in">
-     <strong>Welcome to Asha Grill House.</strong><br><br>
+
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <!-- About Us Section -->
+<section class="about-section" id="about">
+
+  <!-- English Version -->
+  <div class="about about_eng fade-in">
+     <strong>Welcome to Asha Grill House.</strong><br>
 We proudly serve the regions of Muragachha, Sadhanpara, Dharmada, Dhumuliya, Gaccha, Bethuya, Kamarhati, and nearby villages in Nadia. We also provide our services in distant areas like Krishnanagar, Berhampore, Palashi, and beyond. Since 2015, Asha Grill House has been known for delivering reliable, high-quality iron and steel fabrication work with honesty and craftsmanship.<br><br>
 
-Our offerings include 
-<span class="highlight">
-  <span class="grill">Grill</span>, 
-  <span class="door">Door</span>, 
-  <span class="window">Window</span>, 
-  <span class="glass">Glass Panel</span>, 
-  <span class="boundary">Boundary Gate</span>, 
+    Our services include:
+    <span class="highlight">
+      <span class="service" data-img="grill/grill11.jpg">Grills</span>,
+      <span class="service" data-img="grill/grill50.jpg">Doors</span>,
+      <span class="service" data-img="grill/grill59.jpg">Windows</span>,
+      <span class="service" data-img="grill/grill44.jpg">Glass Panels</span>,
+      <span class="service" data-img="grill/grill1.jpg">Boundary Gates</span>,
+      <span class="service" data-img="grill/tin_gate.jpg">Tin Gates</span>,
+      <span class="service" data-img="grill/grill73.jpg">Wood-fitted Grills</span>,
+      <span class="service" data-img="grill/grill71.jpg">Railings</span>,
+      <span class="service" data-img="grill/shade.jpg">Tin Shades</span>,
+      <span class="service" data-img="grill/grill75.jpg">Collapsible Gates</span>,
+      <span class="service" data-img="grill/shutter.jpg">Shutters</span>,
+      <span class="service" data-img="grill/grill16.jpg">Steel Staircases</span>,
+      <span class="service" data-img="grill/grill4.jpg">Iron Staircases. </span>
+    </span>
+    Every item is crafted using premium materials and is handled by experienced metal workers who focus on both durability and aesthetic value. We care not just about structure but also about design ensuring every piece adds both safety and style to your space.<br><br>
 
-  <span class="tin_gate">Tin Gate</span>, 
-  <span class="wood_grill">Wood-fitted Grill</span>, 
+    At Asha Grill House, we don’t just build iron products—we build trust. With fair pricing, on time delivery, and a commitment to satisfaction, we work to earn and maintain long-term relationships with every customer. Your trust is the strength that keeps us moving forward.
+  </div>
 
+  <!-- Bengali Version -->
+  <div class="about about_ben fade-in">
+    <strong>আশা গ্রিল হাউসে আপনাকে স্বাগতম</strong><br>
+    আমরা মুড়াগাছা, সাধনপাড়া, ধর্মদা, ধুমুলিয়া, গাছা, বেথুয়া, কামারহাটি এবং আশেপাশের এলাকায়, এবং দূরবর্তী এলাকা যেমন কৃষ্ণনগর, বহরমপুর, পলাশী ইত্যাদিতে লোহার উন্নতমানের কাজ প্রদান করি। ২০১৫ সাল থেকে আমরা দক্ষতা ও সততার সঙ্গে বিশ্বস্ত এবং উন্নত মানের লোহার কাজ করে আসছি।<br><br>
 
-  <span class="ralling">Railing</span>, 
-  <span class="shade">Tin Shade</span>, 
-  <span class="collapsible">Collapsible Gate</span>, 
-  <span class="shutter">Shutter</span>, 
-  <span class="steel_stair">Steel Staircase</span>, and 
-  <span class="iron_stair">Iron Staircase</span>.
-</span>
- 
-Every item is crafted using premium materials and is handled by experienced metal workers who focus on both durability and aesthetic value. We care not just about structure but also about design—ensuring every piece adds both safety and style to your space.<br><br>
+    আমাদের সেবার মধ্যে রয়েছে:
+    <span class="highlight">
+      <span class="service" data-img="grill/grill11.jpg">গ্রিল</span>,
+      <span class="service" data-img="grill/grill50.jpg">দরজা</span>,
+      <span class="service" data-img="grill/grill59.jpg">জানালা</span>,
+      <span class="service" data-img="grill/grill44.jpg">কাচপাল্লা</span>,
+      <span class="service" data-img="grill/grill1.jpg">বাউন্ডারি গেট</span>,
+      <span class="service" data-img="grill/tin_gate.jpg">টিন গেট</span>,
+      <span class="service" data-img="grill/grill73.jpg">কাঠের ফিটেড গ্রিল</span>,
+      <span class="service" data-img="grill/grill71.jpg">রেলিং</span>,
+      <span class="service" data-img="grill/shade.jpg">টিন ছাউনি</span>,
+      <span class="service" data-img="grill/grill75.jpg">ভাঁজ করা গেট</span>,
+      <span class="service" data-img="grill/shutter.jpg">শাটার</span>,
+      <span class="service" data-img="grill/grill16.jpg">স্টিল সিঁড়ি</span>,
+      <span class="service" data-img="grill/grill4.jpg">লোহা সিঁড়ি</span>
+    </span><br><br>
 
-At Asha Grill House, we don’t just build iron products—we build trust. With fair pricing, on-time delivery, and a commitment to satisfaction, we work to earn and maintain long-term relationships with every customer. Your trust is the strength that keeps us moving forward.<br><br>
+    প্রতিটি পণ্য উন্নতমানের উপকরণ ব্যবহার করে অভিজ্ঞ কারিগরদের দ্বারা তৈরি করা হয়, যা স্থায়িত্ব এবং নান্দনিকতা নিশ্চিত করে। আমরা নিরাপত্তা, সৌন্দর্য এবং দীর্ঘস্থায়িত্বে বিশ্বাস করি।<br><br>
 
+    আশা গ্রিল হাউস শুধুমাত্র পণ্য তৈরি করে না—আমরা আস্থা গড়ি। আমরা সময়মতো ডেলিভারি, সঠিক মূল্য এবং গ্রাহক সন্তুষ্টিতে মনোযোগ দিই।
+  </div>
 
+  <!-- Hindi Version -->
+  <div class="about about_hin fade-in">
+    <strong>आशा ग्रिल हाउस में आपका स्वागत है</strong><br>
+    हम मुरगाछा, साधनपाड़ा, धर्मदा, धुमुलिया, गाछा, बेतुआ, कमारहाटी और आसपास के गाँवों में लोहे का उच्च गुणवत्ता वाला काम प्रदान करते हैं, साथ ही दूरस्थ क्षेत्रों जैसे कृष्णनगर, बहारमपुर, पलाशी में भी। 2015 से हम ईमानदारी और कुशलता के साथ भरोसेमंद लोहे का निर्माण कर रहे हैं।<br><br>
+
+    हमारी सेवाओं में शामिल हैं:
+    <span class="highlight">
+      <span class="service" data-img="grill/grill11.jpg">ग्रिल</span>,
+      <span class="service" data-img="grill/grill50.jpg">दरवाज़े</span>,
+      <span class="service" data-img="grill/grill59.jpg">खिड़कियाँ</span>,
+      <span class="service" data-img="grill/grill44.jpg">कांच की पट्टियाँ</span>,
+      <span class="service" data-img="grill/grill1.jpg">बाउंड्री गेट</span>,
+      <span class="service" data-img="grill/tin_gate.jpg">टिन गेट</span>,
+      <span class="service" data-img="grill/grill73.jpg">लकड़ी से सुसज्जित ग्रिल</span>,
+      <span class="service" data-img="grill/grill71.jpg">रेलिंग</span>,
+      <span class="service" data-img="grill/shade.jpg">टिन की छत</span>,
+      <span class="service" data-img="grill/grill75.jpg">मुड़ने वाले गेट</span>,
+      <span class="service" data-img="grill/shutter.jpg">शटर</span>,
+      <span class="service" data-img="grill/grill16.jpg">स्टील सीढ़ियाँ</span>,
+      <span class="service" data-img="grill/grill4.jpg">लोहे की सीढ़ियाँ</span>
+    </span><br><br>
+
+    हर उत्पाद उच्च गुणवत्ता वाली सामग्री और अनुभवी कारीगरों द्वारा बनाया जाता है, जो टिकाऊ और सुंदर डिज़ाइन सुनिश्चित करता है। हम सुरक्षा, सौंदर्य और दीर्घायु को महत्व देते हैं।<br><br>
+
+    आशा ग्रिल हाउस केवल लोहे के उत्पाद नहीं बनाता—हम भरोसा बनाते हैं। समय पर डिलीवरी, उचित मूल्य और ग्राहक संतुष्टि हमारे प्राथमिक उद्देश्य हैं।
+  </div>
+
+<!-- Language Toggle Button
+  <button id="about_trans_btn" class="language-toggle-btn">
+    বাংলা দেখুন
+  </button>-->
+
+  <!-- Popup Modal -->
+  <div id="imageModal" style="display:none;">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <img id="modalImage" src="" alt="Service Image">
     </div>
+  </div>
 
-    <!-- Bengali Version -->
-    <div class="about about_ben">
-      <strong>আশা গ্রিল হাউসে আপনাকে স্বাগতম।</strong><br><br>
-আমরা নদিয়া জেলার মুড়াগাছা, সাধনপাড়া, ধর্মদা, ধুমুলিয়া, গাছা, বেথুয়া, কামারহাটি এবং আশেপাশের গ্রামে লোহার উন্নতমানের কাজ করে থাকি। শুধু কাছাকাছি এলাকাতেই নয়, আমরা কাজ করেছি কৃষ্ণনগর, বহরমপুর, পলাশী এবং অন্যান্য দূরবর্তী এলাকাতেও। ২০১৫ সাল থেকে আমরা দক্ষতা ও বিশ্বস্ততার সাথে বিভিন্ন ধরনের লোহার গঠনমূলক কাজ করে আসছি।<br><br>
-
-আমাদের তৈরি পণ্যের মধ্যে রয়েছে 
-<span class="highlight">
-  <span class="grill">গ্রিল (Grill)</span>, 
-  <span class="door">দরজা (Door)</span>, 
-  <span class="window">জানলা (Window)</span>, 
-  <span class="glass">কাচপাল্লা (Glass Panel)</span>, 
-  <span class="boundary">বাউন্ডারি গেট (Boundary Gate)</span>, 
-  <span class="tin_gate">টিনের গেট (Tin Gate)</span>, 
-   <span class="wood_grill">কাঠের-ফিটেড গ্রিল (Wood-fitted Grill)</span>, 
-
-  <span class="ralling">রেলিং (Railing)</span>, 
-  <span class="shade">টিনের ছাউনি (Tin Shade)</span>, 
-  <span class="collapsible">ভাঁজ করা গেট (Collapsible Gate)</span>, 
-  <span class="shutter">শাটার (Shutter)</span>, 
-  <span class="steel_stair">স্টিলের সিঁড়ি (Steel Staircase)</span>, 
-  <span class="iron_stair">লোহার সিঁড়ি (Iron Staircase)</span> ইত্যাদি।
-</span>
-
-প্রতিটি পণ্যে আমরা ব্যবহার করি উন্নতমানের লোহা ও উপকরণ, এবং কাজ করি অভিজ্ঞ কারিগরদের মাধ্যমে। আমরা ডিজাইনের দিকেও যত্ন নিই, যেন কাজটি দেখতে সুন্দর হয়, টেকসই হয়, এবং আপনার নিরাপত্তা নিশ্চিত করে।<br><br>
-
-আমাদের লক্ষ্য শুধুমাত্র একটি পণ্য তৈরি করা নয়, বরং এমন একটি সমাধান দেওয়া যা আপনার বাড়ি বা দোকানের সৌন্দর্য ও নিরাপত্তা দুটোই বজায় রাখে। আমরা সঠিক দামে, সময়মতো ডেলিভারি দিয়ে, পেশাদার মনোভাব নিয়ে কাজ করি। আশা গ্রিল হাউস বিশ্বাস করে—আপনার আস্থা ও সন্তুষ্টিই আমাদের সবচেয়ে বড় সফলতা।
+</section>
 
 
+
+
+
+<!-- Images skectch protinos  -->
+<div class="sketch-container">
+    <img src="./images/hammer2_sketch.jpg" class="fade-in delay-2">
+    <img src="./images/gander_sketch.jpg" class="fade-in delay-2">
+    <!-- add more images freely (2–33+) -->
+</div>
+
+
+
+
+
+
+
+
+
+    <!-- Gallery Section -->
+   <section class="gallery" id="gallery">
+  <h2>Our Work</h2>
+
+  <div class="carousel">
+    <div class="carousel-track">
+      <img class="slide active" id="imgCurrent" alt="">
+      <img class="slide" id="imgNext" alt="">
     </div>
+  </div>
 
-    <!-- Hindi Version -->
-    <div class="about about_hin" >
-     <strong>आशा ग्रिल हाउस में आपका स्वागत है।</strong><br><br>
-हम पश्चिम बंगाल के नदिया जिले के मुरगाछा, साधनपाड़ा, धर्मदा, धुमुलिया, गाछा, बेतुआ, कमारहाटी और आसपास के गाँवों में लोहे के बेहतरीन काम करते हैं। इसके साथ ही हमने कृष्णनगर, बहारमपुर, पलाशी और अन्य दूर के इलाकों में भी सफलतापूर्वक सेवा दी है। 2015 से हम ईमानदारी और कुशलता के साथ गुणवत्ता पूर्ण लोहे के निर्माण कार्य कर रहे हैं।<br><br>
-
-हम जो काम करते हैं, তার अंतर्गत आता है: 
-<span class="highlight">
-  <span class="grill">ग्रिल (Grill)</span>, 
-  <span class="door">दरवाज़ा (Door)</span>, 
-  <span class="window">खिड़की (Window)</span>, 
-  <span class="glass">कांच की पट्टी (Glass Panel)</span>, 
-  <span class="boundary">बाउंड्री गेट (Boundary Gate)</span>, 
-  <span class="tin_gate">टिन की गेट (Tin Gate)</span>, 
-  <span class="wood_grill">लकड़ी से सुसज्जित ग्रिल (Wood-fitted Grill)</span>, 
-  <span class="ralling">रेलिंग (Railing)</span>, 
-  <span class="shade">टिन की छत (Tin Shade)</span>, 
-  <span class="collapsible">मुड़ने वाला गेट (Collapsible Gate)</span>, 
-  <span class="shutter">शटर (Shutter)</span>, 
-  <span class="steel_stair">स्टील की सीढ़ी (Steel Staircase)</span>, और 
-  <span class="iron_stair">लोहे की सीढ़ी (Iron Staircase)</span>।
-</span>
-
-हम हर काम में उत्तम सामग्री का प्रयोग करते हैं और अनुभवशाली कारीगरों से काम करवाते हैं, ताकि आपका निर्माण मज़बूत, सुरक्षित और देखने में भी सुंदर हो।<br><br>
-
-हमारा उद्देश्य केवल चीज़ें बनाना नहीं, बल्कि आपके घर या दुकान की सुरक्षा और सुंदरता, দুই को बढ़ाना है। उचित कीमत, समय पर डिलीवरी, और विनम्र व्यवहार—यही है हमारी पहचान। आशा ग्रिल हाउस मानता है कि आपका भरोसा ही हमारी सबसे बड़ी पूंजी है।
-
-    </div>
-
-    <button
-          id="about_trans_btn"
-          class="w3-button w3-deep-orange w3-round-medium w3-padding-large w3-large"
-          style="display:block; margin:80px auto 0;">
-        </button>
-
-    <div class="sketch-container">
-        <img src="./images/hammer2_sketch.jpg" class="hammer2_sketch fade-in delay-2">
-        <img src="./images/gander_sketch.jpg" class="gander_sketch fade-in delay-2">
-    </div>
+  <button class="view-gallery-btn" onclick="location.href='gallery.html'">
+    View Full Gallery
+  </button>
+</section>
 
 
-    
 
-    
-  </section>
 
-  <!-- Owner Section -->
+
+
+
+<!-- Owner Section -->
   <section class="owner-section" id="owner">
-    <div class="section-title fade-in">
+    <!--div class="section-title fade-in">
       <h2>Owner</h2>
       <p>The master behind the craft</p>
-    </div>
-    
+    </div-->
+
     <div class="owner-card fade-in delay-1">
       <img src="images/owner.jpg" alt="Biggyan Das" class="owner-img">
-      
+
       <!-- English Version -->
-      <div class="owner_eng fade-in delay-3">
+      <div class="owner_text owner_eng fade-in delay-3">
         <h3 class="owner-name">Biggyan Das</h3>
         <p class="owner-title">Founder & Master Craftsman</p>
         <p class="owner_line">
@@ -246,7 +227,7 @@ At Asha Grill House, we don’t just build iron products—we build trust. With 
       </div>
 
       <!-- Bengali Version -->
-      <div class="owner_ben fade-in delay-2" >
+      <div class="owner_text owner_ben fade-in delay-2" >
         <h3 class="owner-name">বিজ্ঞান দাস</h3>
         <p class="owner-title">প্রতিষ্ঠাতা ও প্রধান কারিগর</p>
         <p class="owner_line">
@@ -254,32 +235,42 @@ At Asha Grill House, we don’t just build iron products—we build trust. With 
     </div>
 
       <!-- Hindi Version -->
-      <div class="owner_hin fade-in delay-3" >
+      <div class="owner_text owner_hin fade-in delay-3" >
         <h3 class="owner-name">विज्ञान दास</h3>
         <p class="owner-title">संस्थापक एवं प्रमुख कारीगर</p>
         <p class="owner_line">
         15 साल से ज़्यादा लोहे के काम का अनुभव लेकर विज्ञान दास ने “आशा ग्रिल हाउस” की शुरुआत की, ताकि सभी को अच्छा और भरोसेमंद ग्रिल का काम मिल सके। वह हमेशा खुद अपने हाथों से काम करना पसंद करते हैं। उनका अनुभव, मेहनत और ईमानदारी आज भी इस व्यवसाय की तरक्की में अहम भूमिका निभा रहे हैं।
       </div>
 
-
+      <!--
       <button
         id="owner_trans_btn"
         class="w3-button w3-deep-orange w3-round-medium w3-padding-large w3-large"
         style="display:block; margin:80px auto 0;">
-            
-      </button>
+      </button>-->
+
     </div>
 
-     
+
   </section>
 
-  <!-- Partners Section -->
+
+
+
+
+
+
+
+
+
+
+    <!-- Partners Section -->
   <section class="partners-section" id="partners">
     <div class="section-title fade-in">
       <h2>Our Partners</h2>
       <p>Trusted brands we work with</p>
     </div>
-    
+
     <div class="partners-grid">
       <img src="partners/partner1.png" alt="Partner 1" class="partner-logo fade-in delay-3">
       <img src="partners/partner2.png" alt="Partner 2" class="partner-logo fade-in delay-1">
@@ -294,119 +285,160 @@ At Asha Grill House, we don’t just build iron products—we build trust. With 
   </section>
 
 
-  <div class="add_above_contact" id="add_container1">
-  <div class="ad-image-wrapper">
-    <button class="close-btn" onclick="this.parentElement.style.display='none';">×</button>
-    <img src="#" id="add1"/>
-  </div>
-  <div class="ad-image-wrapper">
-    <button class="close-btn" onclick="this.parentElement.style.display='none';">×</button>
-    <img src="#" id="add2"/>
-  </div>
-</div>
 
 
-  <!-- Contact Section -->
-  <section class="contact-section" id="contact">
-    <div class="section-title fade-in">
-      <h2>Contact Us</h2>
-      <p>Get in touch for your grill needs</p>
+
+
+
+
+    <!-- Contact Section -->
+   <!-- Contact Section -->
+<section class="contact-section" id="contact">
+    <div class="section-title">
+        <h2>Contact Us</h2>
+        <p>Get in touch for your grill needs</p>
     </div>
 
-    <div class="about-content">
-      <table class="contact-table fade-in delay-1">
-        <tr>
-          <th colspan="2">Business Information</th>
-        </tr>
-        <tr>
-          <td>Address</td>
-          <td>Muragachhha, Nadia, Post Office opposite</td>
-        </tr>
-        <tr>
-          <td>Working Hours</td>
-          <td>10:00 am - 9:00 pm (Every day)</td>
-        </tr>
-        <tr>
-          <td>Payment Methods</td>
-          <td>Cash, Check, UPI, Netbanking <img class="payment_app_img" src="images/payment_app.jpg"> </td>
-        </tr>
-        <tr>
-          <td>Services</td>
-          <td>Delivery & Installation (Local area)</td>
-        </tr>
-        <tr>
-          <td>Phone</td>
-          <td><a href="tel:+919932134803"><i class="fas fa-phone"></i> +91 9932134803 (click to call)</a></td>
-        </tr>
-        <tr>
-          <td>WhatsApp</td>
-          <td><a href="https://wa.me/9932134803?text=Hello%20Asha%20Grill%20House!"><i class="fab fa-whatsapp"></i> +91 9932134803 (click to chat)</a></td>
-        </tr>
-        <tr>
-          <td>Experience</td>
-          <td><span id="experience">8+</span> years serving the community</td>
-        </tr>
-        <tr>
-          <td>Location</td>
-          <td><a href="https://www.google.com/maps?q=23.530668,88.404787" target="_blank"><i class="fas fa-map-marker-alt"></i> View on Google Maps</a></td>
-        </tr>
-      </table>
+    <div class="contact-content">
+        <!-- Contact Table -->
+        <table class="contact-table">
+            <tr>
+                <th>Information</th>
+                <th>Details</th>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td>📍 Muragachha, Nadia, Post Office opposite</td>
+            </tr>
+            <tr>
+                <td>Working Hours</td>
+                <td>⏰ 10:00 am - 9:00 pm (Every day)</td>
+            </tr>
+            <tr>
+                <td>Payment Methods</td>
+                <td>Cash, Check, UPI, Netbanking<img class="payment_app_img" src="images/payment_app.jpg"></td>
+            </tr>
+            <tr>
+                <td>Phone</td>
+                <td><a href="tel:+919932134803"><i class="fas fa-phone"></i> +91 9932134803 (Click to call)</a></td>
+            </tr>
+            <tr>
+                <td>WhatsApp</td>
+                <td><a href="https://wa.me/919932134803?text=Hello%20Asha%20Grill%20House!"><i class="fab fa-whatsapp"></i> +91 9932134803 (Click to chat)</a></td>
+            </tr>
+            <tr>
+                <td>Experience</td>
+                <td>🛠️ <span id='experience'>8+<span> years serving the community</td>
+            </tr>
+            <tr>
+                <td>Location</td>
+                <td><a href="https://www.google.com/maps?q=23.530668,88.404787" target="_blank"><i class="fas fa-map"></i>   View on Google Maps</a></td>
+            </tr>
+        </table>
+
+        <!-- Google Map -->
+        <div class="contact-map">
+            <iframe
+                src="https://www.google.com/maps?q=23.530668,88.404787&hl=es;z=15&output=embed"
+                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
     </div>
-  </section>
-
-  <div class="sketch_image_container"> 
-    <img src="./images/rail_sketch.jpg" class="rail_sketch">
-    <img src="./images/hammer_sketch.jpg" class="hammer_sketch">
-    <img src="./images/z_sketch.jpg" class="z_sketch">
-  </div>
-
-    <div class="thankyou-container">
-      <div class="thankyou-image">
-        <img src="images/thankyou.gif" alt="Thank You GIF">
-      </div>
-      <div class="thankyou-text">
-        <p><strong>We sincerely thank everyone who has supported us, worked with us, and helped us grow.</strong></p>
-        <p>Your trust, suggestions, and cooperation have made us better at what we do. We are also deeply thankful to those who shared their knowledge and experience with us, and from whom we learned the skills we use today.</p>
-        <p>A special thanks to our valuable customers who gave us real opportunities to learn and improve through their trust.</p>
-        <p><strong>Thank you</strong></p>
-      </div>
-  </div>
-
-    <div class="rating-box">
-      <div class="current-rating">Average Rating: 0 ⭐  (0 users)</div>
-
-      <div class="stars" id="starContainer">
-        <input type="radio" name="rating" id="star1" value="1"><label for="star1" id="rate1">★</label>
-        <input type="radio" name="rating" id="star2" value="2"><label for="star2" id="rate2">★</label>
-        <input type="radio" name="rating" id="star3" value="3"><label for="star3" id="rate3">★</label>
-        <input type="radio" name="rating" id="star4" value="4"><label for="star4" id="rate4">★</label>
-        <input type="radio" name="rating" id="star5" value="5"><label for="star5" id="rate5">★</label>
-      </div>
-
-      <div class="message" id="ratingMsg"></div>
-  </div>
+</section>
 
 
-<div class="add_above_footer" id="adFooter">
-  <button class="close_btn_footer" onclick="document.getElementById('adFooter').style.display='none'">×</button>
-  <img src="#" id="add3">
+
+<!-- Images skectch protinos  -->
+<div class="sketch-container">
+   <img src="./images/rail_sketch.jpg" class="fade-in delay-2">
+    <img src="./images/hammer_sketch.jpg" class="fade-in delay-2">
+    <img src="./images/z_sketch.jpg" class="fade-in delay-2">
 </div>
 
 
 
-<!-- Image Popup Modal -->
-<div id="imageModal">
-  <div class="modal-content">
-    <button class="close-btn">×</button>
-    <img id="popupImage" src="" alt="Preview" />
+  <!-- THANK YOU -->
+  <div class="thankyou-container">
+    <div class="thankyou-image">
+      <img src="images/thankyou.gif" alt="Thank You">
+    </div>
+
+    <div class="thankyou-text" >
+
+<span class='thank_eng'>
+    <strong>We sincerely thank everyone who has supported us, worked with us, and helped us grow.</strong><br>
+
+    Your trust, suggestions, and cooperation have made us better at what we do. We are also deeply thankful to those who shared their knowledge and experience with us, and from whom we learned the skills we use today.
+    <br><br>
+    A special thanks to our valuable customers who gave us real opportunities to learn and improve through their trust.
+    <br>
+    <strong>Thank you</strong>
+</span>
+
+<span class='thank_hin'>
+   <strong>हम उन सभी लोगों के प्रति दिल से आभार व्यक्त करते हैं, जिन्होंने हमारा साथ दिया, हमारे साथ काम किया और हमारे विकास में सहयोग किया।</strong><br>
+
+        आपका विश्वास, सुझाव और सहयोग हमें अपने काम में और बेहतर बनने की प्रेरणा देता है। हम उन सभी लोगों के भी अत्यंत आभारी हैं जिन्होंने अपने ज्ञान और अनुभव हमारे साथ साझा किए, जिनसे हमने आज की यह कला और कौशल सीखा।
+        <br>
+        हम अपने सभी सम्मानित ग्राहकों का विशेष रूप से धन्यवाद करते हैं, जिन्होंने अपने विश्वास के माध्यम से हमें सीखने और आगे बढ़ने के वास्तविक अवसर प्रदान किए।
+        <br>
+        <strong>धन्यवाद</strong>
+</span>
+
+<span class='thank_ben'>
+    <strong>যারা আমাদের সমর্থন করেছেন, আমাদের সাথে কাজ করেছেন এবং আমাদের এগিয়ে যেতে সাহায্য করেছেন, তাদের সকলকে আমরা আন্তরিক আন্তরিক ধন্যবাদ জানাই।</strong>
+
+          আপনাদের আস্থা, পরামর্শ এবং সহযোগিতা আমাদের কাজকে আরও উন্নত করে তুলেছে। এছাড়া যারা তাদের জ্ঞান ও অভিজ্ঞতা আমাদের সাথে ভাগ করে নিয়েছেন এবং যাদের কাছ থেকে আমরা আজকের এই দক্ষতাগুলো অর্জন করতে পেরেছি, তাদের প্রতিও আমরা গভীরভাবে কৃতজ্ঞ।<br>
+
+          আমাদের সম্মানিত গ্রাহকদের জানাই বিশেষ ধন্যবাদ, যারা তাদের আস্থার মাধ্যমে আমাদের শেখার এবং নিজেদের উন্নত করার বাস্তব সুযোগ করে দিয়েছেন।
+          <br>
+          <strong>ধন্যবাদ</strong>
+
+</span>
+
+    </div>
+
   </div>
-</div>
 
 
 
 
-  <!-- Footer -->
-  <footer class="main-footer fade-in delay-2">
+
+<!-- THANK YOU + RATING SECTION -->
+<section class="thank-rating-section" id='rating_section'>
+
+  <!-- RATING -->
+  <div class="rating-box">
+    <div class="current-rating" id="avgRating">
+      Average Rating: 0 ⭐ (0 users)
+    </div>
+
+    <div class="stars" id="starContainer">
+      <input type="radio" name="rating" id="star5" value="5"><label id="rate5" for="star5">★</label>
+      <input type="radio" name="rating" id="star4" value="4"><label id="rate4" for="star4">★</label>
+      <input type="radio" name="rating" id="star3" value="3"><label id="rate3" for="star3">★</label>
+      <input type="radio" name="rating" id="star2" value="2"><label id="rate2" for="star2">★</label>
+      <input type="radio" name="rating" id="star1" value="1"><label id="rate1" for="star1">★</label>
+    </div>
+
+
+    <div class="message" id="ratingMsg"></div>
+  </div>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Footer -->
+<footer class="main-footer fade-in delay-2">
     <div class="footer-icons">
       <!-- Whatsapp -->
       <a href="https://wa.me/9932134803?text=Hello%20there!" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
@@ -417,32 +449,134 @@ At Asha Grill House, we don’t just build iron products—we build trust. With 
       <!-- Cloud (Alternative for Google Drive) -->
       <a href="https://photos.app.goo.gl/tcmQLqqExdfxX3cCA" target="_blank" title="Cloud Storage"><i class="fas fa-cloud"></i> </a>
     </div>
-    
+
+    <table class='footer_table'> <tr>
+    <td colspan='3'>
     <div class="contact-info">
       <p><i class="fas fa-phone"></i> +91 9932134803</p>
-      <p><i class="fas fa-envelope"></i> biggyandas1977@gmail.com</p>
+      <p><i class="fas fa-envelope"></i> ashagrillhouse@gmail.com</p>
       <p><i class="fas fa-clock"></i> Open daily 9am-10pm</p>
     </div>
-    
+    </td>
+
+    <td>
+        <p>View site in</p>
+        <div class="lang-wrapper">
+          <select id="languageSelect">
+            <option value="en" selected>English</option>
+            <option value="bn">বাংলা</option>
+            <option value="hi">हिन्दी</option>
+          </select>
+        </div>
+
+        <br><br><br>
+
+    </td></tr>
+
+    <tr>
+    <td> <a class="nav-btn" data-target="about">About</a>   </td>
+    <td> <a class="nav-btn" data-target="contact">Contact</a> </td>
+    <td> <a class="nav-btn" data-target="gallery">Gallery</a> </td>
+    <td> <a class="nav-btn" data-target="rating_section">Rating</a>  </td>
+    </tr>
+
+    <tr>
+    <td> <a class="nav-btn" data-target="header">Header</a>   </td>
+    <td> <a class="nav-btn" data-target="partners">Partner</a> </td>
+    <td> <a href='./Admin/'>Admin</a> </td>
+    <td> <a href='./animation.html'>Animation</a> </td>
+    </tr>
+
+    <tr>
+    <td> <a href='./sitemap.xml'>Sitemap</a> </td>
+    <td> <a href='./dos.html'>Dos</a> </td>
+    <td> <a href='./hidden_site.html'>Tor</a> </td>
+    <td> <a href='./Music/'>Music</a> </td>
+    </tr>
+
+    <tr>
+    <td> <a href='./robots.txt'>R.file</a> </td>
+    <td id='chatButton'> Chat </td>
+    <td> comming </td>
+    <td> comming </td>
+    </tr>
+
+    </table><br/>
 
     <div class="copyright">
+      <br/>
       <p  id="visit_num">Total visit: Loading...</p>
-      <p>&copy; <script>document.write(new Date().getFullYear());</script> Asha Grill House. All Rights Reserved.</p>
+      <br/><p>We use cookies and local storage. By continuing to browse this site, you agree to the use of cookies and local storage.</p><br/>
+      <p>&copy; <script>document.write(new Date().getFullYear());</script> Asha Grill House. All Rights Reserved.</p><br/>
     </div>
 
-    
-    
   </footer>
 
+
+
+  <!-- Notice Popup -->
+    <div id="noticeOverlay" class="notice-overlay">
+      <div class="notice-box">
+        <button class="notice-close" onclick="closeNotice()">×</button>
+
+        <h2 id="noticeTitle">Important Notice</h2>
+        <p id="noticeMessage">
+          We have a special update for our valued customers.
+        </p>
+
+        <div class="notice-footer">
+          <span id="noticeTime"></span>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+    <div class="thank_you_msg">
+      <span id='thank_msg'>🌟 Thank you for like</span>
+      <span class="sparks"></span>
+    </div>
+
+
+
+
+
+
+<!-- CHAT BOX -->
+<div id="chatBox">
+    <div class="chat-header">
+        <img src='./images/icon.jpg'> M/S ASHA GRILL HOUSE
+        <span id="closeChat">✖</span>
+    </div>
+
+    <div class="chat-body" id="chatBody">
+
+    </div>
+
+    <div class="typing" id="typing">Typing...</div>
+
+    <div class="chat-footer">
+        <input type="text" id="chatInput" placeholder="Type a message...">
+        <button id="sendBtn">➤</button>
+    </div>
 </div>
 
 
 
-<!-- Scroll Indicator -->
-<div id="scroll-indicator">👆</div>
 
-<!-- Scroll-to-Top Button -->
-<button id="scrollTopBtn" title="Go to top">↑</button>
+
+
+
+
+    <script type="module" src="script.js"></script>
+    <script src='./js/chat.js'></script>
+    <script src='./js/message_pop_up.js'></script>
+
 
 </body>
 </html>
