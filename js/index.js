@@ -1,4 +1,4 @@
-import { imagePaths } from './js/mymodule.js';
+import { imagePaths } from './mymodule.js';
 
 const imgCurrent = document.getElementById('imgCurrent');
 const imgNext = document.getElementById('imgNext');
