@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("form");
     const msgBox = document.createElement("div");
     msgBox.className = "form-message";
-    form.prepend(msgBox);
+    form.append(msgBox);
 
     form.addEventListener("submit", function (e) {
         e.preventDefault();
