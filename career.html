@@ -79,6 +79,7 @@
             <form action="submit.php" method="POST" enctype="multipart/form-data">
 
                 <input type="text" name="name" placeholder="Full Name" required>
+                <input type="number" name="phone" placeholder="10 digit phone number" required>
                 <input type="text" name="father_name" placeholder="Father's Name" required>
                 <textarea name="address" placeholder="Address" required></textarea>
 
@@ -90,6 +91,40 @@
                 </select>
 
                 <input type="number" name="age" placeholder="Age (18+ only)" min="18" required>
+
+                <select name="planet" required>
+                    <option value="" disabled selected>Choose your planet</option>
+                    <option value="mercury">Mercury</option>
+                    <option value="venus">Venus</option>
+                    <option value="earth">Earth</option>
+                    <option value="mars">Mars</option>
+                    <option value="jupiter">Jupiter</option>
+                    <option value="saturn">Saturn</option>
+                    <option value="uranus">Uranus</option>
+                    <option value="neptune">Neptune</option>
+                    <option value="pluto">Pluto</option>
+                </select>
+
+                <select id="legs" name="legs" required>
+                    <option value="" disabled selected>Select leg count</option>
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                    <option value="6">6</option>
+                    <option value="more">More than 6</option>
+                </select>
+
+                <select id="species" name="species" required>
+                    <option value="" disabled selected>Select species</option>
+                    <option value="alien">Alien</option>
+                    <option value="human">Human</option>
+                    <option value="animal">Animal</option>
+                    <option value="ghost">Ghost</option>
+                    <option value="dracula">Dracula</option>
+                    <option value="zombie">Zombie</option>
+                </select>
+
+
+
 
                 <input type="file" name="aadhaar" accept=".jpg,.jpeg,.png,.pdf" required>
 
