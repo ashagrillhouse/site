@@ -5,6 +5,20 @@ function showLang(lang) {
 showLang('en');
 
 
+function updateVisitCount(startDate) {
+    const start = new Date(startDate);
+    const today = new Date();
+    const timeDifference = today - start; // Difference in milliseconds
+    const daysCount = Math.floor(timeDifference / (1000 * 60 * 60 * 24)); // Convert to days
+    const result = daysCount * 7; // Multiply by 17
+
+    document.getElementById("visit_num").textContent = `Total visit: ${result}`;
+}
+
+// Example: Calculate from "2024-01-01"
+updateVisitCount("2025-04-01");
+
+
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("form");
     const msgBox = document.createElement("div");

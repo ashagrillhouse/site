@@ -28,6 +28,7 @@
     .close-btn { top:20px; right:30px; }
     .prev-btn { left:30px; top:50%; transform:translateY(-50%); }
     .next-btn { right:30px; top:50%; transform:translateY(-50%); }
+
     .main-footer { background:var(--dark); color:#fff; padding:30px 20px 30px; text-align:center; }
     .footer-icons a { display:inline-flex; align-items:center; justify-content:center; width:50px; height:50px; background:rgba(255,255,255,0.1); border-radius:50%; margin:0 10px; color:#fff; font-size:20px; transition:all .3s; }
     .footer-icons a:hover { background:var(--accent); transform:translateY(-5px); }
@@ -35,6 +36,7 @@
     .contact-info p { margin:10px 0; }
     .contact-info i { margin-right:8px; color:var(--accent); }
     .copyright { margin-top:30px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); }
+
     @media (max-width:768px) { .grid { grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); } }
     @media (max-width:480px) { .grid { grid-template-columns:1fr; } .gallery-header h1 { font-size:2rem; } }
 
