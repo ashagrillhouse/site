@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Application Form | Asha Grill House</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="career.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1 class="page-title">Job Application Form</h1>
+
+    <!-- Language Buttons -->
+    <div class="lang-buttons">
+        <button onclick="showLang('en')">English</button>
+        <button onclick="showLang('bn')">বাংলা</button>
+        <button onclick="showLang('hi')">हिंदी</button>
+    </div>
+
+    <div class="content">
+
+        <!-- LEFT TEXT SECTION -->
+        <div class="info-box">
+
+            <!-- ENGLISH -->
+            <div class="lang en">
+                <h2>Work With Asha Grill House</h2>
+                <p>
+                    At Asha Grill House, we believe that quality food comes from quality people.
+                    We expect our employees to be humble, honest, hardworking, polite, and punctual.
+                    Teamwork, cleanliness, and customer satisfaction matter most to us.
+                </p>
+                <p>
+                    📞 Contact: <strong>+91 98765 43210</strong>
+                </p>
+            </div>
+
+            <!-- BENGALI -->
+            <div class="lang bn">
+                <h2>আশা গ্রিল হাউসে কাজ করুন</h2>
+                <p>
+                    আশা গ্রিল হাউসে আমরা বিশ্বাস করি ভালো খাবার আসে ভালো মানুষের হাত ধরে।
+                    আমাদের কর্মীরা সৎ, ভদ্র, পরিশ্রমী এবং সময়নিষ্ঠ হওয়া আবশ্যক।
+                    পরিষ্কার-পরিচ্ছন্নতা ও গ্রাহক সন্তুষ্টি আমাদের প্রধান লক্ষ্য।
+                </p>
+                <p>
+                    📞 যোগাযোগ: <strong>+91 98765 43210</strong>
+                </p>
+            </div>
+
+            <!-- HINDI -->
+            <div class="lang hi">
+                <h2>आशा ग्रिल हाउस में काम करें</h2>
+                <p>
+                    आशा ग्रिल हाउस में हम मानते हैं कि अच्छा खाना अच्छे लोगों से आता है।
+                    हमारे कर्मचारी ईमानदार, मेहनती, विनम्र और समय के पाबंद होने चाहिए।
+                    स्वच्छता और ग्राहक संतुष्टि हमारे लिए सबसे महत्वपूर्ण है।
+                </p>
+                <p>
+                    📞 संपर्क: <strong>+91 98765 43210</strong>
+                </p>
+            </div>
+
+        </div>
+
+        <!-- RIGHT FORM SECTION -->
+        <div class="form-box">
+            <form action="submit.php" method="POST" enctype="multipart/form-data">
+
+                <input type="text" name="name" placeholder="Full Name" required>
+                <input type="text" name="father_name" placeholder="Father's Name" required>
+                <textarea name="address" placeholder="Address" required></textarea>
+
+                <select name="gender" required>
+                    <option value="">Select Gender</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                </select>
+
+                <input type="number" name="age" placeholder="Age (18+ only)" min="18" required>
+
+                <input type="file" name="aadhaar" accept=".jpg,.jpeg,.png,.pdf" required>
+
+                <button type="submit">Submit Application</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script src='career.js'></script>
+</body>
+</html>
