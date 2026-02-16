@@ -6,9 +6,9 @@ document.addEventListener("DOMContentLoaded", function () {
     ];
 
     let currentPage = window.location.pathname.split("site/").pop() || "index.html";
-    alert(currentPage);
-    if (!allowedPages.includes(currentPage.toLowerCase())) {
-        window.location.replace("not_found.html");
-    }
+    alert(currentPage+" Now updated");
+    // if (!allowedPages.includes(currentPage.toLowerCase())) {
+    //     window.location.replace("not_found.html");
+    // }
 
 });
