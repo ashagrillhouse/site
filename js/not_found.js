@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
         'gallery.html'
     ];
 
-    let currentPage = window.location.pathname.split("/").pop() || "index.html";
+    let currentPage = window.location.pathname.split("site/").pop() || "index.html";
 
     if (!allowedPages.includes(currentPage.toLowerCase())) {
         window.location.replace("not_found.html");
