@@ -180,7 +180,7 @@ updateLanguage();
 
 
 
-
+/*
 ///Weather condition check //////////////////////////////
     //[, ]
     const lat = 23.530668;
@@ -246,7 +246,7 @@ updateLanguage();
       `;
     }
     ////////////////////////////////
-
+*/
 
 
 
@@ -359,7 +359,7 @@ updateLanguage();
     const baseUrl = window.location.origin;
 
     const shareUrl = `${baseUrl}/gallery.html?image=${encodeURIComponent(selectedImageFile)}`;
-
+    alert('Link created:'+shareUrl);
     navigator.clipboard.writeText(shareUrl)
     .then(() => {
       console.log('Copied:', shareUrl);
