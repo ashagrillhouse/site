@@ -1,38 +1,164 @@
+// import { imagePaths } from './mymodule.js';
+//
+// const imgCurrent = document.getElementById('imgCurrent');
+// const imgNext = document.getElementById('imgNext');
+//
+// let index = 0;
+// const total = imagePaths.length;
+//
+// // Initial load
+// imgCurrent.src = imagePaths[index];
+// preloadNext();
+//
+// setInterval(slideNext, 3500);
+//
+// function slideNext() {
+//     imgNext.src = imagePaths[(index + 1) % total];
+//
+//     imgNext.classList.add('active');
+//     imgCurrent.classList.add('exit');
+//
+//     setTimeout(() => {
+//         imgCurrent.src = imgNext.src;
+//
+//         imgCurrent.className = 'slide active';
+//         imgNext.className = 'slide';
+//
+//         index = (index + 1) % total;
+//         preloadNext();
+//     }, 1000);
+// }
+//
+// function preloadNext() {
+//     const preload = new Image();
+//     preload.src = imagePaths[(index + 2) % total];
+// }
+
+
 import { imagePaths } from './mymodule.js';
 
 const imgCurrent = document.getElementById('imgCurrent');
 const imgNext = document.getElementById('imgNext');
+const carousel = document.querySelector('.carousel');
+const btnLeft = document.querySelector('.arrow.left');
+const btnRight = document.querySelector('.arrow.right');
 
 let index = 0;
 const total = imagePaths.length;
+let interval = null;
+let isAnimating = false;
 
-// Initial load
+/* Initial */
 imgCurrent.src = imagePaths[index];
 preloadNext();
+startAuto();
 
-setInterval(slideNext, 3500);
+/* =========================
+ *   CORE SLIDE (FIXED)
+ * ========================= */
 
-function slideNext() {
-    imgNext.src = imagePaths[(index + 1) % total];
+function slide(direction = 1) {
+    if (isAnimating) return;
+    isAnimating = true;
 
+    const nextIndex = (index + direction + total) % total;
+
+    // Prepare next image (NO movement)
+    imgNext.src = imagePaths[nextIndex];
     imgNext.classList.add('active');
+
+    // Animate ONLY current image
     imgCurrent.classList.add('exit');
 
     setTimeout(() => {
-        imgCurrent.src = imgNext.src;
+        imgCurrent.src = imagePaths[nextIndex];
 
-        imgCurrent.className = 'slide active';
+        imgCurrent.className = 'slide';
+        void imgCurrent.offsetWidth; // CRITICAL LINE
+        imgCurrent.classList.add('active');
+
         imgNext.className = 'slide';
 
-        index = (index + 1) % total;
+        index = nextIndex;
         preloadNext();
-    }, 1000);
+
+        isAnimating = false;
+    }, 800);
+
 }
 
-function preloadNext() {
-    const preload = new Image();
-    preload.src = imagePaths[(index + 2) % total];
+/* =========================
+ *   AUTOPLAY
+ * ========================= */
+
+function startAuto() {
+    stopAuto();
+    interval = setInterval(() => slide(1), 3500);
 }
+
+function stopAuto() {
+    if (interval) clearInterval(interval);
+}
+
+/* =========================
+ *   PAUSE ON HOVER
+ * ========================= */
+
+carousel.addEventListener('mouseenter', stopAuto);
+carousel.addEventListener('mouseleave', startAuto);
+
+/* =========================
+ *   ARROWS
+ * ========================= */
+
+btnRight.addEventListener('click', () => {
+    stopAuto();
+    slide(1);
+    startAuto();
+});
+
+btnLeft.addEventListener('click', () => {
+    stopAuto();
+    slide(-1);
+    startAuto();
+});
+
+/* =========================
+ *   SWIPE
+ * ========================= */
+
+let startX = 0;
+
+carousel.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+});
+
+carousel.addEventListener('touchend', e => {
+    const diff = startX - e.changedTouches[0].clientX;
+
+    if (Math.abs(diff) > 50) {
+        stopAuto();
+        diff > 0 ? slide(1) : slide(-1);
+        startAuto();
+    }
+});
+
+/* =========================
+ *   PRELOAD
+ * ========================= */
+
+function preloadNext() {
+    const img = new Image();
+    img.src = imagePaths[(index + 1) % total];
+}
+
+
+
+
+
+
+
+
 
 
 

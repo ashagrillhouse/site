@@ -1,7 +1,8 @@
 //gallery.js
 
 import { imagePaths,specialBgImages, defaultBg} from './mymodule.js';
-
+let selectedImageFile = null;
+let lastSelectedImg = null;
 
 
 
@@ -92,7 +93,7 @@ import { imagePaths,specialBgImages, defaultBg} from './mymodule.js';
 
 
 
-
+/*
 //Scroll Animation/////////////////////////////////////////////////////////////
 // Scroll Animation (replace your old block with this)
 document.addEventListener("DOMContentLoaded", () => {
@@ -133,6 +134,49 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("click", onUserInteract);
   window.addEventListener("mousemove", onUserInteract);
 });
+*/
+
+
+
+
+const menuBtn = document.getElementById('menuBtn');
+const galleryMenu = document.getElementById('galleryMenu');
+
+menuBtn.addEventListener('click', () => {
+  galleryMenu.classList.toggle('active');
+});
+
+
+
+
+const languageSelect = document.getElementById('languageSelect');
+
+function updateLanguage() {
+  document.querySelectorAll('.lan').forEach(el => {
+    el.style.display = 'none';
+  });
+
+  const lang = languageSelect.value;
+
+  if (lang === 'en') {
+    document.querySelectorAll('.lan_eng').forEach(el => el.style.display = 'inline');
+  }
+  else if (lang === 'bn') {
+    document.querySelectorAll('.lan_ben').forEach(el => el.style.display = 'inline');
+  }
+  else if (lang === 'hi') {
+    document.querySelectorAll('.lan_hin').forEach(el => el.style.display = 'inline');
+  }
+}
+
+languageSelect.addEventListener('change', updateLanguage);
+
+updateLanguage();
+
+
+
+
+
 
 
 
@@ -204,6 +248,15 @@ document.addEventListener("DOMContentLoaded", () => {
     ////////////////////////////////
 
 
+
+
+
+
+
+
+
+
+
   const scrollBtn = document.getElementById('scrollTopBtn');
 
   window.addEventListener('scroll', () => {
@@ -216,4 +269,103 @@ document.addEventListener("DOMContentLoaded", () => {
 
   scrollBtn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+
+
+
+/*Serch by image by URL: field: image*/
+
+  // Handle direct image open via URL
+  const params = new URLSearchParams(window.location.search);
+  const imageParam = params.get('image');
+
+  if (imageParam) {
+    const imageIndex = imagePaths.findIndex(src => {
+      return src.endsWith(imageParam);
+    });
+
+    if (imageIndex !== -1) {
+      // Ensure image is loaded in grid
+      const targetItem = imageGrid.children[imageIndex];
+      const img = targetItem.querySelector('img');
+
+      if (!img.src) {
+        img.src = img.dataset.src;
+      }
+
+      // Highlight image
+      targetItem.classList.add('highlight');
+      document.getElementById('galleryInfo').style.display = 'inline-flex';
+
+      // Scroll to image
+      setTimeout(() => {
+        targetItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 200);
+
+      // Open lightbox
+      setTimeout(() => {
+        openLightbox(imageIndex);
+      }, 400);
+    }
+  }
+
+
+
+  document.getElementById('closeGalleryInfo')
+  .addEventListener('click', () => {
+    document.getElementById('galleryInfo').style.display = 'none';
+  });
+
+
+
+
+
+  /*SLECT THE IMAGE ONECE*/
+
+  document.addEventListener('click', function (e) {
+    const img = e.target.closest('.gallery-item img');
+    if (!img) return;
+
+    // Remove selection from previous image
+    if (lastSelectedImg) {
+      lastSelectedImg.classList.remove('selected');
+    }
+
+    // Mark new image as selected
+    img.classList.add('selected');
+    lastSelectedImg = img;
+
+    // Get filename only
+    const src = img.dataset.src || img.src;
+    selectedImageFile = src.split('/').pop();
+
+    //console.log('Selected image:', selectedImageFile);
+  });
+
+
+
+
+  /*SHARE IMAGES AND CPOLIED LINK*/
+
+  const shareBtn = document.getElementById('shareImageLink');
+
+  shareBtn.addEventListener('click', () => {
+    if (!selectedImageFile) {
+      alert('Please select an image first');
+      return;
+    }
+
+    const baseUrl = window.location.origin;
+
+    const shareUrl = `${baseUrl}/gallery.html?image=${encodeURIComponent(selectedImageFile)}`;
+
+    navigator.clipboard.writeText(shareUrl)
+    .then(() => {
+      console.log('Copied:', shareUrl);
+      alert('Image link copied to clipboard');
+    })
+    .catch(() => {
+      alert('Copy failed. Please copy manually.');
+    });
   });

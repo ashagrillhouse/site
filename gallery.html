@@ -28,13 +28,72 @@
   <script src="js/add.js" defer></script>
 </head>
 <body >
-  <header class="gallery-header">
+  <!--<header class="gallery-header">
     <h1>Our Gallery</h1>
     <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
     <div id="weather">Loding...</div>
-  </header>
+  </header>-->
+
+  <header class="gallery-top">
+  <div class="top-bar">
+    <div class="brand">
+      <span class="lan lan_eng">Asha Grill House</span>
+      <span class="lan lan_ben">আশা গ্রিল হাউস</span>
+      <span class="lan lan_hin">आशा ग्रिल हाउस</span>
+  </div>
+
+
+    <button class="menu-btn" id="menuBtn" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <nav class="gallery-menu" id="galleryMenu">
+    <a href="index.html">Home</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="index.html#about">About</a>
+    <a href='' id="shareImageLink">Share</a>
+
+  </nav>
+
+ <div class="gallery-disclaimer">
+    <span class="lan lan_eng">
+      These images belong to Asha Grill House. All copyrights are reserved.
+      You may view, download, and share these images for individual use only.
+      Commercial use or redistribution on other platforms is strictly prohibited.
+    </span>
+
+    <span class="lan lan_ben">
+      এই ছবিগুলি আশা গ্রিল হাউসের সম্পত্তি। সমস্ত কপিরাইট সংরক্ষিত।
+      এই ছবিগুলি শুধুমাত্র ব্যক্তিগত ব্যবহারের জন্য দেখা, ডাউনলোড এবং শেয়ার করা যাবে।
+      বাণিজ্যিক উদ্দেশ্যে বা অন্য কোনো প্ল্যাটফর্মে পুনরায় ব্যবহার বা বিতরণ কঠোরভাবে নিষিদ্ধ।
+    </span>
+
+    <span class="lan lan_hin">
+      ये चित्र आशा ग्रिल हाउस की संपत्ति हैं। सभी कॉपीराइट सुरक्षित हैं।
+      इन चित्रों को केवल व्यक्तिगत उपयोग के लिए देखना, डाउनलोड करना और साझा करना अनुमत है।
+      व्यावसायिक उपयोग या किसी अन्य प्लेटफ़ॉर्म पर पुनः वितरण सख्त रूप से प्रतिबंधित है।
+    </span>
+</div>
+
+</header>
+
+
+  <div class="gallery-info" id="galleryInfo">
+  <span class="gallery-info-text">
+    The selected image is shown with a red border
+  </span>
+  <button class="gallery-info-close" id="closeGalleryInfo">×</button>
+</div>
+
+
+
 
   <div class="grid" id="imageGrid"></div>
+
+
 
   <div class="lightbox" id="lightbox">
     <button class="close-btn" id="closeBtn">&times;</button>
@@ -43,27 +102,25 @@
     <button class="nav-btn next-btn" id="nextBtn">&#10095;</button>
   </div>
 
-   <!-- Ad Popup -->
-  <div id="adPopup" class="popup-container">
-    <div class="popup-content">
-      <span id="closePopup" class="close_add_btn">✖</span>
-      <img src="#" id="add5" alt="Ad Image">
-    </div>
+    <div class="gallery-logo">
+    <img src="images/icon.png" alt="Asha Grill House Logo">
+    <p class="gallery-logo-text">Asha Grill House</p>
   </div>
+
+
  
   <!-- Scroll Indicator -->
-  <div id="scroll-indicator">👆</div>
+  <!--<div id="scroll-indicator">👆</div>-->
 
   <!-- Footer -->
-  <footer class="main-footer fade-in delay-2">
+  <!--<footer class="main-footer fade-in delay-2">
     <div class="footer-icons">
-      <!-- Whatsapp -->
       <a href="https://wa.me/9932134803?text=Hello%20there!" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-      <!-- Google map-->
+
       <a href="https://www.google.com/maps?q=23.530668,88.404787" target="_blank" title="Location"><i class="fas fa-map-marker-alt"></i></a>
-      <!-- YouTube -->
+
       <a href="https://youtube.com/" target="_blank" title="YouTube"><i class="fab fa-youtube"></i> </a>
-      <!-- Cloud (Alternative for Google Drive) -->
+
       <a href="https://photos.app.goo.gl/tcmQLqqExdfxX3cCA" target="_blank" title="Cloud Storage"><i class="fas fa-cloud"></i> </a>
     </div>
     
@@ -77,7 +134,87 @@
       <p  id="visit_num">Total visit: Loading...</p>
       <p>&copy; <script>document.write(new Date().getFullYear());</script> Asha Grill House. All Rights Reserved.</p>
     </div>
+  </footer>-->
+  <!-- Footer -->
+<footer class="main-footer fade-in delay-2">
+    <div class="footer-icons">
+      <!-- Whatsapp -->
+      <a href="https://wa.me/9932134803?text=Hello%20there!" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <!-- Google map-->
+      <a href="https://www.google.com/maps?q=23.530668,88.404787" target="_blank" title="Location"><i class="fas fa-map-marker-alt"></i></a>
+      <!-- YouTube -->
+      <a href="https://youtube.com/" target="_blank" title="YouTube"><i class="fab fa-youtube"></i> </a>
+      <!-- Cloud (Alternative for Google Drive) -->
+      <a href="https://photos.app.goo.gl/tcmQLqqExdfxX3cCA" target="_blank" title="Cloud Storage"><i class="fas fa-cloud"></i> </a>
+    </div>
+
+    <table class='footer_table'> <tr>
+    <td colspan='3'>
+    <div class="contact-info">
+      <p><i class="fas fa-phone"></i> +91 9932134803</p>
+      <p><i class="fas fa-envelope"></i> ashagrillhouse@gmail.com</p>
+      <p><i class="fas fa-clock"></i> Open daily 9am-10pm</p>
+    </div>
+    </td>
+
+    <td>
+        <p>View site in</p>
+        <div class="lang-wrapper">
+          <select id="languageSelect">
+            <option value="en" selected>English</option>
+            <option value="bn">বাংলা</option>
+            <option value="hi">हिन्दी</option>
+          </select>
+        </div>
+
+        <br><br><br>
+
+    </td></tr>
+
+    <tr>
+    <td> <a href='index.html#about'>About</a>   </td>
+    <td> <a href='index.html#contact'>Contact</a> </td>
+    <td> <a href='#index.html#gallery'>Gallery</a> </td>
+    <td> <a href='index.html#rating'>Rating</a>  </td>
+    </tr>
+
+    <tr>
+    <td> <a href='index.html#header'>Header</a>   </td>
+    <td> <a href='index.html#partner'>Partner</a> </td>
+    <td> <a href='./Admin/'>Admin</a> </td>
+    <td> <a href='./animation.html'>Animation</a> </td>
+    </tr>
+
+    <tr>
+    <td> <a href='./sitemap.xml'>Sitemap</a> </td>
+    <td> <a href='./dos.html'>Dos</a> </td>
+    <td> <a href='./hidden_site.html'>Tor</a> </td>
+    <td> <a href='./Music/'>Music</a> </td>
+    </tr>
+
+    <tr>
+    <td> <a href='./robots.txt'>R.file</a> </td>
+    <td > Comming soon</td>
+    <td> <a href='old_index.html'>Old Home</a> </td>
+    <td> <a href='career.html'> Career </a></td>
+    </tr>
+
+    </table><br/>
+
+    <div class="copyright">
+      <br/>
+      <p  id="visit_num">Total visit: Loading...</p>
+      <br/><p>We use cookies and local storage. By continuing to browse this site, you agree to the use of cookies and local storage.</p><br/>
+      <p>&copy; <script>document.write(new Date().getFullYear());</script> Asha Grill House. All Rights Reserved.</p><br/>
+    </div>
+
   </footer>
+
+
+
+
+
+
 
 
   <button id="scrollTopBtn">↑</button>
