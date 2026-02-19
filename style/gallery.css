@@ -64,9 +64,20 @@
      font-size: 14px;
      color: #b1330b;
      text-decoration: none;
+     cursor:pointer;
+   }
+   .gallery-menu span{
+     margin-right: 18px;
+     font-size: 14px;
+     color: #b1330b;
+     text-decoration: none;
+     cursor:pointer;
    }
 
    .gallery-menu a:hover {
+     text-decoration: underline;
+   }
+   .gallery-menu span:hover {
      text-decoration: underline;
    }
 
