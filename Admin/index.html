@@ -154,36 +154,51 @@
 
 
 
-    const SERVER_URL = "http://localhost"; // CHANGE THIS
+    const SERVER_URL = "http://localhost/check_server_status.php"; // CHANGE IF NEEDED
 
-    const statusDot = document.getElementById('statusDot');
-    const statusText = document.getElementById('statusText');
+const statusDot = document.getElementById('statusDot');
+const statusText = document.getElementById('statusText');
 
-    function setStatus(online) {
-      statusDot.className = 'status-dot ' + (online ? 'online' : 'offline');
-      statusText.textContent = online ? 'Online' : 'Offline';
+function setStatus(online) {
+  statusDot.className = 'status-dot ' + (online ? 'online' : 'offline');
+  statusText.textContent = online ? 'Online' : 'Offline';
+}
+
+async function checkServer() {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 4000);
+
+    const res = await fetch(SERVER_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ping: 1 }),
+      cache: 'no-store',
+      signal: controller.signal
+    });
+
+    clearTimeout(timeout);
+
+    if (!res.ok) throw new Error("Bad response");
+
+    const data = await res.json();
+
+    if (data?.status === "ok") {
+      setStatus(true);
+    } else {
+      setStatus(false);
     }
 
-    async function checkServer() {
-      try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 4000);
+  } catch (e) {
+    setStatus(false);
+  }
+}
 
-        await fetch(SERVER_URL, {
-          method: 'HEAD',
-          cache: 'no-store',
-          signal: controller.signal
-        });
+checkServer();
+setInterval(checkServer, 15000);
 
-        clearTimeout(timeout);
-        setStatus(true);
-      } catch (e) {
-        setStatus(false);
-      }
-    }
-    checkServer();
-
-    setInterval(checkServer, 15000);
 
 
 
