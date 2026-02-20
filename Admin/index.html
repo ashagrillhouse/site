@@ -16,9 +16,15 @@
 
 
   <div class="container">
-    <div class="topbar">
-  <div id="current-time">🕒 Loading time...</div>
-</div>
+
+
+    <div class="topbar server-status">
+      <span class="status-dot" id="statusDot"></span>
+      <span class="status-text" id="statusText">Checking...</span>
+    </div>
+
+  <!--<div id="current-time">🕒 Loading time...</div>-->
+<!--</div>-->
     <div class="profile">
       <img src="../images/owner.jpg" alt="Admin Photo">
       <div class="profile-info">
@@ -107,28 +113,28 @@
    window.location.replace('index.html');
   }
 
-function updateClock() {
-  const now = new Date();
-
-  const day = now.getDate();
-  const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
-  const month = monthNames[now.getMonth()];
-  const year = now.getFullYear().toString().slice(-2); // Get last 2 digits of year
-
-  let hours = now.getHours();
-  const minutes = now.getMinutes().toString().padStart(2, '0');
-  const ampm = hours >= 12 ? "PM" : "AM";
-  hours = hours % 12 || 12;
-
-  const formattedTime = `${day} ${month}, ${year}, ${hours}:${minutes}${ampm}`;
-  document.getElementById("current-time").textContent = `🕒 ${formattedTime}`;
-}
-
-  setInterval(updateClock, 1000);
-  updateClock();
+// function updateClock() {
+//   const now = new Date();
+//
+//   const day = now.getDate();
+//   const monthNames = [
+//     "January", "February", "March", "April", "May", "June",
+//     "July", "August", "September", "October", "November", "December"
+//   ];
+//   const month = monthNames[now.getMonth()];
+//   const year = now.getFullYear().toString().slice(-2); // Get last 2 digits of year
+//
+//   let hours = now.getHours();
+//   const minutes = now.getMinutes().toString().padStart(2, '0');
+//   const ampm = hours >= 12 ? "PM" : "AM";
+//   hours = hours % 12 || 12;
+//
+//   const formattedTime = `${day} ${month}, ${year}, ${hours}:${minutes}${ampm}`;
+//   document.getElementById("current-time").textContent = `🕒 ${formattedTime}`;
+// }
+//
+//   setInterval(updateClock, 1000);
+//   updateClock();
 
   // Session timer
   let seconds = 0;
@@ -139,6 +145,50 @@ function updateClock() {
   }, 1000);
 
   checkLogin();
+
+
+
+
+
+
+
+
+
+    const SERVER_URL = "http://localhost"; // CHANGE THIS
+
+    const statusDot = document.getElementById('statusDot');
+    const statusText = document.getElementById('statusText');
+
+    function setStatus(online) {
+      statusDot.className = 'status-dot ' + (online ? 'online' : 'offline');
+      statusText.textContent = online ? 'Online' : 'Offline';
+    }
+
+    async function checkServer() {
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 4000);
+
+        await fetch(SERVER_URL, {
+          method: 'HEAD',
+          cache: 'no-store',
+          signal: controller.signal
+        });
+
+        clearTimeout(timeout);
+        setStatus(true);
+      } catch (e) {
+        setStatus(false);
+      }
+    }
+    checkServer();
+
+    setInterval(checkServer, 15000);
+
+
+
+
+
 </script>
 
 </body>

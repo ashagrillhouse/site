@@ -7,9 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <title>Receipt - Asha Grill House</title>
-  <link rel="stylesheet" href="../style/receipt.css" />
+  <link rel="stylesheet" href="../style/receipt2.css" />
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
 </head>
 <body>
+
+
+
 
   <div id="popup">
     <div id="popup-content">
@@ -17,7 +22,7 @@
       <input type="text" id="cust-name" placeholder="Name">
       <input type="text" id="cust-address" placeholder="Address">
       <input type="text" id="cust-phone" placeholder="Phone">
-      <button class="btn" onclick="saveCustomer()">Save</button>
+      <button class="btn2" onclick="saveCustomer()">Save</button>
     </div>
   </div>
 
@@ -44,10 +49,10 @@
     <tbody id="items-body"></tbody>
   </table>
 
-  <div style="text-align: right;">
-    <button class="btn" onclick="addRow()">➕ Add Item</button>
-    <button class="btn btn-danger" onclick="clearAll()">🧹 Clear All</button>
-    <button class="btn" onclick="window.print()">🖨️ Print</button>
+  <div style="text-align: right;" class="receipt-actions">
+    <button class="btn2" onclick="addRow()">➕ Add Item</button>
+    <button class="btn2 btn-danger" onclick="clearAll()">🧹 Clear All</button>
+    <button class="btn2" onclick="window.print()">🖨️ Print</button>
   </div>
 
   <div id="total">Total(মোট): ₹0.00</div>
@@ -59,6 +64,26 @@
     <p>Note: Computer-generated receipt. Only signed copies are valid.</p>
 </div>
 
+
+<script>
+    const SERVER_URL = "http://127.0.0.1/save.php";
+
+        const saveLS = (key, value) => {
+      localStorage.setItem(key, JSON.stringify(value));
+    };
+
+    const getLS = (key) => {
+      const v = localStorage.getItem(key);
+      return v ? JSON.parse(v) : null;
+    };
+
+    const delLS = (key) => {
+      localStorage.removeItem(key);
+    };
+
+</script>
+
+
   <script>
     const itemsList = ["Old Grill(পুরোনো গ্রিল)","Wages(মজুরি)","Iron(লোহা)", "Sheet(শিট)","Tin(টিন)","Flower(ফুল)", "Leaf(পাতা)","Ball(বল)","Cone(কোন)","Design(ডিজাইন)","Hinges(কব্জা)","Others(অন্যান্য)"];
     const units = ["Kg(কেজি)", "Piece(টা)", "Packet(প্যাকেট)","Box(বাক্স)","Day(দিন)","--"];
@@ -67,28 +92,29 @@
       const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
       return match ? decodeURIComponent(match[2]) : null;
     };
-
-    const setCookie = (name, value) => {
-      document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=31536000`;
-    };
+    //
+    // const setCookie = (name, value) => {
+    //   document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=31536000`;
+    // };
 
     function saveCustomer() {
       const name = document.getElementById("cust-name").value;
       const address = document.getElementById("cust-address").value;
       const phone = document.getElementById("cust-phone").value;
       if (name && address && phone) {
-        setCookie("custName", name);
-        setCookie("custAddr", address);
-        setCookie("custPhone", phone);
+        saveLS("customer", { name, address, phone });
         document.getElementById("popup").style.display = "none";
         updateCustomerLine();
       }
     }
 
     function updateCustomerLine() {
-      const name = getCookie("custName");
-      const address = getCookie("custAddr");
-      const phone = getCookie("custPhone");
+      const cust = getLS("customer");
+      if (!cust) return;
+
+      const { name, address, phone } = cust;
+
+
       const now = new Date().toLocaleString("en-IN", {
         day: "2-digit", month: "short", year: "numeric",
         hour: "2-digit", minute: "2-digit", hour12: true
@@ -201,30 +227,76 @@
         unit: row.querySelectorAll("select")[1].value,
         price: row.querySelector(".price").value
       }));
-      setCookie("itemsData", JSON.stringify(items));
+      saveLS("itemsData", items);
+
     }
 
     function loadItemsFromCookie() {
-      const data = getCookie("itemsData");
+    const data = getLS("itemsData");
       if (data) {
-        JSON.parse(data).forEach(i => addRow(i.item, i.qty, i.unit, i.price));
-      } else {
+        data.forEach(i => addRow(i.item, i.qty, i.unit, i.price));
+      }
+      else {
         addRow();
       }
     }
 
+
+
+
+
+
     function clearAll() {
-      document.cookie = "custName=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
-      document.cookie = "custAddr=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
-      document.cookie = "custPhone=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
-      document.cookie = "itemsData=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
-      location.reload();
-    }
+
+      const customer = getLS("customer");
+      const items = getLS("itemsData");
+
+      if (!customer || !items || items.length === 0) {
+        alert("No data to save.");
+        return;
+      }
+
+      const payload = {
+        customer,
+        items,
+        receiptId: document.getElementById("receipt-id").textContent,
+        total: document.getElementById("total").textContent,
+        createdAt: new Date().toISOString()
+      };
+
+      $.ajax({
+        url: SERVER_URL,
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(payload),
+
+        success: function (res) {
+          if (res && res.status === "success") {
+            delLS("customer");
+            delLS("itemsData");
+            alert("Saved successfully. Clearing data.");
+            location.reload();
+          } else {
+            alert("Server error: Data not saved. Clear aborted.");
+          }
+        },
+
+        error: function () {
+          alert("Server not reachable. Data NOT cleared.");
+        }
+      });
+}
+
+
+
+
+
+
 
     document.getElementById("receipt-id").textContent = generateReceiptID();
 
     window.onload = () => {
-      if (getCookie("custName")) {
+      if (getLS("customer")) {
         document.getElementById("popup").style.display = "none";
         updateCustomerLine();
       }
@@ -279,5 +351,47 @@
     });
 
   </script>
+
+  <script>
+  let printBackup = [];
+
+  window.addEventListener("beforeprint", () => {
+    printBackup = [];
+
+    document.querySelectorAll("#items-body tr").forEach(row => {
+      const qtyInput = row.querySelector(".qty");
+      const unitSelect = row.querySelectorAll("select")[1];
+      const qtyCell = qtyInput.parentElement;
+      const unitCell = unitSelect.parentElement;
+
+      // backup original HTML
+      printBackup.push({
+        qtyCell,
+        unitCell,
+        qtyHTML: qtyCell.innerHTML,
+        unitHTML: unitCell.innerHTML
+      });
+
+      const qtyVal = qtyInput.value || "0";
+      const unitVal = unitSelect.value || "";
+
+      // Replace with merged text
+      qtyCell.innerHTML = `${qtyVal} ${unitVal}`;
+      unitCell.innerHTML = "";
+    });
+  });
+
+  window.addEventListener("afterprint", () => {
+    // restore original inputs
+    printBackup.forEach(b => {
+      b.qtyCell.innerHTML = b.qtyHTML;
+      b.unitCell.innerHTML = b.unitHTML;
+    });
+  });
+</script>
+
+
+
+
 </body>
 </html>

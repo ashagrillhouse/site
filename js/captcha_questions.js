@@ -2,17 +2,32 @@
 
 const questions = [
   {
-    question: "What is the value of x in 1<sup>x</sup> = 6?",
+    image: "../math_imgs/equation6.jpg",
+    question: "Find the value?",
+    answer: "error",
+    type: "text"
+  },
+  {
+    image: "../math_imgs/equation2.jpg",
+    question: "",
+    answer: "0",
+    type: "text"
+  },
+  {
+    image: "../math_imgs/equation3.jpg",
+    question: "",
     answer: "log(6)",
     type: "text"
   },
   {
-    question: "If m + 1 = m, what is the value of m?",
+    image: "../math_imgs/equation4.jpg",
+    question: "",
     answer: "-0.5",
     type: "number"
   },
   {
-    question: "What is X if X<sup>x</sup> = X and X > 0?",
+    image: "../math_imgs/equation5.jpg",
+    question: "",
     answer: "1",
     type: "number"
   },
@@ -36,7 +51,7 @@ const questions = [
   },
   {
     image: "../math_imgs/equation1.jpg",
-    question: "FInd the value of x?",
+    question: "Find the value of x?",
     answer: " ",
     type: "number"
   }

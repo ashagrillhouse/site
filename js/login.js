@@ -6,7 +6,7 @@ async function loadPassword() {
     const response = await fetch('../js/password_hash.json');
     const data = await response.json();
     PASS_HASH = data.password;
-    console.log("PASS_HASH loaded:", PASS_HASH);
+    //console.log("PASS_HASH loaded:", PASS_HASH);
 
     initLogin(); // ✅ Only run login logic after password is loaded
   } catch (error) {
@@ -68,8 +68,15 @@ function getCookie(name) {
   if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
+
+
+
+
+
+
 // CAPTCHA logic — unchanged
 const checkbox = document.getElementById("captcha-check");
+const checkbox_img = document.getElementById("captcha-check_img");
 const popup = document.getElementById("popup");
 const questionContent = document.getElementById("question-content");
 const answerInput = document.getElementById("answer-input");
@@ -109,6 +116,8 @@ submitButton.addEventListener("click", () => {
 
   if (userAnswer === correctAnswer) {
     popup.style.display = "none";
+    checkbox.style.display='none';
+    checkbox_img.style.display='none';
     successMessage.textContent = "✅ Verified successfully!";
   } else {
     feedback.textContent = "❌ Incorrect answer, try again.";
