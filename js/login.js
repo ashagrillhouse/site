@@ -20,7 +20,7 @@ loadPassword();
 // Login logic runs *after* password is loaded
 function initLogin() {
   if (getCookie("adminAuth") === PASS_HASH) {
-    window.location.href = "./Admin/admin.html";
+    window.location.href = "./Admin/index.html";
   }
 
   const form = document.getElementById("login-form");
@@ -44,7 +44,7 @@ function initLogin() {
       const expiryDate = new Date();
       expiryDate.setDate(expiryDate.getDate() + 7);
       document.cookie = `adminAuth=${hash}; expires=${expiryDate.toUTCString()}; path=/`;
-      window.location.href = "./admin.html";
+      window.location.href = "./index.html";
     } else {
       errorMessage.textContent = "❌ Incorrect password.";
     }

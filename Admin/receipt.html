@@ -66,7 +66,7 @@
 
 
 <script>
-    const SERVER_URL = "http://127.0.0.1/save.php";
+    const SERVER_URL = "http://localhost/save.php";
 
         const saveLS = (key, value) => {
       localStorage.setItem(key, JSON.stringify(value));
@@ -271,6 +271,7 @@
         data: JSON.stringify(payload),
 
         success: function (res) {
+          alert(res.status);
           if (res && res.status === "success") {
             delLS("customer");
             delLS("itemsData");
@@ -350,45 +351,45 @@
       console.error("Failed to load Base64 image:", error);
     });
 
-  </script>
+   </script>
 
-  <script>
-  let printBackup = [];
-
-  window.addEventListener("beforeprint", () => {
-    printBackup = [];
-
-    document.querySelectorAll("#items-body tr").forEach(row => {
-      const qtyInput = row.querySelector(".qty");
-      const unitSelect = row.querySelectorAll("select")[1];
-      const qtyCell = qtyInput.parentElement;
-      const unitCell = unitSelect.parentElement;
-
-      // backup original HTML
-      printBackup.push({
-        qtyCell,
-        unitCell,
-        qtyHTML: qtyCell.innerHTML,
-        unitHTML: unitCell.innerHTML
-      });
-
-      const qtyVal = qtyInput.value || "0";
-      const unitVal = unitSelect.value || "";
-
-      // Replace with merged text
-      qtyCell.innerHTML = `${qtyVal} ${unitVal}`;
-      unitCell.innerHTML = "";
-    });
-  });
-
-  window.addEventListener("afterprint", () => {
-    // restore original inputs
-    printBackup.forEach(b => {
-      b.qtyCell.innerHTML = b.qtyHTML;
-      b.unitCell.innerHTML = b.unitHTML;
-    });
-  });
-</script>
+   <script>
+//   let printBackup = [];
+//
+//   window.addEventListener("beforeprint", () => {
+//     printBackup = [];
+//
+//     document.querySelectorAll("#items-body tr").forEach(row => {
+//       const qtyInput = row.querySelector(".qty");
+//       const unitSelect = row.querySelectorAll("select")[1];
+//       const qtyCell = qtyInput.parentElement;
+//       const unitCell = unitSelect.parentElement;
+//
+//       // backup original HTML
+//       printBackup.push({
+//         qtyCell,
+//         unitCell,
+//         qtyHTML: qtyCell.innerHTML,
+//         unitHTML: unitCell.innerHTML
+//       });
+//
+//       const qtyVal = qtyInput.value || "0";
+//       const unitVal = unitSelect.value || "";
+//
+//       // Replace with merged text
+//       qtyCell.innerHTML = `${qtyVal} ${unitVal}`;
+//       unitCell.innerHTML = "";
+//     });
+//   });
+//
+//   window.addEventListener("afterprint", () => {
+//     // restore original inputs
+//     printBackup.forEach(b => {
+//       b.qtyCell.innerHTML = b.qtyHTML;
+//       b.unitCell.innerHTML = b.unitHTML;
+//     });
+//   });
+// </script>
 
 
 
