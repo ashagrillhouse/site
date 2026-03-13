@@ -1226,42 +1226,49 @@ transform: translateX(-100%);
     to { opacity: 1; }
 }
 
+
+
+
+
+
+
+
+
+
 /* Popup modal styling */
-#imageModal {
-position: fixed;
-top: 0;
-left: 0;
-width: 60%;
-margin-left:auto;
-margin-right:auto;
-/*height: 100%;*/
-background-color: rgba(0,0,0,0.8);*/
-display: none;
-align-items: center;
-justify-content: center;
-z-index: 1000;
+/*#imageModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height:100%;
+    background-color: rgba(0,0,0,0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
 }
 #imageModal .modal-content {
-position: relative;
-max-width: 90%;
-max-height: 90%;
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
 }
 #imageModal img {
-width: 100%;
-height: auto;
-border-radius: 8px;
-margin:auto 20px;
+    width: 50%;
+    height: 50%;
+    border-radius: 8px;
+    margin-left:auto;
+    margin-right:auto;
 }
 #imageModal .close-btn {
-position: absolute;
-top: 10px;
-right: 15px;
-font-size: 30px;
-color: white;
-cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .about-section {
         padding: 40px 15px;
@@ -1273,7 +1280,169 @@ cursor: pointer;
         font-size: 0.9rem;
         padding: 10px 25px;
     }
+}*/
+/* ──────────────── Professional Modal ──────────────── */
+#imageModal {
+position: fixed;
+inset: 0;                   /* full screen */
+background: rgba(0, 0, 0, 0.85);
+backdrop-filter: blur(12px);        /* strong blur */
+-webkit-backdrop-filter: blur(12px);
+display: block;
+align-items: center;
+justify-content: center;
+z-index: 10000;             /* higher than other elements */
+opacity: 0;
+transition: opacity 0.35s ease;
 }
+
+#imageModal.show {
+opacity: 1;
+display: flex;              /* important for centering */
+}
+
+/* Modal container */
+.modal-content {
+    position: relative;
+    max-width: 92vw;
+    max-height: 90vh;
+    padding: 20px 25px 60px;    /* extra bottom space for download button */
+    border-radius: 16px;
+    background: rgba(20, 20, 30, 0.35);
+    box-shadow: 0 20px 70px rgba(0,0,0,0.75);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.08);
+    overflow: hidden;
+}
+
+/* Centered image */
+#modalImage {
+display: block;
+max-width: 100%;
+max-height: 75vh;           /* leave space for buttons */
+margin: 0 auto;             /* perfect centering */
+border-radius: 10px;
+object-fit: contain;
+background: #0f0f0f;
+box-shadow: 0 8px 35px rgba(0,0,0,0.6);
+}
+
+/* Close button - top right, simple cross, no circle */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 10px;
+    z-index: 10;
+    transition: all 0.25s ease;
+}
+
+.close-btn:hover {
+    color: #ff5252;             /* red on hover */
+    transform: scale(1.15);
+}
+
+/* Download button - bottom center, nice hover */
+.model_image_download {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, #c62828, #b71c1c);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    transition: all 0.3s ease;
+}
+
+.model_image_download:hover {
+    background: linear-gradient(135deg, #e53935, #d32f2f);
+    transform: translateX(-50%) translateY(-3px);
+    box-shadow: 0 12px 30px rgba(198,40,40,0.6);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .modal-content {
+        padding: 15px 15px 70px;
+    }
+    #modalImage {
+    max-height: 65vh;
+    }
+    .close-btn {
+        font-size: 36px;
+        right: 15px;
+        top: 12px;
+    }
+    .model_image_download {
+        padding: 10px 24px;
+        font-size: 0.95rem;
+    }
+}
+
+
+
+
+
+
+
+
+/*//////////////Hover of the image in about hyper link section ///////////////////////////*/
+/* ──────────────── Hover Preview Above Word ──────────────── */
+.service-hover-preview {
+    position: absolute;           /* ← important: absolute to position near word */
+    pointer-events: none;
+    z-index: 9999;
+    width: 260px;
+    height: 180px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.55);
+    background: #111;
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+    transition: opacity 0.18s ease, transform 0.22s ease;
+    border: 2px solid rgba(198,40,40,0.3);
+}
+
+.service-hover-preview.visible {
+    opacity: 1;
+    transform: translateY(-15px) scale(1);
+}
+
+.service-hover-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Hide on touch devices / mobile */
+@media (max-width: 768px) {
+    .service-hover-preview {
+        display: none !important;
+    }
+}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2195,4 +2364,6 @@ z-index: 9999;
         max-width: 90%;
     }
 }
+
+
 

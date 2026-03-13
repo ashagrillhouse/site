@@ -156,13 +156,34 @@ We proudly serve the regions of Muragachha, Sadhanpara, Dharmada, Dhumuliya, Gac
     বাংলা দেখুন
   </button>-->
 
-  <!-- Popup Modal -->
-  <div id="imageModal" style="display:none;">
+
+
+<!-- Floating preview (desktop hover) -->
+<!--<div class="service-preview" id="servicePreview">
+    <img id="previewImage" src="" alt="Service preview">
+</div>-->
+
+<!-- Professional modal -->
+<div id="imageModal">
     <div class="modal-content">
-      <span class="close-btn">&times;</span>
-      <img id="modalImage" src="" alt="Service Image">
+        <!-- Close button - simple cross, top-right -->
+        <button class="close-btn" aria-label="Close modal">×</button>
+
+        <!-- The image - centered -->
+        <img id="modalImage" src="" alt="Service image">
+
+        <!-- Download button - bottom center -->
+        <button class="model_image_download" id="downloadBtn">
+            Download Image
+        </button>
     </div>
-  </div>
+</div>
+
+<!-- Floating preview that appears above hovered service word -->
+<div class="service-hover-preview" id="serviceHoverPreview">
+    <img id="hoverPreviewImg" src="" alt="Preview">
+</div>
+
 
 </section>
 

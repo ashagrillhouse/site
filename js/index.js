@@ -166,28 +166,98 @@ function preloadNext() {
 //"বাংলা দেখুন"  "हिन्दी देखें" "View English";
 
 
+// $(document).ready(function(){
+//
+//
+//     // Popup on service word click
+//     $('.service').click(function(){
+//         var imgSrc = $(this).data('img'); // get image path from data-img
+//         $('#modalImage').attr('src', imgSrc);
+//         $('#imageModal').fadeIn();
+//     });
+//
+//     // Close popup on X click
+//     $('#imageModal .close-btn').click(function(){
+//         $('#imageModal').fadeOut();
+//     });
+//
+//     // Close popup when clicking outside image
+//     $('#imageModal').click(function(e){
+//         if(e.target.id === 'imageModal') {
+//             $(this).fadeOut();
+//         }
+//     });
+//
+// });
 $(document).ready(function(){
-
-
-    // Popup on service word click
+    // Open modal
     $('.service').click(function(){
-        var imgSrc = $(this).data('img'); // get image path from data-img
+        var imgSrc = $(this).data('img');
         $('#modalImage').attr('src', imgSrc);
-        $('#imageModal').fadeIn();
+        $('#imageModal').addClass('show').fadeIn();  // add .show class
     });
 
-    // Close popup on X click
+    // Close on X
     $('#imageModal .close-btn').click(function(){
-        $('#imageModal').fadeOut();
+        $('#imageModal').removeClass('show').fadeOut();
     });
 
-    // Close popup when clicking outside image
+    // Close when clicking outside image
     $('#imageModal').click(function(e){
         if(e.target.id === 'imageModal') {
-            $(this).fadeOut();
+            $('#imageModal').removeClass('show').fadeOut();
         }
     });
 
+    // ──────────────── Download button functionality ────────────────
+    $('#downloadBtn').on('click', function() {
+        const imgSrc = $('#modalImage').attr('src');
+        if (!imgSrc) return;
+
+        const link = document.createElement('a');
+        link.href = imgSrc;
+        link.download = 'Asha_Grill_Service.jpg';  // you can make dynamic name
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+});
+
+
+// ──────────────── Hover Preview ABOVE the word (no click needed) ────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    const previewBox = document.getElementById('serviceHoverPreview');
+    const previewImg = document.getElementById('hoverPreviewImg');
+
+    // Only on desktop / wide screens
+    if (window.innerWidth > 768) {
+        document.querySelectorAll('.service').forEach(word => {
+            word.addEventListener('mouseenter', () => {
+                const src = word.dataset.img;
+                if (!src) return;
+
+
+                previewImg.src = src;
+
+                // Position preview centered above the word
+                const rect = word.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const topY   = rect.top - 200;  // 200px above the word
+
+                previewBox.style.left = centerX + 'px';
+                previewBox.style.top  = topY + 'px';
+                previewBox.style.transform = 'translateX(-50%)';  // center horizontally
+
+                previewBox.classList.add('visible');
+                console.log('added visiible class to this link successfully');
+            });
+
+            word.addEventListener('mouseleave', () => {
+                previewBox.classList.remove('visible');
+                console.log('remove visible class foetm this image');
+            });
+        });
+    }
 });
 
 
@@ -531,11 +601,6 @@ $('.nav-btn').on('click', function () {
         scrollTop: $('#' + target).offset().top
     }, 600);
 });
-
-
-
-
-
 
 
 
