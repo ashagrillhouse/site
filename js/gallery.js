@@ -358,7 +358,7 @@ updateLanguage();
 
     const baseUrl = window.location.origin;
 
-    const shareUrl = `${baseUrl}/gallery.html?image=${encodeURIComponent(selectedImageFile)}`;
+    const shareUrl = `${baseUrl}/site/gallery.html?image=${encodeURIComponent(selectedImageFile)}`;
     alert('Link created:'+shareUrl);
     navigator.clipboard.writeText(shareUrl)
     .then(() => {

@@ -25,12 +25,11 @@
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 
     <link rel="stylesheet" href="./style/index.css">
+    <link rel="stylesheet" href="./style/index_notice.css">
     <!-- jQuery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
-
-
 
 
 
@@ -43,7 +42,7 @@
             </div-->
             <div class="header-left">
                 <div id="weather" class="weather-box">Loading weather...</div>
-                <button id="login-btn" class="login-btn" onclick="window.location='Admin/index.html'">Login</button>
+                <button id="login-btn" class="login-btn" onclick="playSound('sounds/click.mp3');window.location='Admin/index.html'">Login</button>
             </div>
 
 
@@ -213,14 +212,18 @@ We proudly serve the regions of Muragachha, Sadhanpara, Dharmada, Dhumuliya, Gac
 
 
     <!-- Gallery Section -->
-   <!--<section class="gallery" id="gallery">
+<!--<section class="gallery" id='gallery'>
   <h2>Our Work</h2>
 
-  <div class="carousel">
-    <div class="carousel-track">
-      <img class="slide active" id="imgCurrent" alt="">
-      <img class="slide" id="imgNext" alt="">
-    </div>
+  <div class="gallery-grid" id="galleryGrid">
+    <img src="#" id="gallery_first" alt="Gallery image 1" class="gallery-img">
+    <img src="#" id="gallery_second" alt="Gallery image 2" class="gallery-img">
+    <img src="#" id="gallery_third" alt="Gallery image 3" class="gallery-img">
+    <img src="#" id="gallery_fourth" alt="Gallery image 4" class="gallery-img">
+  </div>
+    <div class="carousel-controls">
+    <button class="arrow left" id="prevBtn">&#10094;</button>
+    <button class="arrow right" id="nextBtn">&#10095;</button>
   </div>
 
   <button class="view-gallery-btn" onclick="location.href='gallery.html'">
@@ -228,24 +231,42 @@ We proudly serve the regions of Muragachha, Sadhanpara, Dharmada, Dhumuliya, Gac
   </button>
 </section>-->
 
-<section class="gallery" id="gallery">
+
+<section class="gallery">
   <h2>Our Work</h2>
 
-  <div class="carousel">
-    <button class="arrow left">&#10094;</button>
+  <div class="gallery-grid">
+    <img src="./images/loding.webp"
+         data-src=""
+         id="gallery_first" class="gallery-img" alt="Gallery image 1">
 
-    <div class="carousel-track">
-      <img class="slide active" id="imgCurrent" alt="">
-      <img class="slide" id="imgNext" alt="">
-    </div>
+    <img src="./images/loding.webp"
+         data-src=""
+         id="gallery_second" class="gallery-img" alt="Gallery image 2">
 
-    <button class="arrow right">&#10095;</button>
+    <img src="./images/loding.webp"
+         data-src=""
+         id="gallery_third" class="gallery-img" alt="Gallery image 3">
+
+    <img src="./images/loding.webp"
+         data-src=""
+         id="gallery_fourth" class="gallery-img" alt="Gallery image 4">
+</div>
+
+  <div class="carousel-controls">
+    <button class="arrow left" id="prevBtn">&#10094;</button>
+    <button class="arrow right" id="nextBtn">&#10095;</button>
   </div>
 
   <button class="view-gallery-btn" onclick="location.href='gallery.html'">
     View Full Gallery
   </button>
 </section>
+
+
+
+
+
 
 
 
@@ -550,16 +571,15 @@ We proudly serve the regions of Muragachha, Sadhanpara, Dharmada, Dhumuliya, Gac
 
     <tr>
     <td> <a href='./sitemap.xml'>Sitemap</a> </td>
-    <td> <a href='./dos.html'>Dos</a> </td>
-    <td> <a href='./hidden_site.html'>Tor</a> </td>
+    <td> <a href='./old_index.html'>Old site</a> </td>
+    <td> <a href='career.html'> Career </a></td>
     <td> <a href='./Music/'>Music</a> </td>
     </tr>
 
     <tr>
     <td> <a href='./robots.txt'>R.file</a> </td>
     <td id='chatButton'> Chat </td>
-    <td> <a href='old_index.html'>Old site</a> </td>
-    <td> <a href='career.html'> Career </a></td>
+    <td> <a href='old_index.html'>Comming soon</a> </td>
     </tr>
 
     </table><br/>
@@ -587,6 +607,8 @@ We proudly serve the regions of Muragachha, Sadhanpara, Dharmada, Dhumuliya, Gac
 
   <!-- Notice Popup -->
     <div id="noticeOverlay" class="notice-overlay">
+
+      <div id="emojiMala" class="emoji-mala"></div>
       <div class="notice-box">
         <button class="notice-close" onclick="closeNotice()">×</button>
 
@@ -619,6 +641,13 @@ We proudly serve the regions of Muragachha, Sadhanpara, Dharmada, Dhumuliya, Gac
 
 
 <!-- CHAT BOX -->
+
+<div id="blurOverlay">
+  <div class="typingNotice">
+    <span id="typedMessage"></span><span class="caret">|</span>
+  </div>
+</div>
+
 <div id="chatBox">
     <div class="chat-header">
         <img src='./images/icon.jpg'> M/S ASHA GRILL HOUSE
@@ -638,8 +667,43 @@ We proudly serve the regions of Muragachha, Sadhanpara, Dharmada, Dhumuliya, Gac
 </div>
 
 
+    <button id="scrollTopBtn">↑</button>
 
 
+
+   <div class="zinc-bar" id='zink_bar'>
+      <div class="hole"></div>
+      <div class="hole"></div>
+      <div class="hole"></div>
+      <div class="hole"></div>
+      <div class="hole"></div>
+      <div class="hole"></div>
+      <div class="hole"></div>
+      <div class="hole"></div>
+
+      <div class="hole"></div>
+  </div>
+
+<!--   <div class="lockplate" id='lockplate' style="display:none;">
+    <div class="lock-unit" id="leftContainer">
+
+      <div class="fill" id="leftFill"></div>
+      <div class="handel" id="leftHandle"></div>
+      <div class="extra-handle" style="right: -10px;"></div>
+      <img src='images/key_hole.png' class='key_hole key_hole_left'>
+    </div>
+
+    <div class="center-rect"></div>
+
+    <div class="lock-unit" id="rightContainer">
+
+      <img src='images/key_hole.png' class='key_hole key_hole_right'>
+      <div class="fill" id="rightFill"></div>
+      <div class="handel" id="rightHandle"></div>
+      <div class="extra-handle" style="left: -10px;"></div>
+
+    </div>
+  </div>-->
 
 
 

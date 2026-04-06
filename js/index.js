@@ -1,156 +1,158 @@
-// import { imagePaths } from './mymodule.js';
-//
-// const imgCurrent = document.getElementById('imgCurrent');
-// const imgNext = document.getElementById('imgNext');
-//
-// let index = 0;
-// const total = imagePaths.length;
-//
-// // Initial load
-// imgCurrent.src = imagePaths[index];
-// preloadNext();
-//
-// setInterval(slideNext, 3500);
-//
-// function slideNext() {
-//     imgNext.src = imagePaths[(index + 1) % total];
-//
-//     imgNext.classList.add('active');
-//     imgCurrent.classList.add('exit');
-//
-//     setTimeout(() => {
-//         imgCurrent.src = imgNext.src;
-//
-//         imgCurrent.className = 'slide active';
-//         imgNext.className = 'slide';
-//
-//         index = (index + 1) % total;
-//         preloadNext();
-//     }, 1000);
-// }
-//
-// function preloadNext() {
-//     const preload = new Image();
-//     preload.src = imagePaths[(index + 2) % total];
-// }
-
-
 import { imagePaths } from './mymodule.js';
 
-const imgCurrent = document.getElementById('imgCurrent');
-const imgNext = document.getElementById('imgNext');
-const carousel = document.querySelector('.carousel');
-const btnLeft = document.querySelector('.arrow.left');
-const btnRight = document.querySelector('.arrow.right');
 
-let index = 0;
-const total = imagePaths.length;
-let interval = null;
-let isAnimating = false;
+const imgs = {
+    first:  document.getElementById('gallery_first'),
+    second: document.getElementById('gallery_second'),
+    third:  document.getElementById('gallery_third'),
+    fourth: document.getElementById('gallery_fourth')
+};
 
-/* Initial */
-imgCurrent.src = imagePaths[index];
-preloadNext();
-startAuto();
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
 
-/* =========================
- *   CORE SLIDE (FIXED)
- * ========================= */
+let currentIndex = 0;
+let autoSlideInterval = null;
+let hasLoaded = false;        // ← images loaded only once
+let isVisible = false;
 
-function slide(direction = 1) {
-    if (isAnimating) return;
-    isAnimating = true;
+//console.log("Gallery JS ready – waiting for first scroll...");
 
-    const nextIndex = (index + direction + total) % total;
-
-    // Prepare next image (NO movement)
-    imgNext.src = imagePaths[nextIndex];
-    imgNext.classList.add('active');
-
-    // Animate ONLY current image
-    imgCurrent.classList.add('exit');
-
-    setTimeout(() => {
-        imgCurrent.src = imagePaths[nextIndex];
-
-        imgCurrent.className = 'slide';
-        void imgCurrent.offsetWidth; // CRITICAL LINE
-        imgCurrent.classList.add('active');
-
-        imgNext.className = 'slide';
-
-        index = nextIndex;
-        preloadNext();
-
-        isAnimating = false;
-    }, 800);
-
+// Set data-src (no loading yet)
+function assignDataSrc(startIndex) {
+    const total = imagePaths.length;
+    imgs.first.dataset.src  = imagePaths[(startIndex) % total];
+    imgs.second.dataset.src = imagePaths[(startIndex + 1) % total];
+    imgs.third.dataset.src  = imagePaths[(startIndex + 2) % total];
+    imgs.fourth.dataset.src = imagePaths[(startIndex + 3) % total];
 }
 
-/* =========================
- *   AUTOPLAY
- * ========================= */
+// Actually load images (only once)
+function loadImages() {
+    //console.log("First time visible → loading real images");
+    hasLoaded = true;
 
-function startAuto() {
-    stopAuto();
-    interval = setInterval(() => slide(1), 3500);
+    Object.values(imgs).forEach(img => {
+        if (img && img.dataset.src) img.src = img.dataset.src;
+    });
 }
 
-function stopAuto() {
-    if (interval) clearInterval(interval);
+// Start / Resume auto-slide
+function startAutoSlide() {
+    if (autoSlideInterval) clearInterval(autoSlideInterval);
+    autoSlideInterval = setInterval(() => {
+        currentIndex = (currentIndex + 1) % imagePaths.length;
+        updateImages(currentIndex);
+    }, 5000);   // 5 seconds for testing
 }
 
-/* =========================
- *   PAUSE ON HOVER
- * ========================= */
-
-carousel.addEventListener('mouseenter', stopAuto);
-carousel.addEventListener('mouseleave', startAuto);
-
-/* =========================
- *   ARROWS
- * ========================= */
-
-btnRight.addEventListener('click', () => {
-    stopAuto();
-    slide(1);
-    startAuto();
-});
-
-btnLeft.addEventListener('click', () => {
-    stopAuto();
-    slide(-1);
-    startAuto();
-});
-
-/* =========================
- *   SWIPE
- * ========================= */
-
-let startX = 0;
-
-carousel.addEventListener('touchstart', e => {
-    startX = e.touches[0].clientX;
-});
-
-carousel.addEventListener('touchend', e => {
-    const diff = startX - e.changedTouches[0].clientX;
-
-    if (Math.abs(diff) > 50) {
-        stopAuto();
-        diff > 0 ? slide(1) : slide(-1);
-        startAuto();
+// Pause auto-slide
+function pauseAutoSlide() {
+    if (autoSlideInterval) {
+        clearInterval(autoSlideInterval);
+        autoSlideInterval = null;
     }
-});
-
-/* =========================
- *   PRELOAD
- * ========================= */
-
-function preloadNext() {
-    const img = new Image();
-    img.src = imagePaths[(index + 1) % total];
 }
+
+// Update images with smooth fade (used by arrows + auto-slide)
+function updateImages(newIndex) {
+    Object.values(imgs).forEach(img => {
+        if (img) img.style.opacity = '0';
+    });
+
+        setTimeout(() => {
+            imgs.first.src  = imagePaths[(newIndex) % imagePaths.length];
+            imgs.second.src = imagePaths[(newIndex + 1) % imagePaths.length];
+            imgs.third.src  = imagePaths[(newIndex + 2) % imagePaths.length];
+            imgs.fourth.src = imagePaths[(newIndex + 3) % imagePaths.length];
+
+            Object.values(imgs).forEach(img => {
+                if (img) {
+                    img.style.transition = 'all 0.9s cubic-bezier(0.25, 0.1, 0.25, 1)';
+                    img.style.opacity = '1';
+                }
+            });
+
+            currentIndex = newIndex;
+            localStorage.setItem("gallery_img_index", currentIndex);
+        }, 500);
+}
+
+function next() {
+    if (!hasLoaded) return;
+    currentIndex = (currentIndex + 1) % imagePaths.length;
+    updateImages(currentIndex);
+}
+
+function prev() {
+    if (!hasLoaded) return;
+    currentIndex = (currentIndex - 1 + imagePaths.length) % imagePaths.length;
+    updateImages(currentIndex);
+}
+
+// Main observer (handles both first load + pause/resume)
+function initObserver() {
+    const gallerySection = document.querySelector('.gallery');
+    if (!gallerySection) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            isVisible = entry.isIntersecting;
+
+            if (isVisible) {
+                // First time ever
+                if (!hasLoaded) {
+                    const savedIndex = localStorage.getItem("gallery_img_index");
+                    currentIndex = savedIndex ? parseInt(savedIndex) : 0;
+                    assignDataSrc(currentIndex);
+                    loadImages();
+                    startAutoSlide();
+                }
+                // Subsequent visits → just resume auto-slide
+                else {
+                    startAutoSlide();
+                }
+            } else {
+                // User scrolled away → pause
+                pauseAutoSlide();
+            }
+        });
+    }, {
+        rootMargin: "200px 0px",
+        threshold: 0.1
+    });
+
+    observer.observe(gallerySection);
+}
+
+// Start everything
+window.addEventListener('DOMContentLoaded', () => {
+    const savedIndex = localStorage.getItem("gallery_img_index");
+    currentIndex = savedIndex ? parseInt(savedIndex) : 0;
+    assignDataSrc(currentIndex);   // only prepares, no load yet
+
+    initObserver();
+
+    prevBtn?.addEventListener('click', prev);
+    nextBtn?.addEventListener('click', next);
+});
+/*/////////////////////////////////////////////////////////////////////////////*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -432,10 +434,12 @@ if (savedRating) {
 
 
 $('#print_page').click(function(){
+    playSound("sounds/click.mp3");
     window.print();
 });
 
 $('#like_page').click(function(){
+    playSound("sounds/click.mp3");
     if(localStorage.getItem('like')==='yes')
     {
         $('#thank_msg').html('🌟 You already liked');
@@ -482,12 +486,12 @@ function showThankYou() {
 
 
 
-function playBackgroundMusic(musicFile) {
-    const audio = new Audio(musicFile);
-    audio.loop = true;
-    audio.play().catch(err => console.error('Failed to play music:', err));
-    return audio;
-}
+// function playBackgroundMusic(musicFile) {
+//     const audio = new Audio(musicFile);
+//     audio.loop = true;
+//     audio.play().catch(err => console.error('Failed to play music:', err));
+//     return audio;
+// }
 
 // function copyToClipboard(text) {
 //     navigator.clipboard.writeText(text)
@@ -596,6 +600,7 @@ function setLanguage(language) {
 
 /*NEVIGATION BUTTONS*/
 $('.nav-btn').on('click', function () {
+    playSound('sounds/click.mp3');
     const target = $(this).data('target');
     $('html, body').animate({
         scrollTop: $('#' + target).offset().top
@@ -603,4 +608,152 @@ $('.nav-btn').on('click', function () {
 });
 
 
+
+function updateExperience(startYear) {
+    const currentYear = new Date().getFullYear();
+    const years = currentYear - startYear;
+
+    document.getElementById("experience").innerHTML = years + "+";
+}
+
+updateExperience(2015);
+
+
+
+const scrollBtn = document.getElementById('scrollTopBtn');
+const bar = document.getElementById("zink_bar");
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 0) {
+        scrollBtn.classList.add('show');
+    } else {
+        scrollBtn.classList.remove('show');
+    }
+
+    const barRect = bar.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+
+    // if zinc-bar is visible near bottom
+    if (barRect.top < windowHeight) {
+        scrollBtn.classList.add("up");
+    } else {
+        scrollBtn.classList.remove("up");
+    }
+});
+
+scrollBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+/*///////////////LOCK PLATE////////////////////////////////////*/
+/*
+function setupSlider(containerId, handleId, fillId, fillFromRight = false) {
+    const container = document.getElementById(containerId);
+    const handle = document.getElementById(handleId);
+    const fill = document.getElementById(fillId);
+
+    let dragging = false;
+
+    function clamp(value, min, max) {
+        return Math.max(min, Math.min(value, max));
+    }
+
+    function render(x) {
+        const rect = container.getBoundingClientRect();
+        const handleWidth = handle.offsetWidth;
+        const maxX = Math.max(1, rect.width - handleWidth);
+        const clampedX = clamp(x, 0, maxX);
+        const progress = clampedX / maxX;
+
+        handle.style.left = clampedX + "px";
+        console.log(maxX+" "+clampedX);
+
+        if (fillFromRight) {
+            fill.style.right = "0px";
+            fill.style.left = "auto";
+            fill.style.width = ((maxX-clampedX)/maxX * 100) + "%";
+        }
+        else
+        {
+            fill.style.left = "0px";
+            fill.style.right = "auto";
+            fill.style.width = (progress * 100) + "%";
+        }
+    }
+
+    function setFromPointer(clientX) {
+        const rect = container.getBoundingClientRect();
+        const handleWidth = handle.offsetWidth;
+        const maxX = Math.max(1, rect.width - handleWidth);
+
+        let x = clientX - rect.left - handleWidth / 2;
+        x = clamp(x, 0, maxX);
+        render(x);
+    }
+
+    function setInitialPosition() {
+        const rect = container.getBoundingClientRect();
+        const handleWidth = handle.offsetWidth;
+        const maxX = Math.max(1, rect.width - handleWidth);
+
+        render(fillFromRight ? maxX : 0);
+    }
+
+    handle.addEventListener("pointerdown", (e) => {
+        dragging = true;
+        handle.setPointerCapture(e.pointerId);
+        setFromPointer(e.clientX);
+    });
+
+    handle.addEventListener("pointermove", (e) => {
+        if (!dragging) return;
+        setFromPointer(e.clientX);
+    });
+
+    handle.addEventListener("pointerup", () => dragging = false);
+    handle.addEventListener("pointercancel", () => dragging = false);
+
+    window.addEventListener("load", setInitialPosition);
+    window.addEventListener("resize", setInitialPosition);
+    setTimeout(setInitialPosition, 0);
+}
+
+setupSlider("leftContainer", "leftHandle", "leftFill", false);
+setupSlider("rightContainer", "rightHandle", "rightFill", true);
+*/
+/*///////////////////////////////////////////////////////////////////////*/
+
+function playSound(fileName) {
+    const audio = new Audio(fileName);
+    audio.volume = 1.0; // full volume (max = 1)
+    audio.loop = false;  // optional: keep playing
+    audio.play().catch(err => {
+        console.log("Autoplay blocked:", err);
+    });
+}
+
+
+document.getElementById('zink_bar').addEventListener('click',()=>{
+
+    console.log('tap in metel');
+    playSound("sounds/tap_on_metel.mp3");
+})
+
+
+
+window.addEventListener("scroll", () => {
+    console.log("scrolling...");
+    //playSound("sounds/scroll.mp3");
+});
 
