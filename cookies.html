@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>How End-to-End Encryption Works</title>
+<title>How Browser Cookies Work</title>
 
 <style>
     * {
@@ -21,7 +21,7 @@
     /* ---------- HERO ---------- */
     .hero {
         position: relative;
-        background: linear-gradient(135deg, #1a237e, #3949ab);
+        background: linear-gradient(135deg, #1f3c88, #5a74d6);
         color: #fff;
         min-height: 240px;
         display: flex;
@@ -90,7 +90,7 @@
 
     .info-box h2 {
         margin: 0 0 18px;
-        color: #1a237e;
+        color: #1f3c88;
         font-size: clamp(1.25rem, 2.5vw, 1.7rem);
     }
 
@@ -124,13 +124,13 @@
         color: #2c2c2c;
     }
 
-    /* ---------- ENCRYPTED SAMPLE ---------- */
-    .encrypted {
-        background: #e3f2fd;
+    /* ---------- SAMPLE COOKIE ---------- */
+    .cookieSample {
+        background: #eef4ff;
         font-family: monospace;
         padding: 15px;
         border-radius: 8px;
-        color: #0d47a1;
+        color: #1f3c88;
         overflow-wrap: anywhere;
         word-break: break-word;
         margin: 12px 0 14px;
@@ -138,7 +138,7 @@
 
     /* ---------- FOOTER ---------- */
     .footer {
-        background: #1a237e;
+        background: #1f3c88;
         color: #fff;
         text-align: center;
         padding: 18px 14px;
@@ -186,8 +186,8 @@
     </div>
 
     <div class="heroContent">
-        <h1>How End-to-End Encryption Works</h1>
-        <p>End-to-End Encryption ensures only you and your receiver can read messages.</p>
+        <h1>How Browser Cookies Work</h1>
+        <p>Browser cookies help websites remember you, keep you signed in, and store small pieces of data safely in your browser.</p>
     </div>
 </section>
 
@@ -195,71 +195,75 @@
 
     <!-- INTRO -->
     <div class="info-box">
-        <h2>🔐 What is End-to-End Encryption?</h2>
+        <h2>🍪 What Are Browser Cookies?</h2>
         <p>
-            End-to-End Encryption is a security method where data is encrypted on the sender’s device
-            and decrypted only on the receiver’s device. The message remains encrypted while traveling
-            through servers, networks, and the internet.
+            Browser cookies are small pieces of data stored by a website in your browser.
+            They can help websites remember login sessions, preferences, language settings,
+            shopping cart items, and other useful information.
         </p>
         <p>
-            Even if hackers, internet providers, or the platform itself intercept the message,
-            they will only see unreadable encrypted data.
+            Cookies are saved in the browser, and when you return to the same site, the browser
+            can send the cookie back so the website knows it is you.
         </p>
     </div>
 
     <!-- VISUAL FLOW -->
     <div class="info-box">
-        <h2>📡 Message Flow Visualization</h2>
+        <h2>📡 Cookie Flow Visualization</h2>
 
-        <img src="images/end_to_end_encryption.jpg" class="diagram" alt="Message Flow Diagram">
+        <img src="images/cookies1.png" class="diagram" alt="Browser Cookies Diagram">
 
         <p class="sectionText">
-            This is how your message is encrypted between you and your receiver. Only you and your receiver can
-            read the message as plain text. No one, even our company, can read it. We can see that your message
-            is delivered, but it is totally encrypted and not readable. This is how your message stays totally
-            safe, private, personalized, and secret.
+            This is how browser cookies work between you and a website. When you visit a site,
+            the server can send a cookie to your browser. Your browser stores it and sends it back
+            later when you visit again. This helps the website remember your session, preferences,
+            and login state. Cookies make browsing smoother, faster, and more personalized.
         </p>
     </div>
 
     <!-- TECH DETAILS -->
     <div class="info-box">
-        <h2>🧠 How Encryption Technically Works</h2>
+        <h2>🧠 How Cookies Technically Work</h2>
 
-        <img src="images/chat_workflow.png" class="diagram" alt="Encryption Workflow Diagram">
+        <img src="images/cookies2.jpg" class="diagram" alt="Cookie Storage Diagram">
 
         <p class="sectionText">
-            This is how our workflow works. We do not send your message data to other servers. We save your
-            message data to your local storage for extra safety. And your chatbot automatically generates the
-            reply and responds to you. It also uses encryption techniques to store the data. If any attacker
-            steals the message, they only get encrypted data in an unreadable format. Without the key, it is
-            totally useless.
+            This is how the workflow works. A website creates a cookie and your browser stores it locally.
+            On the next request, the browser sends that cookie back to the server. The server can use it to
+            identify your session, remember settings, or keep you logged in. Some cookies are temporary and
+            disappear when the browser closes, while others can stay saved for days or months depending on
+            their expiry time.
         </p>
 
-        <p>Each user has two keys:</p>
+        <p>Common cookie types:</p>
         <ul>
-            <li><strong>Public Key:</strong> Shared with others to encrypt messages</li>
-            <li><strong>Private Key:</strong> Stored securely on device to decrypt messages</li>
+            <li><strong>Session Cookies:</strong> Deleted when the browser closes</li>
+            <li><strong>Persistent Cookies:</strong> Stored for a longer time</li>
+            <li><strong>Third-Party Cookies:</strong> Set by other services like ads or analytics</li>
         </ul>
 
-        <p>Example encrypted message:</p>
-        <div class="encrypted">9f3A@#Xz12!aQ0=KpLmWz8T9+Zx</div>
+        <p>Example cookie data:</p>
+        <div class="cookieSample">
+            userId=12345; theme=dark; sessionToken=abcXYZ987
+        </div>
 
         <p>
-            Only the correct private key can convert this encrypted data back into readable text.
+            Cookies are only useful when the browser and server know how to read them. Some cookies are
+            harmless and helpful, while others are used for tracking or analytics.
         </p>
     </div>
 
     <!-- SECURITY -->
     <div class="info-box">
-        <h2>🛡 Why End-to-End Encryption is Important</h2>
+        <h2>🛡 Why Browser Cookies Are Important</h2>
         <p>
-            ✔ Prevents spying and surveillance<br>
-            ✔ Protects personal conversations<br>
-            ✔ Ensures data integrity<br>
-            ✔ Builds user trust
+            ✔ Keep users logged in<br>
+            ✔ Remember site preferences<br>
+            ✔ Improve user experience<br>
+            ✔ Help websites manage sessions
         </p>
         <p>
-            This is why modern apps like WhatsApp, Signal, and secure banking platforms rely heavily on E2EE.
+            That is why almost every modern website uses cookies in some form.
         </p>
     </div>
 

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>How Browser Local Storage Works</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", sans-serif;
+    background: #f5f7fa;
+    color: #333;
+    line-height: 1.8;
+}
+
+/* ---------- HERO ---------- */
+.hero {
+    position: relative;
+    background: linear-gradient(135deg, #00695c, #26a69a);
+    color: #fff;
+    min-height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px 20px;
+}
+
+.logoWrap {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+}
+
+.logoWrap img {
+    width: 120px;
+    border-radius: 5px;
+}
+
+.heroContent {
+    max-width: 900px;
+}
+
+.heroContent h1 {
+    margin: 0 0 10px;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+}
+
+.heroContent p {
+    font-size: 1.1rem;
+}
+
+/* ---------- CONTAINER ---------- */
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+/* ---------- BOX ---------- */
+.info-box {
+    background: #fff;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+}
+
+.info-box h2 {
+    color: #00695c;
+}
+
+/* ---------- IMAGE ---------- */
+.diagram {
+    width: 100%;
+    max-width: 800px;
+    display: block;
+    margin: 20px auto;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+/* ---------- SAMPLE ---------- */
+.code {
+    background: #e0f2f1;
+    padding: 12px;
+    border-radius: 6px;
+    font-family: monospace;
+}
+
+/* ---------- FOOTER ---------- */
+.footer {
+    background: #00695c;
+    color: #fff;
+    text-align: center;
+    padding: 15px;
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 768px) {
+    .hero { padding-top: 70px; }
+    .logoWrap img {
+        width:100px;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="logoWrap">
+        <img src="images/icon.png" alt="Logo">
+    </div>
+
+    <div class="heroContent">
+        <h1>How Browser Local Storage Works</h1>
+        <p>
+            Local Storage allows your browser to store data directly on your device
+            for faster, safer, and offline access.
+        </p>
+    </div>
+</section>
+
+<div class="container">
+
+<!-- INTRO -->
+<div class="info-box">
+<h2>💾 What is Local Storage?</h2>
+
+<p>
+Local Storage is a feature in modern browsers that allows websites to store data directly
+on your device. Unlike cookies, it can store larger amounts of data and does not expire
+unless you manually clear it.
+</p>
+
+<p>
+This makes it very useful for saving user preferences, app data, and offline content.
+</p>
+</div>
+
+<!-- DIAGRAM -->
+<div class="info-box">
+<h2>📡 Local Storage Workflow</h2>
+
+<img src="images/local_storage.webp" class="diagram" alt="Local Storage Diagram">
+
+<p>
+This is how your data is stored using local storage. When you use a website or app,
+the data is saved directly in your browser instead of being sent to external servers.
+Only your browser can access this stored data. This makes it faster and more private.
+Even if someone intercepts network traffic, they cannot access this locally stored data.
+This ensures your data remains safe, private, and under your control.
+</p>
+</div>
+
+<!-- TECH DETAILS -->
+<div class="info-box">
+<h2>⚙️ How Local Storage Works</h2>
+
+<p>
+Local Storage works using key-value pairs. Data is stored and retrieved using JavaScript.
+</p>
+
+<div class="code">
+localStorage.setItem("username", "Bibhas");<br>
+localStorage.getItem("username");
+</div>
+
+<p>
+This data stays in your browser even after you close the tab or restart your system.
+It is only removed when you clear browser data or explicitly delete it.
+</p>
+
+<p>
+Unlike cookies, local storage data is not sent to the server automatically with every request,
+making it more efficient and secure for storing non-sensitive data.
+</p>
+</div>
+
+<!-- SECURITY -->
+<div class="info-box">
+<h2>🛡 Why Local Storage is Important</h2>
+
+<p>
+✔ Stores data on your device<br>
+✔ Faster performance<br>
+✔ Works offline<br>
+✔ More storage than cookies<br>
+✔ Better for user experience
+</p>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+ <span>&copy; <script>document.write(new Date().getFullYear());</script> Asha Grill House. All Rights Reserved.</span>
+</div>
+
+</body>
+</html>
