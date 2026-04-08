@@ -2333,6 +2333,16 @@ bottom: 6rem; /* adjust based on zinc-bar height */
     flex-shrink: 0; /* VERY IMPORTANT inside flex */
 }
 
+
+
+.copyright a{
+font-weight:bold;
+color:white;
+cursor:pointer;
+}
+
+
+
 /* RESPONSIVE */
 /*@media (max-width:600px){
     .zinc-bar{
