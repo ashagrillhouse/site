@@ -201,6 +201,7 @@ $(document).ready(function(){
 
     // Close on X
     $('#imageModal .close-btn').click(function(){
+        playSound('sounds/click.mp3');
         $('#imageModal').removeClass('show').fadeOut();
     });
 
@@ -213,6 +214,7 @@ $(document).ready(function(){
 
     // ──────────────── Download button functionality ────────────────
     $('#downloadBtn').on('click', function() {
+        playSound('sounds/click.mp3');
         const imgSrc = $('#modalImage').attr('src');
         if (!imgSrc) return;
 
