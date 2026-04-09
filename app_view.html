@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asha Grill House</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    background:#f4f4f4;
+    overflow:hidden;
+}
+
+/* HEADER */
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:5px 6%;
+    background:#f4f4f4;
+}
+
+.logo img{
+    width:140px;
+    border-radius:5px;
+}
+
+/* NAV RIGHT */
+nav ul{
+    display:flex;
+    list-style:none;
+    gap:25px;
+}
+
+nav ul li a{
+    text-decoration:none;
+    color:#333;
+    font-weight:500;
+    transition:0.3s;
+}
+
+nav ul li a:hover{
+    color:#b22222;
+}
+
+/* MAIN */
+.main{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:white;
+}
+
+.content{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:20px;
+    text-align:center;
+}
+
+/* TEXT TOP */
+.top-text{
+    font-size:18px;
+    font-weight:600;
+    color:#333;
+}
+
+/* QR BOX */
+.qr-box{
+    background:#fff;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.qr-box img{
+    width:220px;
+    height:220px;
+}
+
+/* TEXT BELOW */
+.bottom-text{
+    font-size:15px;
+    color:#666;
+}
+
+/* BUTTONS */
+.buttons{
+    display:flex;
+    gap:20px;
+    margin-top:10px;
+}
+
+.btn{
+    width:70px;
+    height:70px;
+    background:#fff;
+    border-radius:12px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    box-shadow:0 3px 10px rgba(0,0,0,0.1);
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:hover{
+    transform:scale(1.08);
+}
+
+.btn img{
+    width:35px;
+}
+
+/* FOOTER */
+footer{
+    text-align:center;
+    padding:10px;
+    background:white;
+    color:#555;
+    font-size:13px;
+    border-top:1px solid #ddd;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+
+    nav ul{
+        gap:12px;
+        font-size:14px;
+    }
+
+    .qr-box img{
+        width:180px;
+        height:180px;
+    }
+
+    .btn{
+        width:60px;
+        height:60px;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <img src="images/icon.png" alt="Logo">
+    </div>
+
+    <!-- RIGHT SIDE LINKS -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Visit Site</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="main">
+    <div class="content">
+
+        <!-- TOP TEXT -->
+        <div class="top-text">
+            Scan & Pay Instantly
+        </div>
+
+        <!-- QR -->
+        <div class="qr-box">
+            <img src="images/qr.png" alt="QR Payment">
+        </div>
+
+        <!-- BOTTOM TEXT -->
+        <div class="bottom-text">
+            Use any UPI app to complete your payment securely
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="buttons">
+            <div class="btn"><img src="images/b1.png"></div>
+            <div class="btn"><img src="images/b2.png"></div>
+            <div class="btn"><img src="images/b3.png"></div>
+            <div class="btn"><img src="images/b4.png"></div>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    <p>&copy; <script>document.write(new Date().getFullYear());</script> Asha Grill House</p>
+</footer>
+
+</body>
+</html>
