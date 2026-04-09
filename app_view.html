@@ -3,212 +3,231 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Asha Grill House</title>
+<title>Asha Grill House | Payment</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family: 'Segoe UI', sans-serif;
-}
-
-body{
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    background:#f4f4f4;
-    overflow:hidden;
-}
-
-/* HEADER */
-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:5px 6%;
-    background:#f4f4f4;
-}
-
-.logo img{
-    width:140px;
-    border-radius:5px;
-}
-
-/* NAV RIGHT */
-nav ul{
-    display:flex;
-    list-style:none;
-    gap:25px;
-}
-
-nav ul li a{
-    text-decoration:none;
-    color:#b22222;
-    font-weight:500;
-    transition:0.3s;
-}
-
-nav ul li a:hover{
-    color:#b22222;
-}
-
-/* MAIN */
-.main{
-    flex:1;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:white;
-}
-
-.content{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:20px;
-    text-align:center;
-}
-
-/* TEXT TOP */
-.top-text{
-    font-size:18px;
-    font-weight:600;
-    color:#333;
-}
-
-/* QR BOX */
-.qr-box{
-    background:#fff;
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
-}
-
-.qr-box img{
-    width:220px;
-    height:220px;
-}
-
-/* TEXT BELOW */
-.bottom-text{
-    font-size:15px;
-    color:#666;
-}
-.bottom-text {
-    text-align: center;
-    padding: 0 20px; /* Adds 20px margin on left and right */
-    line-height: 1.6;  /* Improves readability */
-    font-family: sans-serif;
-}
-
-/* BUTTONS */
-.buttons{
-    display:flex;
-    gap:20px;
-    margin-top:10px;
-}
-
-.btn{
-    width:70px;
-    height:70px;
-    background:#fff;
-    border-radius:12px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    box-shadow:0 3px 10px rgba(0,0,0,0.1);
-    cursor:pointer;
-    transition:0.3s;
-}
-
-.btn:hover{
-    transform:scale(1.08);
-}
-
-.btn img{
-    width:35px;
-}
-
-/* FOOTER */
-footer{
-    text-align:center;
-    padding:10px;
-    background:white;
-    color:#555;
-    font-size:13px;
-    border-top:1px solid #ddd;
-}
-
-/* MOBILE */
-@media(max-width:600px){
-
-    nav ul{
-        gap:12px;
-        font-size:14px;
+    :root {
+        --primary-red: #b22222;
+        --text-dark: #2d3436;
+        --text-gray: #636e72;
+        --bg-color: #f8f9fa;
     }
 
-    .qr-box img{
-        width:180px;
-        height:180px;
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family: 'Inter', sans-serif;
     }
 
-    .btn{
-        width:60px;
-        height:60px;
+    body{
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--bg-color);
+        color: var(--text-dark);
+        overflow: hidden;
     }
-}
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 8%;
+        background: transparent;
+    }
+
+    .logo img {
+        width: 150px;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+
+    nav ul li { list-style: none; }
+    nav ul li a {
+        text-decoration: none;
+        color: var(--primary-red);
+        font-weight: 700;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: 2px solid var(--primary-red);
+        padding: 8px 20px;
+        border-radius: 50px;
+        transition: 0.3s;
+    }
+
+    nav ul li a:hover {
+        background: var(--primary-red);
+        color: white;
+    }
+
+    .main {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .card {
+        background: white;
+        width: 100%;
+        max-width: 420px;
+        padding: 40px 30px;
+        border-radius: 24px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .top-text {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--text-dark);
+    }
+
+    .qr-box {
+        position: relative;
+        display: inline-block;
+        margin: 0 auto;
+        padding: 15px;
+        background: #fff;
+        border-radius: 20px;
+        border: 1px solid #eee;
+    }
+
+    .qr-box img {
+        width: 200px;
+        height: 200px;
+        display: block;
+    }
+
+    /* DIGITAL CLOCK WIDGET */
+    .clock-widget {
+        background: #fff5f5;
+        padding: 15px;
+        border-radius: 15px;
+        border: 1px solid #ffe3e3;
+    }
+
+    #clock {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--primary-red);
+        font-variant-numeric: tabular-nums;
+    }
+
+    #date {
+        font-size: 12px;
+        color: var(--text-gray);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-top: 5px;
+        font-weight: 600;
+    }
+
+    .bottom-text {
+        font-size: 14px;
+        color: var(--text-gray);
+        line-height: 1.6;
+    }
+
+    .bottom-text strong {
+        color: var(--primary-red);
+    }
+
+    footer {
+        padding: 20px;
+        text-align: center;
+        font-size: 12px;
+        color: #999;
+        font-weight: 500;
+    }
+
+    @media (max-width: 480px) {
+        header { padding: 15px 5%; }
+        .logo img { width: 120px; }
+        .card { padding: 30px 20px; }
+        .qr-box img { width: 180px; height: 180px; }
+    }
 </style>
-
 </head>
 
 <body>
 
 <header>
     <div class="logo">
-        <img src="images/icon.png" alt="Logo">
+        <img src="images/icon.png" alt="Asha Grill House">
     </div>
-
-    <!-- RIGHT SIDE LINKS -->
     <nav>
         <ul>
-            <li><a href="index.html">Site</a></li>
             <li><a href="gallery.html">Gallery</a></li>
         </ul>
     </nav>
 </header>
 
 <div class="main">
-    <div class="content">
+    <div class="card">
+        <div class="top-text">Scan to Pay</div>
 
-        <!-- TOP TEXT -->
-        <div class="top-text">
-            Scan & Pay Instantly
-        </div>
-
-        <!-- QR -->
         <div class="qr-box">
-            <img src="images/qr_code.png" alt="QR Payment">
+            <img src="images/qr_code.png" alt="Payment QR">
         </div>
 
-        <!-- BOTTOM TEXT -->
+        <div class="clock-widget">
+            <div id="clock">00:00:00 AM</div>
+            <div id="date">Loading...</div>
+        </div>
+
         <div class="bottom-text">
-            Use any UPI app to complete your payment securely. Thank you for choosing Asha Grill House. We believe you will be satisfied with our quality and assurance. Our team works hard to make your home or workplace more beautiful and safe. Thank you once again!
+            Secure UPI payment. We appreciate your trust in <strong>Asha Grill House</strong>.
+            Our team works to keep your spaces beautiful and safe.
         </div>
-
-        <!-- BUTTONS -->
-        <div class="buttons">
-            <div class="btn"><img src="images/b1.png"></div>
-            <div class="btn"><img src="images/b2.png"></div>
-            <div class="btn"><img src="images/b3.png"></div>
-        </div>
-
     </div>
 </div>
 
 <footer>
-    <p>&copy; <script>document.write(new Date().getFullYear());</script> Asha Grill House</p>
+    &copy; <span id="year"></span> Asha Grill House • Quality & Assurance
 </footer>
+
+<script>
+    function updateLiveElements() {
+        const now = new Date();
+
+        // 12-Hour Format Logic
+        let h = now.getHours();
+        const m = String(now.getMinutes()).padStart(2, '0');
+        const s = String(now.getSeconds()).padStart(2, '0');
+        const ampm = h >= 12 ? 'PM' : 'AM';
+
+        h = h % 12;
+        h = h ? h : 12; // The hour '0' should be '12'
+        const hoursStr = String(h).padStart(2, '0');
+
+        document.getElementById('clock').textContent = `${hoursStr}:${m}:${s} ${ampm}`;
+
+        // Date Display
+        const dateOptions = { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' };
+        document.getElementById('date').textContent = now.toLocaleDateString('en-GB', dateOptions);
+
+        // Footer Year
+        document.getElementById('year').textContent = now.getFullYear();
+    }
+
+    // Refresh every second
+    updateLiveElements();
+    setInterval(updateLiveElements, 1000);
+</script>
 
 </body>
 </html>
