@@ -1,0 +1,19 @@
+[{
+
+  "relation": ["delegate_permission/common.handle_all_urls"],
+
+  "target": {
+
+    "namespace": "android_app",
+
+    "package_name": "com.example.ashagrilllhouse",
+
+    "sha256_cert_fingerprints": [
+
+      "D4:A4:B6:E7:22:9D:2D:13:FD:CB:FE:D8:F4:8D:28:D8:25:09:C7:77:7C:54:A9:80:70:EE:CF:AE:70:5E:AE:93"
+
+    ]
+
+  }
+
+}]
