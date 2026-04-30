@@ -1,11 +1,11 @@
 User-agent: *
 Allow: /
 
-Disallow: /Admin/
-Disallow: /upload/
-Disallow: /dos.html
-Disallow: /evadrop.asm
+Disallow: /admin/
 Disallow: /math_imgs/
 Disallow: /partners/
+Disallow: /sounds/
+Disallow: /upload
+Disallow: /images
 
 Sitemap: https://ashagrillhouse.github.io/site/sitemap.xml

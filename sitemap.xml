@@ -25,20 +25,21 @@
     <priority>0.6</priority>
   </url>
 
-  <!-- Hidden Site -->
+  <!-- Customers Page -->
   <url>
-    <loc>https://ashagrillhouse.github.io/site/hidden_site.html</loc>
-    <lastmod>2025-04-07</lastmod>
+    <loc>https://ashagrillhouse.github.io/site/customers.html</loc>
+    <lastmod>2026-04-30</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.8</priority>
   </url>
 
-  <!-- Music Player -->
+  <!-- ERROR Page -->
   <url>
-    <loc>https://ashagrillhouse.github.io/site/Music/index.html</loc>
-    <lastmod>2025-04-07</lastmod>
+    <loc>https://ashagrillhouse.github.io/site/404.html</loc>
+    <lastmod>2026-03-30</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
+
 
 </urlset>

@@ -2,16 +2,54 @@
 <html>
 <head>
     <title>Asha Grill House - Payment</title>
-    <meta http-equiv="refresh" content="0; url=ashagrill://payment">
     <style>
         body { font-family: sans-serif; text-align: center; padding: 50px; }
-        .btn { padding: 15px 25px; background: #FF5722; color: white; text-decoration: none; border-radius: 8px; }
+        .btn { padding: 15px 25px; background: #FF5722; color: white; text-decoration: none; border-radius: 8px; display: inline-block; }
+        .message { color: #666; margin-top: 20px; }
     </style>
+    <script>
+        async function checkAuthAndRedirect() {
+            try {
+                // 1. Fetch the stored password hash
+                const res = await fetch('../js/password_hash.json');
+                if (!res.ok) throw new Error('Failed to load hash');
+                const data = await res.json();
+                const PASS_HASH = data.password;
+
+                // 2. Get cookie value
+                const getCookie = (name) => {
+                    const value = `; ${document.cookie}`;
+                    const parts = value.split(`; ${name}=`);
+                    if (parts.length === 2) return parts.pop().split(';').shift();
+                    return null;
+                };
+                const adminAuth = getCookie('adminAuth');
+
+                // 3. Authorize
+                if (adminAuth === PASS_HASH) {
+                    // ✅ Authenticated – open the app
+                    window.location.href = "ashagrill://admin";
+                } else {
+                    // ❌ Not authenticated – redirect to login
+                    window.location.replace('login.html');
+                }
+            } catch (err) {
+                console.error('Auth error:', err);
+                // On any error (missing hash file, network issue) – go to login
+                window.location.replace('login.html');
+            }
+        }
+
+        // Run the check as soon as the page loads
+        window.addEventListener('DOMContentLoaded', checkAuthAndRedirect);
+    </script>
 </head>
 <body>
-    <h1>Opening Asha Grill House App...</h1>
-    <p>If the app doesn't open automatically, click below:</p>
+    <h1>Checking authorization...</h1>
+    <p>Please wait while we verify your access.</p>
     <br>
-    <a href="https://github.com/ashagrillhouse/site/releases" class="btn">Download Our App</a>
+    <div class="message">
+        If you are not redirected automatically, <a href="https://github.com/ashagrillhouse/site/releases" class="btn">Download Our App</a>
+    </div>
 </body>
 </html>
