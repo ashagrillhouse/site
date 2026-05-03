@@ -2,29 +2,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Asha Grill House | Gallery</title>
-
-  <!-- Styles and fonts -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" href="images/favicon.ico">
-
-  <link rel="stylesheet" href="#">
-  <script type="module" src="#"></script>
-  <script src="#" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Receipt Portal</title>
+      <link rel="icon" href="images/favicon.ico">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f6fb; padding: 20px; max-width: 600px; margin: auto; }
+        .card { background: white; padding: 24px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        h2 { color: #333; margin-top: 0; }
+        input, button { width: 100%; padding: 14px; margin-top: 12px; border-radius: 10px; border: 1px solid #ddd; box-sizing: border-box; font-size: 16px; }
+        input:focus { outline: none; border-color: #ff5722; }
+        button { background: #ff5722; color: white; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #e64a19; }
+        .error { color: #d32f2f; margin-top: 12px; display: none; font-size: 14px; font-weight: 500; text-align: center;}
+        .notice { font-size: 13px; color: #666; text-align: center; margin-top: 15px; padding: 10px; background: #fff3e0; border-radius: 8px;}
+        .receipt-img { width: 100%; border-radius: 12px; margin-top: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .due { font-size: 28px; color: #d32f2f; font-weight: 900; margin: 10px 0; }
+        .transaction-list { list-style: none; padding: 0; margin: 0; }
+        .transaction-list li { padding: 12px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
+        .transaction-list li:last-child { border-bottom: none; }
+        .t-amount { font-weight: bold; color: #388e3c; }
+    </style>
 </head>
-
-
 <body>
-<h1>Commming Soon</h1>
-<h3>It will Customer's page</h3>
-<p>Where customer can see their recipt thier paid amount their due in this site</p>
-<br><br>
-<small>Last Update: 30/4/26 3:30pm</small>
-</body>
 
+    <div class="card" id="loginCard">
+        <h2>View Receipts & Dues</h2>
+        <p style="color: #666; font-size: 15px;">Enter your registered mobile number to securely view your account details.</p>
+        <input type="number" id="phoneInput" placeholder="Enter Mobile Number">
+        <button id="loginBtn" onclick="fetchAndDecrypt()">Secure Login</button>
+        <div id="errorMsg" class="error"></div>
+
+        <div class="notice">
+            <strong>Note:</strong> Data is synchronized periodically. If your recent payment or data is not showing, it will update within 12 hours. Please try again later.
+        </div>
+    </div>
+
+    <div id="resultContainer" style="display: none;"></div>
+
+    <script>
+        // Set the exact same IV as the Flutter App
+        const FIXED_IV = CryptoJS.enc.Utf8.parse("1234567890123456");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       async function fetchAndDecrypt() {
+            const phone = document.getElementById("phoneInput").value.trim();
+            const errorMsg = document.getElementById("errorMsg");
+            const btn = document.getElementById("loginBtn");
+
+            if(phone === "") {
+                errorMsg.innerText = "Please enter a valid mobile number.";
+                errorMsg.style.display = "block";
+                return;
+            }
+
+            errorMsg.style.display = "none";
+            btn.innerText = "Decrypting securely...";
+            btn.disabled = true;
+
+            try {
+                // Fetch the JSON payload
+                const response = await fetch("customers/customer_details.json?t=" + new Date().getTime());
+                if(!response.ok) throw new Error("Could not connect to the database.");
+
+                const json = await response.json();
+                const customersArray = json.customers; // Updated structure
+
+                let keyStr = phone.padEnd(32, '0').substring(0, 32);
+                const key = CryptoJS.enc.Utf8.parse(keyStr);
+
+                let foundData = null;
+
+                // Loop through the array of {id: X, data: "EncryptedString"}
+                for(let cust of customersArray) {
+                    try {
+                        const decrypted = CryptoJS.AES.decrypt(cust.data, key, {
+                            iv: FIXED_IV,
+                            mode: CryptoJS.mode.CBC
+                        });
+                        const decryptedText = decrypted.toString(CryptoJS.enc.Utf8);
+
+                        if(decryptedText) {
+                            foundData = JSON.parse(decryptedText);
+                            // We can re-inject the plaintext ID into the display data if needed
+                            foundData.id = cust.id;
+                            break;
+                        }
+                    } catch (e) {
+                        // Wrong key, skip to next
+                    }
+                }
+
+                if(foundData) {
+                    await displayData(foundData, key);
+                } else {
+                    errorMsg.innerText = "No records found for this number. Check the number or try again in 12 hours.";
+                    errorMsg.style.display = "block";
+                }
+
+            } catch (err) {
+                errorMsg.innerText = "System error: " + err.message;
+                errorMsg.style.display = "block";
+            } finally {
+                btn.innerText = "Secure Login";
+                btn.disabled = false;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        async function displayData(data, key) {
+            document.getElementById("loginCard").style.display = "none";
+            const container = document.getElementById("resultContainer");
+            container.style.display = "block";
+
+            let html = `
+                <div class="card">
+                    <h2 style="color:#ff5722;">Hello, ${data.name}</h2>
+                    <p style="color: #666;"><strong>Address:</strong> ${data.address || "Not provided"}</p>
+                    <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+                    <p style="margin:0; color:#555;">Total Pending Due</p>
+                    <div class="due">₹ ${parseFloat(data.due).toFixed(2)}</div>
+                </div>
+            `;
+
+            // If there are transactions
+            if(data.transactions && data.transactions.length > 0) {
+                html += `<div class="card"><h3>Recent Transactions</h3><ul class="transaction-list">`;
+                // Show last 5 transactions
+                const recentT = data.transactions.reverse().slice(0, 5);
+                recentT.forEach(t => {
+                    html += `
+                    <li>
+                        <div>
+                            <div style="font-size:14px; color:#555;">${t.date}</div>
+                            <small style="color:#888;">${t.note || 'Payment'}</small>
+                        </div>
+                        <div class="t-amount">₹${t.amount}</div>
+                    </li>`;
+                });
+                html += `</ul></div>`;
+            }
+
+            // If there are Encrypted Images
+            if(data.images && data.images.length > 0) {
+                html += `<div class="card"><h3>Attached Receipts</h3>`;
+
+                for(let imgUrl of data.images) {
+                    try {
+                        // Fetch the encrypted base64 text file
+                        const imgRes = await fetch(imgUrl + "?t=" + new Date().getTime());
+                        const encryptedBase64 = await imgRes.text();
+
+                        // Decrypt the text back to image bytes
+                        const decryptedImg = CryptoJS.AES.decrypt(encryptedBase64, key, { iv: FIXED_IV, mode: CryptoJS.mode.CBC });
+
+                        // Convert bytes back to Base64 to display in HTML
+                        const decryptedBase64 = CryptoJS.enc.Base64.stringify(decryptedImg);
+
+                        html += `<img src="data:image/jpeg;base64,${decryptedBase64}" class="receipt-img" alt="Receipt">`;
+                    } catch(e) {
+                        html += `<p style="color:red; font-size:12px;">Failed to load a receipt image.</p>`;
+                    }
+                }
+                html += `</div>`;
+            }
+
+            html += `
+                <button onclick="location.reload()" style="background:#333; margin-bottom:40px;">
+                    Log Out / Go Back
+                </button>
+            `;
+            container.innerHTML = html;
+        }
+    </script>
+</body>
 </html>
