@@ -9,30 +9,31 @@
         :root {
             --brand-red: #d32f2f;
             --brand-dark: #2c3e50;
-            --paper-color: #fffdf9; /* Slightly warm paper color */
+            --paper-color: #fffdf9;
             --ink-color: #333333;
             --fold-line: #e0dcd3;
-            --bg-color: #8fa3b0; /* Cool background to make paper pop */
+            --bg-color: #8fa3b0;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Georgia', serif; /* Serif font for printed feel */
+            font-family: 'Georgia', serif;
         }
 
         body {
             background-color: var(--bg-color);
             background-image: radial-gradient(#7b8e9b 1px, transparent 1px);
-            background-size: 20px 20px; /* Dotted background for depth */
+            background-size: 20px 20px;
             color: var(--ink-color);
             line-height: 1.6;
             padding: 40px 20px;
+            overflow-x: hidden; /* Prevent accidental horizontal scroll */
         }
 
         h1, h2, h3 {
-            font-family: 'Arial Black', Impact, sans-serif; /* Bold leaflet headers */
+            font-family: 'Arial Black', Impact, sans-serif;
             text-transform: uppercase;
             color: var(--brand-red);
         }
@@ -46,7 +47,7 @@
         .leaflet-shadow-wrapper {
             max-width: 950px;
             margin: 0 auto;
-            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.25)); /* Physical paper shadow */
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.25));
         }
 
         .leaflet-paper {
@@ -54,7 +55,6 @@
             position: relative;
             padding: 50px 60px;
 
-            /* Ticket/Leaflet Notches using CSS Masking */
             mask-image:
                 radial-gradient(circle at 0 25%, transparent 15px, black 16px),
                 radial-gradient(circle at 100% 25%, transparent 15px, black 16px),
@@ -88,11 +88,11 @@
             margin-top: -1px;
         }
 
-        /* === HEADER (Normal Layout, No Sticky Bar) === */
+        /* === HEADER === */
         .leaflet-header {
             text-align: center;
             padding-bottom: 30px;
-            border-bottom: 3px dashed var(--fold-line); /* Simulates a fold/tear line */
+            border-bottom: 3px dashed var(--fold-line);
             margin-bottom: 40px;
         }
 
@@ -142,7 +142,7 @@
             background-color: var(--brand-red);
             color: #fff;
             padding: 5px 15px;
-            transform: rotate(-1deg); /* Slight rotation for printed look */
+            transform: rotate(-1deg);
             box-shadow: 2px 2px 0px var(--brand-dark);
         }
 
@@ -150,13 +150,13 @@
         .feature-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 30px;
+            gap: 20px; /* Reduced gap slightly for mobile safety */
             margin-bottom: 30px;
         }
 
         .text-col {
             flex: 1;
-            min-width: 300px;
+            min-width: 250px; /* Safer min-width */
         }
 
         .img-col {
@@ -165,6 +165,7 @@
             gap: 15px;
             flex-wrap: wrap;
             justify-content: center;
+            width: auto;
         }
 
         ul {
@@ -177,16 +178,25 @@
         /* === IMAGE PLACEHOLDERS (Polaroid Style) === */
         .polaroid {
             background: #fff;
-            padding: 10px 10px 25px 10px;
+            padding: 8px 8px 25px 8px; /* Slightly tighter padding */
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
             width: 160px;
-            height: 280px;
+            height: 260px;
             display: flex;
             align-items: center;
             justify-content: center;
             border: 1px solid #ddd;
             transform: rotate(2deg);
             transition: transform 0.3s;
+            position: relative;
+            overflow: hidden; /* Keeps images from spilling out */
+        }
+
+        /* Ensure actual images you add fit perfectly inside without breaking the box */
+        .polaroid img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Keeps entire image visible */
         }
 
         .polaroid:nth-child(even) {
@@ -224,10 +234,39 @@
             letter-spacing: 1px;
         }
 
-        /* Responsive */
+        /* === RESPONSIVE FIXES FOR MOBILE === */
         @media (max-width: 768px) {
-            .leaflet-paper { padding: 30px 20px; }
-            .section-title { font-size: 1.5rem; }
+            body {
+                padding: 15px 10px; /* Less margin around the leaflet on mobile */
+            }
+            .leaflet-paper {
+                padding: 30px 20px; /* Less inner padding so text/images have room */
+            }
+            .logo-box h1 {
+                font-size: 1.8rem; /* Smaller logo text */
+            }
+            .section-title {
+                font-size: 1.5rem;
+            }
+            .text-col {
+                min-width: 100%; /* Forces text to take full width above images */
+            }
+            .img-col {
+                width: 100%; /* Force image row to center properly */
+            }
+            .polaroid {
+                width: 135px; /* Scaled down for mobile */
+                height: 220px;
+                padding: 6px 6px 20px 6px;
+            }
+        }
+
+        /* For very small phones (e.g. iPhone SE) */
+        @media (max-width: 360px) {
+            .polaroid {
+                width: 120px;
+                height: 190px;
+            }
         }
     </style>
 </head>
@@ -333,9 +372,9 @@
                     <li>Tap the file and click "Install" (Allow "Unknown Sources" if prompted).</li>
                     <li>Wait for the process to finish, then click "Open".</li>
                 </ul>
-                <div class="img-col" style="justify-content: flex-start; margin-top: 15px;">
-                    <div class="polaroid" style="height: 150px;"><span>[Install Step 1]</span></div>
-                    <div class="polaroid" style="height: 150px;"><span>[Install Step 2]</span></div>
+                <div class="img-col" style="justify-content: center; margin-top: 15px;">
+                    <div class="polaroid" style="height: 160px;"><span>[Install Step 1]</span></div>
+                    <div class="polaroid" style="height: 160px;"><span>[Install Step 2]</span></div>
                 </div>
             </div>
 
