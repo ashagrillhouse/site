@@ -22,20 +22,20 @@
     <loc>https://ashagrillhouse.github.io/site/gallery.html</loc>
     <lastmod>2025-04-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <!-- Customers Page -->
-  <url>
-    <loc>https://ashagrillhouse.github.io/site/customers.html</loc>
-    <lastmod>2026-04-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>1.0</priority>
   </url>
 
   <!-- ERROR Page -->
   <url>
     <loc>https://ashagrillhouse.github.io/site/404.html</loc>
+    <lastmod>2026-03-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Documentation Page -->
+  <url>
+    <loc>https://ashagrillhouse.github.io/site/app/documentation.html</loc>
     <lastmod>2026-03-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

@@ -7,5 +7,6 @@ Disallow: /partners/
 Disallow: /sounds/
 Disallow: /upload
 Disallow: /images
+Disallow: /receipt.html
 
 Sitemap: https://ashagrillhouse.github.io/site/sitemap.xml

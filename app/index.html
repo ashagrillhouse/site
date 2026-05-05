@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Asha Grill House App</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           MOBILE-FIXED MANUAL CSS STYLES
+           ========================================= */
+
+        :root {
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --success: #10b981;
+            --success-hover: #059669;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-light-box: #f1f5f9;
+            --text-dark: #334155;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden; /* Prevents whole page from scrolling sideways */
+        }
+
+        /* --- Header --- */
+        .top-header {
+            background-color: var(--bg-card);
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            width: 100%;
+        }
+
+        .company-logo {
+            height: 30px;
+            width: auto;
+            margin-right: 12px;
+        }
+
+        .company-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* --- Main Container --- */
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 15px;
+            flex-grow: 1;
+        }
+
+        /* --- App Hero Section --- */
+        .app-hero {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center items on mobile */
+            text-align: center;  /* Center text on mobile */
+            gap: 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .app-hero {
+                flex-direction: row;
+                align-items: flex-start;
+                text-align: left;
+                padding: 30px;
+            }
+        }
+
+        .app-icon {
+            width: 90px;
+            height: 90px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 768px) {
+            .app-icon {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        .app-info {
+            flex-grow: 1;
+            width: 100%; /* Ensure it doesn't overflow */
+        }
+
+        .app-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+            color: #0f172a;
+            word-wrap: break-word; /* Fix long text on mobile */
+        }
+
+        @media (min-width: 768px) {
+            .app-title {
+                font-size: 28px;
+            }
+        }
+
+        .app-meta {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            justify-content: center; /* Center on mobile */
+        }
+
+        @media (min-width: 768px) {
+            .app-meta {
+                justify-content: flex-start;
+            }
+        }
+
+        .badge {
+            background: var(--bg-light-box);
+            color: var(--text-dark);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .badge-highlight {
+            background: #e0f2fe;
+            color: #0369a1;
+            border-color: #bae6fd;
+        }
+
+        .app-description {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        /* --- Hash Info Block --- */
+        .hash-block {
+            background: var(--bg-light-box);
+            color: var(--text-dark);
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 11px;
+            word-break: break-all; /* CRITICAL: Prevents long hash from breaking mobile screen */
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+            border-top: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+        }
+
+        .hash-block span {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* --- Download Buttons --- */
+        .download-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .download-actions {
+                flex-direction: row;
+            }
+        }
+
+        .btn-download {
+            flex: 1;
+            background: var(--success);
+            color: white;
+            text-decoration: none;
+            padding: 14px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+            text-align: center;
+        }
+
+        .btn-download:hover {
+            background: var(--success-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-download svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* --- BULLETPROOF SLIDEABLE IMAGES SECTION --- */
+        .screenshots-section {
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .screenshots-section h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #0f172a;
+        }
+
+        .scroller {
+            display: flex;
+            gap: 15px;
+            width: 100%; /* Ensure it spans full width */
+            overflow-x: auto; /* Allow horizontal scrolling */
+            -webkit-overflow-scrolling: touch; /* Smooth touch scrolling on iOS/Mobile */
+            scroll-snap-type: x mandatory;
+            padding-bottom: 15px;
+        }
+
+        /* Hide scrollbar for a cleaner look */
+        .scroller::-webkit-scrollbar {
+            display: none;
+        }
+        .scroller {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .screenshot-img {
+            scroll-snap-align: start;
+            flex: 0 0 auto; /* CRITICAL: Prevents images from shrinking on mobile */
+            width: 140px; /* Slightly narrower for mobile */
+            height: 280px;
+            background: var(--bg-card);
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        @media (min-width: 768px) {
+            .screenshot-img {
+                width: 160px;
+                height: 320px;
+            }
+        }
+
+        /* --- Information Grid --- */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+            .install-card {
+                grid-column: span 2;
+            }
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            width: 100%;
+        }
+
+        .info-card h3 {
+            font-size: 16px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            word-wrap: break-word;
+        }
+
+        .info-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 18px;
+            line-height: 1;
+            top: -2px;
+        }
+
+        /* --- Installation Steps --- */
+        .step-list {
+            list-style: none;
+            counter-reset: my-counter;
+        }
+
+        .step-list li {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            word-wrap: break-word;
+        }
+
+        .step-list li::before {
+            counter-increment: my-counter;
+            content: counter(my-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: var(--primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+
+
+        /* --- Separate Footer --- */
+        .site-footer {
+            text-align: center;
+            padding: 15px;
+            background-color: var(--bg-card);
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 12px;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="top-header">
+        <img src="images/icon.png" alt="Company Logo" class="company-logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjY2JkNWUxIiByeD0iOCIvPjwvc3ZnPg=='">
+        <div class="company-name">Asha Grill House</div>
+    </header>
+
+    <main class="container">
+
+        <section class="app-hero">
+            <img src="images/app_icon.png" alt="App Icon" class="app-icon" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIj48cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgZmlsbD0iI2UzZThmNCIgcng9IjI0Ii8+PC9zdmc+'">
+
+            <div class="app-info">
+                <h1 class="app-title">Asha Grill House App</h1>
+
+                <div class="app-meta">
+                    <span class="badge">Version 2.1.0</span>
+                    <span class="badge">Size: 35.2 MB</span>
+                    <span class="badge">Offline Datastore</span>
+                    <span class="badge">Report Generation</span>
+                    <span class="badge">Website connection</span>
+                    <span class="badge">Online receipt view</span>
+                    <span class="badge">Drive Backup</span>
+                </div>
+
+                <div class="hash-block">
+                    <div><span>SHA-256(64 Bits):</span> a8f5f167f44f4964e6c998dee827110c...</div>
+                    <div style="margin-top: 6px;"><span>SHA-256(32 BIts):</span> 2fd4e1c67a2d28fced849ee1bb76e739...</div>
+                </div>
+
+                <p class="app-description">
+                    The official digital management tool for Asha Grill House. Easily manage your customers, payments, site measurements, and track daily expenses in one secure mobile application.
+                    For further information read <a href='/app/documentation.html'>documentation</a> page.
+                </p>
+
+                <div class="download-actions">
+                    <a href="downloads/ashagrill_v2.0.4_arm64-v8a.apk" class="btn-download">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Download 64-bit
+                    </a>
+                    <a href="downloads/ashagrill_v2.0.4_armeabi-v7a.apk" class="btn-download" style="background-color: var(--primary);">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Download 32-bit
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="screenshots-section">
+            <h3>App Screenshots</h3>
+            <div class="scroller">
+                <img src="images/screen1.jpg" alt="Screenshot 1" class="screenshot-img" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAiIGhlaWdodD0iMzIwIj48cmVjdCB3aWR0aD0iMTYwIiBoZWlnaHQ9IjMyMCIgZmlsbD0iI2YxZjVmOSIvPjx0ZXh0IHg9IjgwIiB5PSIxNjAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjOTQhM2I4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TY3JlZW4gMTwvdGV4dD48L3N2Zz4='">
+                <img src="images/screen2.jpg" alt="Screenshot 2" class="screenshot-img" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAiIGhlaWdodD0iMzIwIj48cmVjdCB3aWR0aD0iMTYwIiBoZWlnaHQ9IjMyMCIgZmlsbD0iI2YxZjVmOSIvPjx0ZXh0IHg9IjgwIiB5PSIxNjAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjOTQhM2I4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TY3JlZW4gMjwvdGV4dD48L3N2Zz4='">
+                <img src="images/screen3.jpg" alt="Screenshot 3" class="screenshot-img" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAiIGhlaWdodD0iMzIwIj48cmVjdCB3aWR0aD0iMTYwIiBoZWlnaHQ9IjMyMCIgZmlsbD0iI2YxZjVmOSIvPjx0ZXh0IHg9IjgwIiB5PSIxNjAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjOTQhM2I4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TY3JlZW4gMzwvdGV4dD48L3N2Zz4='">
+                <img src="images/screen4.jpg" alt="Screenshot 4" class="screenshot-img" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAiIGhlaWdodD0iMzIwIj48cmVjdCB3aWR0aD0iMTYwIiBoZWlnaHQ9IjMyMCIgZmlsbD0iI2YxZjVmOSIvPjx0ZXh0IHg9IjgwIiB5PSIxNjAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjOTQhM2I4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TY3JlZW4gNDwvdGV4dD48L3N2Zz4='">
+            </div>
+        </section>
+
+        <div class="info-grid">
+
+            <div class="info-card">
+                <h3>
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Top Features
+                </h3>
+                <ul class="info-list">
+                    <li>Secure Offline SQLite Database</li>
+                    <li>Customer Payment & Due Tracking</li>
+                    <li>Digital Measurement Canvas</li>
+                    <li>Daily Expenses (Khoroch) Tracker</li>
+                    <li>Automated SMS Integration</li>
+                    <li>One-click Data Backup & Restore</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h3>
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    System Requirements
+                </h3>
+                <ul class="info-list">
+                    <li><strong>OS:</strong> Android 7.0 (Nougat) or higher</li>
+                    <li><strong>RAM:</strong> Minimum 2GB recommended</li>
+                    <li><strong>Storage:</strong> 50MB free space required</li>
+                    <li><strong>Architecture:</strong> arm64-v8a or armeabi-v7a</li>
+                    <li><strong>Permissions:</strong> Camera, Storage, SMS</li>
+                </ul>
+            </div>
+
+            <div class="info-card install-card">
+                <h3>
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    Installation Steps
+                </h3>
+                <ul class="step-list">
+                    <li>Choose your device architecture and click the <strong>Download</strong> button above to save the <code>.apk</code> file.</li>
+                    <li>Once downloaded, tap the notification or locate the file in your device's <strong>Downloads</strong> folder.</li>
+                    <li>If a security message appears, tap <strong>Settings</strong> and enable <strong>"Allow from this source"</strong>.</li>
+                    <li>Tap <strong>Install</strong>. Once finished, click <strong>Open</strong> to launch.</li>
+                </ul>
+            </div>
+
+        </div>
+
+
+    </main>
+
+    <footer class="site-footer">
+        &copy; 2026 Asha Grill House. Strictly For Internal Business Use.
+    </footer>
+
+</body>
+</html>

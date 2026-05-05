@@ -3,290 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asha Grill House - Leaflet Documentation</title>
+    <title>Asha Grill House - Documentation</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        /* === COLOR PALETTE & FONTS === */
+        /* =========================================
+           SIMPLE & CLEAN MANUAL CSS
+           ========================================= */
+
+        /* 1. Global Variables */
         :root {
             --brand-red: #d32f2f;
-            --brand-dark: #2c3e50;
-            --paper-color: #fffdf9;
-            --ink-color: #333333;
-            --fold-line: #e0dcd3;
-            --bg-color: #8fa3b0;
+            --text-main: #333333;
+            --text-light: #555555;
+            --bg-page: #f4f5f7;
+            --bg-card: #ffffff;
+            --border-line: #e5e7eb;
         }
 
+        /* 2. Basic Reset */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Georgia', serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            background-image: radial-gradient(#7b8e9b 1px, transparent 1px);
-            background-size: 20px 20px;
-            color: var(--ink-color);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
             line-height: 1.6;
-            padding: 40px 20px;
-            overflow-x: hidden; /* Prevent accidental horizontal scroll */
+            padding: 20px;
         }
 
-        h1, h2, h3 {
-            font-family: 'Arial Black', Impact, sans-serif;
-            text-transform: uppercase;
-            color: var(--brand-red);
-        }
-
-        p, li {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 1.1rem;
-        }
-
-        /* === LEAFLET CONTAINER WITH NOTCHES === */
-        .leaflet-shadow-wrapper {
-            max-width: 950px;
+        /* 3. Main White Container Box */
+        .doc-container {
+            max-width: 850px;
             margin: 0 auto;
-            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.25));
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
         }
 
-        .leaflet-paper {
-            background-color: var(--paper-color);
-            position: relative;
-            padding: 50px 60px;
-
-            mask-image:
-                radial-gradient(circle at 0 25%, transparent 15px, black 16px),
-                radial-gradient(circle at 100% 25%, transparent 15px, black 16px),
-                radial-gradient(circle at 0 75%, transparent 15px, black 16px),
-                radial-gradient(circle at 100% 75%, transparent 15px, black 16px);
-            mask-size: 51% 100%, 51% 100%, 51% 100%, 51% 100%;
-            mask-position: top left, top right, bottom left, bottom right;
-            mask-repeat: no-repeat;
-            -webkit-mask-image:
-                radial-gradient(circle at 0 25%, transparent 15px, black 16px),
-                radial-gradient(circle at 100% 25%, transparent 15px, black 16px),
-                radial-gradient(circle at 0 75%, transparent 15px, black 16px),
-                radial-gradient(circle at 100% 75%, transparent 15px, black 16px);
-        }
-
-        /* Torn Paper Zig-Zag Edges */
-        .zig-zag-top {
-            height: 15px;
-            background: linear-gradient(-45deg, var(--paper-color) 10px, transparent 0), linear-gradient(45deg, var(--paper-color) 10px, transparent 0);
-            background-position: left-bottom;
-            background-repeat: repeat-x;
-            background-size: 20px 20px;
-        }
-
-        .zig-zag-bottom {
-            height: 15px;
-            background: linear-gradient(-45deg, transparent 10px, var(--paper-color) 0), linear-gradient(45deg, transparent 10px, var(--paper-color) 0);
-            background-position: left-bottom;
-            background-repeat: repeat-x;
-            background-size: 20px 20px;
-            margin-top: -1px;
-        }
-
-        /* === HEADER === */
-        .leaflet-header {
-            text-align: center;
-            padding-bottom: 30px;
-            border-bottom: 3px dashed var(--fold-line);
-            margin-bottom: 40px;
-        }
-
-        .logo-box {
-            display: inline-block;
-            padding: 10px 30px;
-            border: 4px double var(--brand-dark);
-            margin-bottom: 15px;
-        }
-
-        .logo-box h1 {
-            color: var(--brand-dark);
-            font-size: 2.5rem;
-            margin: 0;
-            letter-spacing: 2px;
-        }
-
-        .doc-date {
-            font-weight: bold;
-            color: #777;
-            font-style: italic;
-            font-size: 1.2rem;
-            background: #eee;
-            display: inline-block;
-            padding: 4px 15px;
-            border-radius: 4px;
-        }
-
-        /* === SECTIONS === */
-        .section {
-            margin-bottom: 40px;
-            padding-bottom: 40px;
-            border-bottom: 2px dashed var(--fold-line);
-            position: relative;
-        }
-
-        .section:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            display: inline-block;
-            background-color: var(--brand-red);
-            color: #fff;
-            padding: 5px 15px;
-            transform: rotate(-1deg);
-            box-shadow: 2px 2px 0px var(--brand-dark);
-        }
-
-        /* === FEATURE GRIDS === */
-        .feature-grid {
+        /* 4. Header Section (Updated for Top Left Logo) */
+        .header {
             display: flex;
-            flex-wrap: wrap;
-            gap: 20px; /* Reduced gap slightly for mobile safety */
-            margin-bottom: 30px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 30px;
+            border-bottom: 1px solid var(--border-line);
+            background-color: #fafafa;
         }
 
-        .text-col {
-            flex: 1;
-            min-width: 250px; /* Safer min-width */
-        }
-
-        .img-col {
-            flex: 0 0 auto;
+        .header-left {
             display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
+            align-items: center;
+            gap: 15px; /* Space between logo and text */
+        }
+
+        .header-logo {
+            height: 45px;
             width: auto;
         }
 
-        ul {
-            margin-left: 25px;
-            margin-top: 10px;
-        }
-
-        li { margin-bottom: 8px; }
-
-        /* === IMAGE PLACEHOLDERS (Polaroid Style) === */
-        .polaroid {
-            background: #fff;
-            padding: 8px 8px 25px 8px; /* Slightly tighter padding */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-            width: 160px;
-            height: 260px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #ddd;
-            transform: rotate(2deg);
-            transition: transform 0.3s;
-            position: relative;
-            overflow: hidden; /* Keeps images from spilling out */
-        }
-
-        /* Ensure actual images you add fit perfectly inside without breaking the box */
-        .polaroid img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain; /* Keeps entire image visible */
-        }
-
-        .polaroid:nth-child(even) {
-            transform: rotate(-2deg);
-        }
-
-        .polaroid:hover {
-            transform: scale(1.05) rotate(0deg);
-            z-index: 10;
-        }
-
-        .polaroid span {
-            color: #999;
-            font-family: sans-serif;
-            font-size: 0.9rem;
-            text-align: center;
-            font-weight: bold;
-            border: 2px dashed #ccc;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* === FOOTER === */
-        .leaflet-footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 4px double var(--brand-dark);
-            font-size: 0.9rem;
-            color: #555;
+        .header h1 {
+            color: var(--brand-red);
+            font-size: 24px;
+            margin: 0; /* Removed margin to align perfectly with logo */
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        /* === RESPONSIVE FIXES FOR MOBILE === */
-        @media (max-width: 768px) {
-            body {
-                padding: 15px 10px; /* Less margin around the leaflet on mobile */
-            }
-            .leaflet-paper {
-                padding: 30px 20px; /* Less inner padding so text/images have room */
-            }
-            .logo-box h1 {
-                font-size: 1.8rem; /* Smaller logo text */
-            }
-            .section-title {
-                font-size: 1.5rem;
-            }
-            .text-col {
-                min-width: 100%; /* Forces text to take full width above images */
-            }
-            .img-col {
-                width: 100%; /* Force image row to center properly */
-            }
-            .polaroid {
-                width: 135px; /* Scaled down for mobile */
-                height: 220px;
-                padding: 6px 6px 20px 6px;
-            }
+        .doc-date {
+            background-color: #e5e7eb;
+            color: #4b5563;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
         }
 
-        /* For very small phones (e.g. iPhone SE) */
-        @media (max-width: 360px) {
-            .polaroid {
-                width: 120px;
-                height: 190px;
+        /* 5. Main Content Area */
+        .content {
+            padding: 40px 30px;
+        }
+
+        /* 6. Sections */
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: var(--brand-red);
+            font-size: 22px;
+            border-bottom: 2px solid var(--border-line);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            color: var(--text-light);
+            font-size: 15px;
+        }
+
+        .section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+            color: var(--text-light);
+            font-size: 15px;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        /* 7. Feature Blocks */
+        .feature-block {
+            display: flex;
+            gap: 30px;
+            padding: 20px;
+            background-color: #fdfdfd;
+            border: 1px solid var(--border-line);
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .feature-text {
+            flex: 1;
+        }
+
+        .feature-text h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        /* 8. Simple Image Placeholders */
+        .feature-images {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .img-box {
+            width: 140px;
+            height: 220px;
+            background-color: #f3f4f6;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: 600;
+            padding: 10px;
+        }
+
+        .img-box img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        /* 9. Install Box */
+        .install-images {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .install-images .img-box {
+            height: 150px;
+            width: 200px;
+        }
+
+        /* 10. Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #fafafa;
+            border-top: 1px solid var(--border-line);
+            color: #6b7280;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* 11. Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+                padding: 20px;
+            }
+
+            .header-left {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .feature-block {
+                flex-direction: column;
+            }
+
+            .install-images {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .install-images .img-box {
+                width: 100%;
+                max-width: 250px;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="leaflet-shadow-wrapper">
-        <div class="zig-zag-top"></div>
+    <div class="doc-container">
 
-        <div class="leaflet-paper">
-
-            <div class="leaflet-header">
-                <div class="logo-box">
-                    <h1>ASHA GRILL HOUSE</h1>
-                </div>
-                <br>
-                <div class="doc-date">Created Date: 12/4/26</div>
+        <div class="header">
+            <div class="header-left">
+                <img src="images/icon.png" alt="Logo" class="header-logo" onerror="this.style.display='none'">
+                <h1>Asha Grill House</h1>
             </div>
+            <div class="doc-date">Created Date: 12/4/26</div>
+        </div>
+
+        <div class="content">
 
             <div class="section">
-                <h2 class="section-title">1. Introduction</h2>
+                <h2>1. Introduction</h2>
                 <p>Welcome to the <strong>Asha Grill House App</strong>! This application replaces heavy, messy paper ledgers (Khata) with a smart, digital mobile solution. It is designed to easily store, search, update, and manage all your customer data in one secure place.</p>
                 <ul>
                     <li>Store new customer details, phone numbers, and addresses.</li>
@@ -299,43 +257,43 @@
             </div>
 
             <div class="section">
-                <h2 class="section-title">2. App Features</h2>
+                <h2>2. App Features</h2>
 
-                <div class="feature-grid">
-                    <div class="text-col">
+                <div class="feature-block">
+                    <div class="feature-text">
                         <h3>Main Navigation & Home</h3>
                         <p>When you open the app, you will see 4 main navigation buttons at the bottom: <strong>Home, Hisab, Maf, and Khoroch</strong>. Clicking any button takes you to that specific section.</p>
                         <p>On the Home page, there is a QR Scanner to accept payments (you receive an instant message). There is also a Gallery section to browse images of grill designs.</p>
                     </div>
-                    <div class="img-col">
-                        <div class="polaroid"><span>[4 Nav Buttons]</span></div>
-                        <div class="polaroid"><span>[QR & Gallery]</span></div>
+                    <div class="feature-images">
+                        <div class="img-box">[4 Nav Buttons Image]</div>
+                        <div class="img-box">[QR & Gallery Image]</div>
                     </div>
                 </div>
 
-                <div class="feature-grid">
-                    <div class="text-col">
+                <div class="feature-block">
+                    <div class="feature-text">
                         <h3>Side Menu Drawer</h3>
                         <p>Click the menu button on the top-left to open the Drawer. Here you can access Reports, place Orders, Import/Export your database, and adjust settings.</p>
                     </div>
-                    <div class="img-col">
-                        <div class="polaroid"><span>[Drawer Menu Image]</span></div>
+                    <div class="feature-images">
+                        <div class="img-box">[Drawer Menu Image]</div>
                     </div>
                 </div>
 
-                <div class="feature-grid">
-                    <div class="text-col">
+                <div class="feature-block">
+                    <div class="feature-text">
                         <h3>Hisab (Accounts)</h3>
                         <p>Click "Add" on top to fill a form for a new customer (with due and receipt images). Once saved, you can view their details, send SMS reminders, and manage their transactions date-wise.</p>
                     </div>
-                    <div class="img-col">
-                        <div class="polaroid"><span>[Add Customer]</span></div>
-                        <div class="polaroid"><span>[Transactions Date-wise]</span></div>
+                    <div class="feature-images">
+                        <div class="img-box">[Add Customer Image]</div>
+                        <div class="img-box">[Transactions Image]</div>
                     </div>
                 </div>
 
-                <div class="feature-grid">
-                    <div class="text-col">
+                <div class="feature-block">
+                    <div class="feature-text">
                         <h3>Maf (Measurements)</h3>
                         <p>Enter customer details to log measurements via two options:</p>
                         <ul>
@@ -344,62 +302,61 @@
                         </ul>
                         <p>You can also add advance money here and save it directly to the customer's page.</p>
                     </div>
-                    <div class="img-col">
-                        <div class="polaroid"><span>[Form & Photo]</span></div>
-                        <div class="polaroid"><span>[Drawing Canvas]</span></div>
+                    <div class="feature-images">
+                        <div class="img-box">[Form & Photo Image]</div>
+                        <div class="img-box">[Drawing Canvas Image]</div>
                     </div>
                 </div>
 
-                <div class="feature-grid">
-                    <div class="text-col">
+                <div class="feature-block">
+                    <div class="feature-text">
                         <h3>Khoroch & Orders</h3>
                         <p><strong>Khoroch:</strong> Add daily expenses and view them date-wise.<br>
                         <strong>Orders:</strong> Place material orders by selecting items and sending them directly via an image or message.</p>
                     </div>
-                    <div class="img-col">
-                        <div class="polaroid"><span>[Daily Expenses]</span></div>
-                        <div class="polaroid"><span>[Place Order]</span></div>
+                    <div class="feature-images">
+                        <div class="img-box">[Daily Expenses Image]</div>
+                        <div class="img-box">[Place Order Image]</div>
                     </div>
                 </div>
 
             </div>
 
             <div class="section">
-                <h2 class="section-title">3. Download & Install</h2>
-                <p>To install the app:</p>
+                <h2>3. Download & Install</h2>
+                <p>To install the app on your mobile device, please follow these simple steps:</p>
                 <ul>
                     <li>Download the provided <code>.apk</code> file to your device.</li>
                     <li>Tap the file and click "Install" (Allow "Unknown Sources" if prompted).</li>
                     <li>Wait for the process to finish, then click "Open".</li>
                 </ul>
-                <div class="img-col" style="justify-content: center; margin-top: 15px;">
-                    <div class="polaroid" style="height: 160px;"><span>[Install Step 1]</span></div>
-                    <div class="polaroid" style="height: 160px;"><span>[Install Step 2]</span></div>
+                <div class="install-images">
+                    <div class="img-box">[Install Step 1 Image]</div>
+                    <div class="img-box">[Install Step 2 Image]</div>
                 </div>
             </div>
 
             <div class="section">
-                <h2 class="section-title">4. Initial Setup</h2>
+                <h2>4. Initial Setup</h2>
                 <p>When launching for the first time, please grant the necessary permissions (Camera, Microphone, Storage). To restore older data, navigate to the side drawer, click "Import Database," and select your previous backup file.</p>
             </div>
 
             <div class="section">
-                <h2 class="section-title">5. Backend Architecture</h2>
+                <h2>5. Backend Architecture</h2>
                 <p>The app relies entirely on a highly secure, offline <strong>SQLite Database</strong>. It stores Customers, Transactions, Measurements, and Orders locally on your device ensuring blazing fast speeds and no internet dependency. You have full control to export and backup your database anytime.</p>
             </div>
 
             <div class="section">
-                <h2 class="section-title">6. Conclusion</h2>
+                <h2>6. Conclusion</h2>
                 <p>The Asha Grill House App is the ultimate digital tool designed to replace traditional paper Khata. With advanced features like photo receipts, drawing canvases, and automated SMS, managing your grill shop has never been easier or more secure.</p>
-            </div>
-
-            <div class="leaflet-footer">
-                &copy; 2026 Asha Grill House. Strictly For Internal Business Use.
             </div>
 
         </div>
 
-        <div class="zig-zag-bottom"></div>
+        <div class="footer">
+            &copy; 2026 Asha Grill House. Strictly For Internal Business Use.
+        </div>
+
     </div>
 
 </body>
