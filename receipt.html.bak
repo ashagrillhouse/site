@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Customer Receipt | Asha Grill House</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 80px 20px 20px 20px;
+
+            /* 🔥 Beautiful blurred background image */
+            background: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1920&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Overlay to blur and darken the background image */
+        .bg-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            z-index: -1;
+        }
+
+        /* --- Floating Logo Top Left --- */
+        .top-logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            height: 45px;
+            width: auto;
+            z-index: 50;
+        }
+
+        /* --- Main Container (Centered on screen) --- */
+        .container {
+            width: 100%;
+            max-width: 420px;
+            margin: auto;
+            flex-shrink: 0;
+        }
+
+        /* --- Cards (Glassmorphism Effect) --- */
+        .card {
+            background: rgba(255, 255, 255, 0.95); /* Mostly opaque for readability */
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 30px 25px;
+            width: 100%;
+        }
+
+        /* --- Login Form --- */
+        .login-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-align: center;
+            color: #d84315; /* Asha Grill House Orange */
+        }
+
+        .login-subtitle {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 25px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .phone-wrapper {
+            display: flex;
+            align-items: center;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: #fff;
+            overflow: hidden;
+            transition: border 0.2s, box-shadow 0.2s;
+        }
+
+        .phone-wrapper:focus-within {
+            border-color: #d84315;
+            box-shadow: 0 0 0 3px rgba(216, 67, 21, 0.1);
+        }
+
+        .phone-prefix {
+            padding: 14px 12px;
+            background: #f3f4f6;
+            color: #4b5563;
+            font-weight: 600;
+            font-size: 16px;
+            border-right: 1px solid #d1d5db;
+            user-select: none;
+        }
+
+        .phone-wrapper input {
+            flex-grow: 1;
+            width: 100%;
+            padding: 14px 12px;
+            border: none;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            outline: none;
+            letter-spacing: 1px;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            width: 100%;
+            background-color: #d84315;
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.2s, transform 0.1s;
+            text-decoration: none;
+        }
+
+        .btn:hover { background-color: #bf360c; }
+        .btn:active { transform: scale(0.98); }
+        .btn-secondary { background-color: #f3f4f6; color: #1f2937; margin-top: 10px; border: 1px solid #e5e7eb;}
+        .btn-secondary:hover { background-color: #e5e7eb; }
+
+        /* --- Alerts --- */
+        .error-message {
+            color: #dc2626;
+            background-color: #fee2e2;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        /* --- COMPACT RECEIPT STYLES --- */
+        .receipt-header {
+            text-align: center;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+        .receipt-header h2 { font-size: 18px; margin-bottom: 4px; letter-spacing: 0.5px; }
+        .receipt-header p { font-size: 13px; color: #666; }
+
+        .info-row {
+            display: flex;
+            align-items: flex-start;
+            font-size: 14px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        .info-label { width: 75px; font-weight: 600; color: #444; flex-shrink: 0; }
+        .info-colon { width: 15px; font-weight: 600; color: #444; flex-shrink: 0; text-align: center; }
+        .info-value { flex-grow: 1; font-weight: 500; color: #111; }
+
+        .tx-section {
+            border-top: 1px dashed #ccc;
+            border-bottom: 1px dashed #ccc;
+            padding: 15px 0;
+            margin: 15px 0;
+        }
+        .tx-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: 700;
+            color: #666;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .tx-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        .tx-note { font-size: 12px; color: #666; margin-top: 2px; }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: 700;
+            padding: 5px 0 15px 0;
+        }
+
+        /* Documents Section */
+        .docs-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin: 20px 0 12px 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+
+        .doc-item {
+            margin-bottom: 15px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #fafafa;
+        }
+        .doc-item p {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-bottom: 1px solid #e5e7eb;
+            color: #4b5563;
+        }
+        .doc-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .doc-item img:hover { opacity: 0.9; }
+
+        .notice {
+            font-size: 12px;
+            color: #555;
+            text-align: center;
+            margin-top: 20px;
+            line-height: 1.5;
+            background: #fdf2f8;
+            border: 1px solid #fbcfe8;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-bottom: 10px;
+        }
+        footer a {
+            color: #f3f4f6;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: color 0.2s;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+        footer a:hover { color: #d84315; text-decoration: underline; }
+
+        /* --- Image Viewer Modal --- */
+        #docModal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        #docModal img {
+            max-width: 100%;
+            max-height: 75vh;
+            border-radius: 6px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.5);
+            margin-bottom: 25px;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            max-width: 320px;
+        }
+        .modal-btn {
+            flex: 1;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-download { background: #10b981; color: white; }
+        .btn-close { background: #ef4444; color: white; }
+
+        /* --- Utilities --- */
+        .hidden { display: none !important; }
+        .loader {
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid #ffffff;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            animation: spin 1s linear infinite;
+        }
+        .loader-dark {
+            border-color: #e5e7eb;
+            border-top-color: #d84315;
+            margin: 20px auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        @media print {
+            body { background: white; padding: 0; display: block; }
+            .bg-overlay, .top-logo, .print-hidden, footer { display: none !important; }
+            .container { margin: 0; max-width: 100%; }
+            .card { box-shadow: none; border: none; padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-overlay"></div>
+
+    <img src="images/icon.png" class="top-logo print-hidden" onerror="this.style.display='none'" alt="Logo">
+
+    <div class="container">
+        <div id="loginScreen" class="card">
+            <h2 class="login-title">Receipt Portal</h2>
+            <p class="login-subtitle">Enter your registered phone number to decrypt and view your secure receipt.</p>
+
+            <div class="form-group">
+                <label>Phone Number</label>
+                <div class="phone-wrapper">
+                    <span class="phone-prefix">+91</span>
+                    <input type="tel" id="phoneInput" placeholder="9876543210" maxlength="10" onkeypress="if(event.key === 'Enter') handleLogin()" autocomplete="off">
+                </div>
+            </div>
+
+            <div id="loginError" class="error-message"></div>
+
+            <button id="loginBtn" onclick="handleLogin()" class="btn">
+                <span id="btnText">View Receipt</span>
+                <div id="btnLoader" class="loader hidden"></div>
+            </button>
+        </div>
+
+        <div id="dashboardScreen" class="card hidden">
+
+            <div class="receipt-header">
+                <h2>RECEIPT</h2>
+                <p>Asha Grill House - Muragachha</p>
+                <p>Pro: Biggyan Das - +91 9932134803</p>
+            </div>
+
+            <div class="info-block">
+                <div class="info-row">
+                    <div class="info-label">Name</div>
+                    <div class="info-colon">:</div>
+                    <div class="info-value" id="custName"></div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Date</div>
+                    <div class="info-colon">:</div>
+                    <div class="info-value" id="currentDate"></div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Phone</div>
+                    <div class="info-colon">:</div>
+                    <div class="info-value" id="custPhone"></div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Address</div>
+                    <div class="info-colon">:</div>
+                    <div class="info-value" id="custAddress"></div>
+                </div>
+            </div>
+
+            <div class="tx-section">
+                <div class="tx-header">
+                    <span>Details</span>
+                    <span>Amount</span>
+                </div>
+                <div id="transactionsList"></div>
+            </div>
+
+            <div class="total-row">
+                <span>Total Due</span>
+                <span id="custDue">₹0.00</span>
+            </div>
+
+            <div class="docs-title">Attached Documents</div>
+            <div id="imagesLoader" class="hidden">
+                <div class="loader loader-dark"></div>
+            </div>
+
+            <div id="imagesGrid"></div>
+            <p id="noImagesText" class="hidden" style="font-size: 13px; color: #888; text-align: center;">No documents attached.</p>
+
+            <div class="notice">
+                This is a computer generated receipt.
+                Available until <strong id="expireDate" style="color: #d84315;"></strong>. <br>
+                <span style="font-size: 10px; color: #888;">This data is secured by AES encryption.</span>
+            </div>
+
+            <div class="print-hidden" style="margin-top: 25px;">
+                <button onclick="window.print()" class="btn">Print Receipt</button>
+                <a href="receipt.html" class="btn btn-secondary">Go Back</a>
+            </div>
+        </div>
+
+        <footer class="print-hidden">
+            <a href="index.html">Home</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="index.html#contact">Contact</a>
+        </footer>
+    </div>
+
+    <div id="docModal" class="print-hidden">
+        <img id="modalImg" src="" alt="Document">
+        <div class="modal-actions">
+            <a id="modalDownload" class="modal-btn btn-download" download="Receipt_Document.jpg">Download</a>
+            <button onclick="closeDoc()" class="modal-btn btn-close">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Encryption Logic ---
+        function getKeyAndIv(phoneKey) {
+            let paddedPhone = phoneKey.padEnd(32, '0').substring(0, 32);
+            return {
+                key: CryptoJS.enc.Utf8.parse(paddedPhone),
+                iv: CryptoJS.enc.Utf8.parse("1234567890123456")
+            };
+        }
+
+        // --- UI Helpers ---
+        function showLoading(isLoading) {
+            const btnText = document.getElementById('btnText');
+            const btnLoader = document.getElementById('btnLoader');
+            const loginBtn = document.getElementById('loginBtn');
+            const errorBox = document.getElementById('loginError');
+
+            if (isLoading) {
+                btnText.classList.add('hidden');
+                btnLoader.classList.remove('hidden');
+                loginBtn.disabled = true;
+                errorBox.style.display = 'none';
+            } else {
+                btnText.classList.remove('hidden');
+                btnLoader.classList.add('hidden');
+                loginBtn.disabled = false;
+            }
+        }
+
+        function showError(msg) {
+            const errorBox = document.getElementById('loginError');
+            errorBox.textContent = msg;
+            errorBox.style.display = 'block';
+        }
+
+        // --- Modal Controls ---
+        function openDoc(imgSrc) {
+            document.getElementById('modalImg').src = imgSrc;
+            document.getElementById('modalDownload').href = imgSrc;
+            document.getElementById('docModal').style.display = 'flex';
+        }
+        function closeDoc() {
+            document.getElementById('docModal').style.display = 'none';
+            document.getElementById('modalImg').src = "";
+        }
+
+        // --- Main Login ---
+        async function handleLogin() {
+            const rawNumber = document.getElementById('phoneInput').value.replace(/\D/g, '');
+
+            if (rawNumber.length < 10) {
+                showError("Please enter a valid 10-digit number.");
+                return;
+            }
+
+            const fullPhoneKey = "+91" + rawNumber;
+            showLoading(true);
+
+            try {
+                // Fetch the JSON file
+                const response = await fetch(`customers/customer_details.json?t=${new Date().getTime()}`);
+                if (!response.ok) throw new Error("Network error.");
+
+                const db = await response.json();
+                const { key, iv } = getKeyAndIv(fullPhoneKey);
+                let customerData = null;
+
+                // 1. Check if ?id= is in the URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const requestedId = urlParams.get('id');
+
+                if (requestedId) {
+                    // 🔥 If ID is in URL, ONLY search for that specific ID
+                    const targetCustomer = db.customers.find(c => c.id == requestedId);
+
+                    if (targetCustomer) {
+                        try {
+                            const decryptedBytes = CryptoJS.AES.decrypt(targetCustomer.data, key, { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
+                            const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+                            if (decryptedText) {
+                                const parsed = JSON.parse(decryptedText);
+                                if (parsed.phone.replace(/\s/g, '') === fullPhoneKey || parsed.phone === rawNumber) {
+                                    customerData = parsed;
+                                }
+                            }
+                        } catch (e) {
+                            // Decryption failed for this specific ID (Wrong Phone Number)
+                        }
+                    }
+                } else {
+                    // 🔥 No ID in URL? Fallback to looping through all records to find a match
+                    for (let i = 0; i < db.customers.length; i++) {
+                        try {
+                            const encryptedStr = db.customers[i].data;
+                            const decryptedBytes = CryptoJS.AES.decrypt(encryptedStr, key, { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
+                            const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+                            if (decryptedText) {
+                                const parsed = JSON.parse(decryptedText);
+                                if (parsed.phone.replace(/\s/g, '') === fullPhoneKey || parsed.phone === rawNumber) {
+                                    customerData = parsed;
+                                    break;
+                                }
+                            }
+                        } catch (e) {
+                            // Ignore decryption failures for incorrect keys during loop
+                        }
+                    }
+                }
+
+                if (customerData) {
+                    renderDashboard(customerData, key, iv);
+                } else {
+                    showError("Decryption Failed: Incorrect phone number or ID.");
+                }
+
+            } catch (error) {
+                showError("Connection error. Ensure the database is accessible.");
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // --- Render Dashboard ---
+        function renderDashboard(data, key, iv) {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('dashboardScreen').classList.remove('hidden');
+
+            // Set basic customer details
+            document.getElementById('custName').textContent = data.name || "N/A";
+            document.getElementById('custPhone').textContent = data.phone;
+            document.getElementById('custAddress').textContent = data.address || "N/A";
+
+            // 🔥 DATE LOGIC FIX: Set receipt date to createdAt from JSON
+            document.getElementById('currentDate').textContent = data.createdAt || "N/A";
+
+            // 🔥 EXPIRY LOGIC FIX: Set available date to lastUpdated + 30 Days
+            if (data.lastUpdated) {
+                const lastUpdateObj = new Date(data.lastUpdated);
+                lastUpdateObj.setDate(lastUpdateObj.getDate() + 30);
+
+                const dateOptions = { day: '2-digit', month: 'short', year: 'numeric' };
+                document.getElementById('expireDate').textContent = lastUpdateObj.toLocaleDateString('en-IN', dateOptions);
+            } else {
+                document.getElementById('expireDate').textContent = "Unknown";
+            }
+
+            const dueAmount = parseFloat(data.due || 0);
+            document.getElementById('custDue').textContent = `₹${dueAmount.toFixed(2)}`;
+
+            const txContainer = document.getElementById('transactionsList');
+            txContainer.innerHTML = '';
+
+            if (data.transactions && data.transactions.length > 0) {
+                data.transactions.forEach(tx => {
+                    const amt = parseFloat(tx.amount || 0).toFixed(2);
+                    txContainer.innerHTML += `
+                        <div class="tx-item">
+                            <div>
+                                <div style="font-weight: 500;">${tx.date}</div>
+                                <div class="tx-note">${tx.note || 'Payment'}</div>
+                            </div>
+                            <div style="font-weight:600;">₹${amt}</div>
+                        </div>
+                    `;
+                });
+            } else {
+                txContainer.innerHTML = `<div style="font-size:13px; color:#888; text-align:center; padding: 10px 0;">No recent transactions.</div>`;
+            }
+
+            loadImages(data.images, key, iv);
+        }
+
+        // --- Decrypt Images ---
+        async function loadImages(imageUrls, key, iv) {
+            const grid = document.getElementById('imagesGrid');
+            const loader = document.getElementById('imagesLoader');
+            const noImagesText = document.getElementById('noImagesText');
+
+            grid.innerHTML = '';
+
+            if (!imageUrls || imageUrls.length === 0) {
+                noImagesText.classList.remove('hidden');
+                return;
+            }
+
+            loader.classList.remove('hidden');
+
+            for (let i = 0; i < imageUrls.length; i++) {
+                try {
+                    const fileName = imageUrls[i].split('/').pop();
+                    const relativePath = `customers/images/${fileName}`;
+
+                    const res = await fetch(relativePath);
+                    if (!res.ok) throw new Error();
+
+                    const encryptedBase64 = await res.text();
+                    const decryptedBytes = CryptoJS.AES.decrypt(encryptedBase64.trim(), key, { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
+                    const base64Str = CryptoJS.enc.Base64.stringify(decryptedBytes);
+                    const dataUri = 'data:image/jpeg;base64,' + base64Str;
+
+                    grid.innerHTML += `
+                        <div class="doc-item">
+                            <p>Document 0${i+1} (Tap to enlarge)</p>
+                            <img src="${dataUri}" onclick="openDoc('${dataUri}')" alt="Document">
+                        </div>
+                    `;
+                } catch(e) {
+                    grid.innerHTML += `
+                        <div class="doc-item" style="padding:15px; text-align:center; color:#dc2626; font-size:13px;">
+                            Failed to load document
+                        </div>
+                    `;
+                }
+            }
+            loader.classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
