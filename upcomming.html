@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon</title>
+
+    <!-- Favicon link -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <style>
+        /* Basic reset to remove default margins */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #DDDDDD; /* Light grey background */
+            color: #333;
+        }
+
+        /* Top-left logo positioning */
+        .top-left-logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .top-left-logo img {
+            height: 60px; /* Adjust the height of your logo here */
+            width: auto;
+            border:none;
+        }
+
+        /* Centering container using Flexbox */
+        .center-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Takes up the full height of the viewport */
+            text-align: center;
+        }
+
+        /* Styling for the central image */
+        .center-image {
+            max-width: 300px; /* Adjust how big the center image should be */
+            height: auto;
+            margin-bottom: 10px; /* Space between image and text */
+        }
+
+        /* Typography for the message */
+        h1 {
+            font-size: 3rem;
+            margin: 0;
+            color: #2c3e50;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin: 10px 0 0 0;
+            color: #7f8c8d;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Left Logo -->
+    <div class="top-left-logo">
+        <img src="./images/icon.png" alt="Company Logo">
+    </div>
+
+    <!-- Centered Content -->
+    <div class="center-container">
+        <!-- Center Image -->
+        <img src="./images/upcomming.gif" alt="Updating Image" class="center-image">
+
+        <!-- Text Message -->
+        <h1>Updating..</h1>
+        <h2>Coming Soon</h2>
+    </div>
+
+</body>
+</html>
