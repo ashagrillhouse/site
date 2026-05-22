@@ -422,7 +422,7 @@
             for (let i = 0; i < imageUrls.length; i++) {
                 try {
                     const fileName = imageUrls[i].split('/').pop();
-                    const relativePath = `customers/images/${fileName}`;
+                    const relativePath = `/receipt/customers/images/${fileName}`;
 
                     const res = await fetch(relativePath);
                     if (!res.ok) throw new Error();
@@ -435,7 +435,7 @@
                     grid.innerHTML += `
                         <div class="doc-item">
                             <p>Document 0${i+1} (Tap to enlarge)</p>
-                            <img src="/receipt/${dataUri}" onclick="openDoc('/receipt/${dataUri}')" alt="Document">
+                            <img src="${dataUri}" onclick="openDoc('${dataUri}')" alt="Document">
                         </div>
                     `;
                 } catch(e) {
