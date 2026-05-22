@@ -335,7 +335,7 @@
                             const encryptedStr = db.customers[i].data;
                             const decryptedBytes = CryptoJS.AES.decrypt(encryptedStr, key, { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
                             const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
-                            console.log(decryptedText);
+                            //console.log(decryptedText);
                             if (decryptedText) {
                                 const parsed = JSON.parse(decryptedText);
                                 if (parsed.phone.replace(/\s/g, '') === fullPhoneKey || parsed.phone === rawNumber) {
@@ -375,12 +375,12 @@
                 expireDateObj.setDate(expireDateObj.getDate() + 30);
                 const dateOptions = { day: '2-digit', month: 'short', year: 'numeric' };
                 document.getElementById('expireDate').textContent = expireDateObj.toLocaleDateString('en-IN', dateOptions);
-                console.log(expireDateObj);
+                //console.log(expireDateObj);
 
 
                 const lastUpdateObj = new Date(data.lastUpdated);
                 lastUpdateObj.setDate(lastUpdateObj.getDate());
-                console.log(lastUpdateObj.toLocaleDateString('en-IN', dateOptions));
+                //console.log(lastUpdateObj.toLocaleDateString('en-IN', dateOptions));
                 document.getElementById('lastUpdate').textContent= lastUpdateObj.toLocaleDateString('en-IN', dateOptions);
 
 
