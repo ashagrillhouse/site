@@ -35,10 +35,54 @@
             z-index: -1;
         }
 
-        .top-logo {
+      /*  .top-logo {
             position: absolute;
             top: 20px; left: 20px; height: 45px; width: auto; z-index: 50;
-        }
+        }*/
+
+.top-header {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 50;
+}
+
+.top-logo {
+    height: 45px;
+    width: auto;
+}
+
+.top-nav {
+    display: flex;
+    gap: 15px;
+}
+
+.top-nav a {
+    color: #f3f4f6;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    transition: color 0.2s;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.top-nav a:hover {
+    color: #ffffff;
+    background-color: #d84315;
+    border-color: #d84315;
+}
+
+
+
+
 
         .container {
             width: 100%; max-width: 420px; margin: auto; flex-shrink: 0;
@@ -144,7 +188,15 @@
 
     <div class="bg-overlay"></div>
 
-    <img src="images/icon.png" class="top-logo print-hidden" onerror="this.style.display='none'" alt="Logo">
+  <!--  <img src="images/icon.png" class="top-logo print-hidden" onerror="this.style.display='none'" alt="Logo">-->
+
+    <div class="top-header print-hidden">
+        <img src="images/icon.png" class="top-logo" onerror="this.style.display='none'" alt="Logo">
+        <nav class="top-nav">
+            <a href="index.html">Home</a>
+            <a href="gallery.html">Gallery</a>
+        </nav>
+    </div>
 
     <div class="container">
         <div id="loginScreen" class="card">
@@ -220,7 +272,7 @@
             <p id="noImagesText" class="hidden" style="font-size: 13px; color: #888; text-align: center;">No documents attached.</p>
 
             <div class="notice">
-                This is a computer generated receipt on <strong id='lastUpdate'></strong>.
+                This receipt is generated on <strong id='lastUpdate'></strong>.
                 Available until <strong id="expireDate" style="color: #d84315;"></strong>. <br>
                 <span style="font-size: 10px; color: #888;">This data is secured by AES encryption.</span>
             </div>
@@ -230,12 +282,6 @@
                 <a href="receipt.html" class="btn btn-secondary">Go Back</a>
             </div>
         </div>
-
-        <footer class="print-hidden">
-            <a href="index.html">Home</a>
-            <a href="gallery.html">Gallery</a>
-            <a href="index.html#contact">Contact</a>
-        </footer>
     </div>
 
     <div id="docModal" class="print-hidden">
@@ -380,13 +426,23 @@
 
                 const lastUpdateObj = new Date(data.lastUpdated);
                 lastUpdateObj.setDate(lastUpdateObj.getDate());
+                const dateTimeOptions = {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    hour12: true
+                };
                 //console.log(lastUpdateObj.toLocaleDateString('en-IN', dateOptions));
-                document.getElementById('lastUpdate').textContent= lastUpdateObj.toLocaleDateString('en-IN', dateOptions);
+                const formattedLastUpdate = lastUpdateObj.toLocaleDateString('en-IN', dateTimeOptions).replace(',', '');
+                document.getElementById('lastUpdate').textContent = formattedLastUpdate;
 
 
 
             } else {
                 document.getElementById('expireDate').textContent = "Unknown";
+                document.getElementById('lastUpdate').textContent = "Unknown";
             }
 
             const dueAmount = parseFloat(data.due || 0);
