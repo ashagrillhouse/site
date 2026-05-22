@@ -220,7 +220,7 @@
             <p id="noImagesText" class="hidden" style="font-size: 13px; color: #888; text-align: center;">No documents attached.</p>
 
             <div class="notice">
-                This is a computer generated receipt.
+                This is a computer generated receipt on <strong id='lastUpdate'></strong>.
                 Available until <strong id="expireDate" style="color: #d84315;"></strong>. <br>
                 <span style="font-size: 10px; color: #888;">This data is secured by AES encryption.</span>
             </div>
@@ -320,6 +320,7 @@
                         try {
                             const decryptedBytes = CryptoJS.AES.decrypt(targetCustomer.data, key, { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
                             const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
                             if (decryptedText) {
                                 const parsed = JSON.parse(decryptedText);
                                 if (parsed.phone.replace(/\s/g, '') === fullPhoneKey || parsed.phone === rawNumber) {
@@ -334,7 +335,7 @@
                             const encryptedStr = db.customers[i].data;
                             const decryptedBytes = CryptoJS.AES.decrypt(encryptedStr, key, { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
                             const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
-
+                            console.log(decryptedText);
                             if (decryptedText) {
                                 const parsed = JSON.parse(decryptedText);
                                 if (parsed.phone.replace(/\s/g, '') === fullPhoneKey || parsed.phone === rawNumber) {
@@ -370,10 +371,20 @@
             document.getElementById('currentDate').textContent = data.createdAt || "N/A";
 
             if (data.lastUpdated) {
-                const lastUpdateObj = new Date(data.lastUpdated);
-                lastUpdateObj.setDate(lastUpdateObj.getDate() + 30);
+                const expireDateObj = new Date(data.lastUpdated);
+                expireDateObj.setDate(expireDateObj.getDate() + 30);
                 const dateOptions = { day: '2-digit', month: 'short', year: 'numeric' };
-                document.getElementById('expireDate').textContent = lastUpdateObj.toLocaleDateString('en-IN', dateOptions);
+                document.getElementById('expireDate').textContent = expireDateObj.toLocaleDateString('en-IN', dateOptions);
+                console.log(expireDateObj);
+
+
+                const lastUpdateObj = new Date(data.lastUpdated);
+                lastUpdateObj.setDate(lastUpdateObj.getDate());
+                console.log(lastUpdateObj.toLocaleDateString('en-IN', dateOptions));
+                document.getElementById('lastUpdate').textContent= lastUpdateObj.toLocaleDateString('en-IN', dateOptions);
+
+
+
             } else {
                 document.getElementById('expireDate').textContent = "Unknown";
             }
@@ -422,7 +433,7 @@
             for (let i = 0; i < imageUrls.length; i++) {
                 try {
                     const fileName = imageUrls[i].split('/').pop();
-                    const relativePath = `/receipt/customers/images/${fileName}`;
+                    const relativePath = `https://ashagrillhouse.github.io/receipt/customers/images/${fileName}`;
 
                     const res = await fetch(relativePath);
                     if (!res.ok) throw new Error();
