@@ -435,7 +435,7 @@
                     grid.innerHTML += `
                         <div class="doc-item">
                             <p>Document 0${i+1} (Tap to enlarge)</p>
-                            <img src="${dataUri}" onclick="openDoc('${dataUri}')" alt="Document">
+                            <img src="/receipt/${dataUri}" onclick="openDoc('/receipt/${dataUri}')" alt="Document">
                         </div>
                     `;
                 } catch(e) {
