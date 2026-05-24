@@ -35,11 +35,6 @@
             z-index: -1;
         }
 
-      /*  .top-logo {
-            position: absolute;
-            top: 20px; left: 20px; height: 45px; width: auto; z-index: 50;
-        }*/
-
 .top-header {
     position: absolute;
     top: 20px;
@@ -79,10 +74,6 @@
     background-color: #d84315;
     border-color: #d84315;
 }
-
-
-
-
 
         .container {
             width: 100%; max-width: 420px; margin: auto; flex-shrink: 0;
@@ -187,8 +178,6 @@
 <body>
 
     <div class="bg-overlay"></div>
-
-  <!--  <img src="images/icon.png" class="top-logo print-hidden" onerror="this.style.display='none'" alt="Logo">-->
 
     <div class="top-header print-hidden">
         <img src="images/icon.png" class="top-logo" onerror="this.style.display='none'" alt="Logo">
@@ -337,6 +326,37 @@
             document.getElementById('modalImg').src = "";
         }
 
+        // --- Custom Date String Parser ---
+        function parseCustomDate(dateStr) {
+            if (!dateStr) return null;
+            const parts = dateStr.trim().split(/\s+/);
+            const datePart = parts[0];
+            const timePart = parts[1];
+            const ampm = parts[2];
+
+            const dateComponents = datePart.split('-');
+            if (dateComponents.length !== 3) return null;
+
+            const day = parseInt(dateComponents[0], 10);
+            const month = parseInt(dateComponents[1], 10) - 1;
+            const year = parseInt(dateComponents[2], 10);
+
+            let hours = 0;
+            let minutes = 0;
+
+            if (timePart) {
+                const timeComponents = timePart.split(':');
+                hours = parseInt(timeComponents[0], 10);
+                minutes = parseInt(timeComponents[1], 10) || 0;
+
+                if (ampm) {
+                    if (ampm.toUpperCase() === 'PM' && hours < 12) hours += 12;
+                    if (ampm.toUpperCase() === 'AM' && hours === 12) hours = 0;
+                }
+            }
+            return new Date(year, month, day, hours, minutes);
+        }
+
         // --- Main Login ---
         async function handleLogin() {
             const rawNumber = document.getElementById('phoneInput').value.replace(/\D/g, '');
@@ -381,7 +401,7 @@
                             const encryptedStr = db.customers[i].data;
                             const decryptedBytes = CryptoJS.AES.decrypt(encryptedStr, key, { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
                             const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
-                            //console.log(decryptedText);
+                            console.log(decryptedText);
                             if (decryptedText) {
                                 const parsed = JSON.parse(decryptedText);
                                 if (parsed.phone.replace(/\s/g, '') === fullPhoneKey || parsed.phone === rawNumber) {
@@ -416,16 +436,46 @@
             document.getElementById('custAddress').textContent = data.address || "N/A";
             document.getElementById('currentDate').textContent = data.createdAt || "N/A";
 
-            if (data.lastUpdated) {
-                const expireDateObj = new Date(data.lastUpdated);
+            // Find latest activity date among timestamps (except lastUpdated)
+            let activityDates = [];
+            if (data.createdAt) {
+                const d = parseCustomDate(data.createdAt);
+                if (d) activityDates.push(d);
+            }
+            if (data.transactions && data.transactions.length > 0) {
+                data.transactions.forEach(tx => {
+                    if (tx.date) {
+                        const d = parseCustomDate(tx.date);
+                        if (d) activityDates.push(d);
+                    }
+                });
+            }
+
+            let baseGeneratedDate = null;
+            if (activityDates.length > 0) {
+                const maxActivityDate = new Date(Math.max(...activityDates.map(d => d.getTime())));
+
+                // Add exactly +1 day onto the latest logged event date
+                baseGeneratedDate = new Date(maxActivityDate);
+                baseGeneratedDate.setDate(baseGeneratedDate.getDate() + 1);
+
+                // Keep the exact time format metrics from the app payload upload timestamp
+                if (data.lastUpdated) {
+                    const uploadTimeObj = new Date(data.lastUpdated);
+                    baseGeneratedDate.setHours(uploadTimeObj.getHours(), uploadTimeObj.getMinutes(), uploadTimeObj.getSeconds(), uploadTimeObj.getMilliseconds());
+                }
+            } else if (data.lastUpdated) {
+                baseGeneratedDate = new Date(data.lastUpdated);
+            }
+
+            if (baseGeneratedDate) {
+                // Calculated Expiration Date is Generated Date + 30 Days
+                const expireDateObj = new Date(baseGeneratedDate);
                 expireDateObj.setDate(expireDateObj.getDate() + 30);
+
                 const dateOptions = { day: '2-digit', month: 'short', year: 'numeric' };
                 document.getElementById('expireDate').textContent = expireDateObj.toLocaleDateString('en-IN', dateOptions);
-                //console.log(expireDateObj);
 
-
-                const lastUpdateObj = new Date(data.lastUpdated);
-                lastUpdateObj.setDate(lastUpdateObj.getDate());
                 const dateTimeOptions = {
                     day: 'numeric',
                     month: 'short',
@@ -434,12 +484,8 @@
                     minute: '2-digit',
                     hour12: true
                 };
-                //console.log(lastUpdateObj.toLocaleDateString('en-IN', dateOptions));
-                const formattedLastUpdate = lastUpdateObj.toLocaleDateString('en-IN', dateTimeOptions).replace(',', '');
+                const formattedLastUpdate = baseGeneratedDate.toLocaleDateString('en-IN', dateTimeOptions).replace(',', '');
                 document.getElementById('lastUpdate').textContent = formattedLastUpdate;
-
-
-
             } else {
                 document.getElementById('expireDate').textContent = "Unknown";
                 document.getElementById('lastUpdate').textContent = "Unknown";
@@ -516,29 +562,18 @@
             loader.classList.add('hidden');
         }
 
-        // --- BULLETPROOF Auto-Login via URL Parameter (?q=...) ---
+        // --- Auto-Login via URL Parameter (?q=...) ---
         window.addEventListener('DOMContentLoaded', () => {
-            // We use window.location.href directly to avoid URLSearchParams changing '+' to a space
             const rawURL = window.location.href;
-
-            // Extract the value immediately following '?q=' or '&q='
             const qMatch = rawURL.match(/[?&]q=([^&]*)/);
 
             if (qMatch && qMatch[1]) {
-                // Remove absolutely everything that isn't a number (removes +, spaces, letters, %2B, etc.)
                 const cleanPhone = qMatch[1].replace(/\D/g, '');
-
-                // Ensure we have at least 10 numbers to work with
                 if (cleanPhone.length >= 10) {
-                    // Extract strictly the last 10 digits
                     const tenDigitPhone = cleanPhone.slice(-10);
-
-                    // Insert into the input box
                     const inputElement = document.getElementById('phoneInput');
                     if(inputElement) {
                         inputElement.value = tenDigitPhone;
-
-                        // Fire the login sequence automatically
                         handleLogin();
                     }
                 }
