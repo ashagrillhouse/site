@@ -401,7 +401,7 @@
                             const encryptedStr = db.customers[i].data;
                             const decryptedBytes = CryptoJS.AES.decrypt(encryptedStr, key, { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
                             const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
-                            console.log(decryptedText);
+                            //console.log(decryptedText);
                             if (decryptedText) {
                                 const parsed = JSON.parse(decryptedText);
                                 if (parsed.phone.replace(/\s/g, '') === fullPhoneKey || parsed.phone === rawNumber) {
@@ -416,7 +416,7 @@
                 if (customerData) {
                     renderDashboard(customerData, key, iv);
                 } else {
-                    showError("Incorrect phone number or receipt not found");
+                    showError("We couldn't find your receipt or phone number. If you just received this link today, please try again in 24 hours.");
                 }
 
             } catch (error) {
