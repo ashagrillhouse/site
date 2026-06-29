@@ -201,7 +201,7 @@ $(document).ready(function(){
 
     // Close on X
     $('#imageModal .close-btn').click(function(){
-        playSound('sounds/click.mp3');
+        //playSound('sounds/click.mp3');
         $('#imageModal').removeClass('show').fadeOut();
     });
 
@@ -343,7 +343,7 @@ function fetchWeather() {
         ${theme.label} ${theme.emoji[0]}<br>
         ${temp}°C, Wind: ${wind} km/h
         `;
-        createLeaves(theme.emoji);
+        //createLeaves(theme.emoji);
 
     })
     .catch(err=>{
@@ -602,7 +602,7 @@ function setLanguage(language) {
 
 /*NEVIGATION BUTTONS*/
 $('.nav-btn').on('click', function () {
-    playSound('sounds/click.mp3');
+    //playSound('sounds/click.mp3');
     const target = $(this).data('target');
     $('html, body').animate({
         scrollTop: $('#' + target).offset().top
@@ -755,7 +755,7 @@ document.getElementById('zink_bar').addEventListener('click',()=>{
 
 
 window.addEventListener("scroll", () => {
-    console.log("scrolling...");
+    //console.log("scrolling...");
     //playSound("sounds/scroll.mp3");
 });
 

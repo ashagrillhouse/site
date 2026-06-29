@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pro Realistic Catalog - Arch Grill House</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .root {
+    width: 100%; min-height: 100vh;
+    background: #2c1a0c;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(0,0,0,.07) 0, rgba(0,0,0,.07) 1px, transparent 1px, transparent 60px),
+      repeating-linear-gradient(0deg, rgba(0,0,0,.07) 0, rgba(0,0,0,.07) 1px, transparent 1px, transparent 60px);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 20px 16px 16px; overflow: hidden; font-family: Georgia, serif; position: relative;
+  }
+  .stage { display: flex; align-items: center; justify-content: center; position: relative; }
+
+  .spine {
+    width: 26px; height: 500px; flex-shrink: 0; z-index: 4;
+    background: linear-gradient(to right, #0d0803, #3a1e0b, #1a0c05);
+    border-radius: 6px 0 0 6px;
+    box-shadow: -10px 0 25px rgba(0,0,0,0.8), inset -2px 0 6px rgba(0,0,0,0.6);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .spine-text {
+    writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg);
+    color: #c9963a; font-size: 10px; letter-spacing: 4px; font-weight: bold;
+    white-space: nowrap; opacity: .85; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  }
+
+  .book {
+    width: 300px; height: 500px; position: relative; flex-shrink: 0;
+    perspective: 2000px; /* Increased for better 3D depth */
+    cursor: grab;
+  }
+  .book:active { cursor: grabbing; }
+
+  .page-slot {
+    position: absolute; inset: 0; border-radius: 0 8px 8px 0; overflow: hidden;
+    box-shadow: 6px 0 20px rgba(0,0,0,.6), inset 2px 0 5px rgba(0,0,0,.1);
+  }
+  .page-slot img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; user-select: none; }
+
+  .cover-face, .back-face {
+    position: absolute; inset: 0; border-radius: 0 8px 8px 0; overflow: hidden;
+    background: linear-gradient(145deg, #1e293b, #0f172a);
+    border: 3px solid #c9963a; border-left: none;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 28px;
+    box-shadow: inset 15px 0 30px rgba(0,0,0,0.4);
+  }
+  .cover-face h1 { color: #e8b84b; font-size: 24px; text-transform: uppercase; letter-spacing: 3px; line-height: 1.3; margin-bottom: 8px; text-shadow: 2px 2px 4px rgba(0,0,0,0.6); }
+  .cover-face .orn, .back-face .orn { color: #c9963a; font-size: 16px; letter-spacing: 6px; margin: 10px 0; }
+  .cover-face p, .back-face p { color: #fde68a; font-size: 13px; letter-spacing: 2px; opacity: .9; }
+  .cover-svg { width: 55px; height: 55px; margin-bottom: 16px; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5)); }
+  .back-face h2 { color: #e8b84b; font-size: 20px; letter-spacing: 2px; margin-bottom: 8px; }
+
+  /* Smooth crease shadow at the binding */
+  .spine-shadow-overlay {
+    position: absolute; top: 0; left: 0; width: 35px; height: 100%;
+    background: linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.1) 40%, transparent);
+    pointer-events: none; z-index: 6;
+  }
+
+  .pg-badge, .zoom-btn {
+    position: absolute; bottom: 12px; background: rgba(0,0,0,.75); color: #f5d98a;
+    font-size: 11px; padding: 4px 12px; border-radius: 20px; letter-spacing: 1px;
+    z-index: 7; box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+  .pg-badge { right: 12px; pointer-events: none; }
+  .zoom-btn { left: 12px; border: 1px solid rgba(200,150,60,.5); cursor: pointer; transition: background .2s; }
+  .zoom-btn:hover { background: rgba(200,150,60,.4); }
+
+  /* 3D Flip Container */
+  .flip-wrap {
+    position: absolute; inset: 0;
+    transform-origin: left center; transform-style: preserve-3d;
+    z-index: 10; pointer-events: none; border-radius: 0 8px 8px 0;
+    /* Drop shadow while page is in mid-air */
+    filter: drop-shadow(8px 10px 15px rgba(0,0,0,0.4));
+  }
+  .flip-front, .flip-back {
+    position: absolute; inset: 0;
+    backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    overflow: hidden; border-radius: 0 8px 8px 0;
+    box-shadow: inset 10px 0 20px rgba(0,0,0,0.1);
+  }
+  .flip-front img, .flip-back img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .flip-back { transform: rotateY(180deg); background: #fdfbf7; }
+
+  /* NEW: Dynamic Shading Layers for Realism */
+  .page-shading {
+    position: absolute; inset: 0; pointer-events: none; z-index: 5;
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .front-shading {
+    background: linear-gradient(to right, rgba(0,0,0,0.1) 0%, rgba(255,255,255,0.15) 10%, rgba(0,0,0,0.6) 100%);
+    opacity: 0;
+  }
+  .back-shading {
+    background: linear-gradient(to left, rgba(0,0,0,0.6) 0%, rgba(255,255,255,0.15) 10%, rgba(0,0,0,0.1) 100%);
+    opacity: 1;
+  }
+
+  .drag-hint {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    color: rgba(255,255,255,.3); font-size: 12px; letter-spacing: 2px; pointer-events: none;
+    text-align: center; white-space: nowrap; transition: opacity .4s;
+    background: rgba(0,0,0,0.5); padding: 8px 16px; border-radius: 20px;
+  }
+
+  .nav-row { display: flex; align-items: center; gap: 14px; margin-top: 24px; }
+  .nav-btn {
+    background: rgba(232,184,75,.15); border: 1.5px solid #e8b84b; color: #e8b84b;
+    font-size: 14px; font-family: Georgia, serif; padding: 8px 24px; border-radius: 30px;
+    cursor: pointer; letter-spacing: 1px; transition: all .2s; outline: none;
+  }
+  .nav-btn:hover:not(:disabled) { background: rgba(232,184,75,.3); transform: translateY(-2px); }
+  .nav-btn:disabled { opacity: .3; cursor: default; }
+  .pg-ind { color: #fde68a; font-size: 13px; letter-spacing: 1.5px; min-width: 100px; text-align: center; }
+  .swipe-hint { color: rgba(253,230,138,.5); font-size: 11px; letter-spacing: 1px; margin-top: 10px; }
+
+  /* Torn Page Overlay (Kept your exact design) */
+  .torn-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.92); z-index: 9999;
+    align-items: center; justify-content: center; flex-direction: column;
+    transition: opacity .3s; opacity: 0;
+  }
+  .torn-overlay.on { display: flex; opacity: 1; }
+  .torn-paper {
+    position: relative; background: #fdfbf7;
+    padding: 12px 18px 12px 24px; border-radius: 0 8px 8px 0;
+    box-shadow: 10px 15px 50px rgba(0,0,0,1);
+    transition: transform .4s cubic-bezier(.175,.885,.32,1.275);
+    transform: scale(.82) rotate(-2deg); max-width: 90%;
+  }
+  .torn-paper.pop { transform: scale(1) rotate(0); }
+  .torn-paper::before {
+    content: ''; position: absolute; top: 0; left: -14px; width: 17px; height: 100%; background: #fdfbf7;
+    clip-path: polygon(100% 0%,35% 4%,100% 8%,25% 13%,100% 18%,40% 23%,100% 28%,20% 33%,100% 38%,38% 43%,100% 48%,22% 53%,100% 58%,35% 63%,100% 68%,28% 73%,100% 78%,42% 83%,100% 88%,30% 93%,100% 97%,100% 100%,100% 0%);
+  }
+  .torn-paper::after {
+    content: ''; position: absolute; top: 0; left: 0; width: 12px; height: 100%;
+    background: linear-gradient(to right, rgba(0,0,0,.0), rgba(0,0,0,.15));
+    clip-path: polygon(100% 0%,35% 4%,100% 8%,25% 13%,100% 18%,40% 23%,100% 28%,20% 33%,100% 38%,38% 43%,100% 48%,22% 53%,100% 58%,35% 63%,100% 68%,28% 73%,100% 78%,42% 83%,100% 88%,30% 93%,100% 97%,100% 100%,100% 0%);
+  }
+  .torn-paper img { display: block; max-width: 100%; max-height: 65vh; object-fit: contain; border-radius: 0 4px 4px 0; }
+  .torn-cap { color: #7a5c2a; font-size: 12px; letter-spacing: 1px; text-align: center; margin-top: 10px; font-weight: bold; }
+  .close-torn {
+    margin-top: 20px; padding: 10px 30px; background: #e8b84b; color: #1e293b;
+    border: none; border-radius: 30px; font-weight: bold; font-size: 14px; cursor: pointer;
+    letter-spacing: 1.5px; transition: transform .2s, box-shadow .2s;
+  }
+  .close-torn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(232,184,75,0.4); }
+</style>
+</head>
+<body>
+
+<div class="root" id="root">
+  <div class="stage">
+    <div class="spine"><span class="spine-text">ARCH GRILL HOUSE · 2026</span></div>
+    <div class="book" id="book">
+      <div class="page-slot" id="baseSlot" style="z-index:1;"></div>
+      <div class="page-slot" id="topSlot"  style="z-index:2;"></div>
+
+      <div class="cover-face" id="coverFace" style="z-index:3;">
+        <svg class="cover-svg" viewBox="0 0 52 52" fill="none">
+          <circle cx="26" cy="26" r="24" stroke="#c9963a" stroke-width="1.5"/>
+          <path d="M12 38 C12 38,20 18,26 18 C32 18,40 38,40 38" stroke="#e8b84b" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <line x1="16" y1="30" x2="36" y2="30" stroke="#e8b84b" stroke-width="1.2" stroke-dasharray="3,2"/>
+          <circle cx="26" cy="14" r="3.5" fill="#e8b84b" opacity=".85"/>
+          <path d="M20 42 L32 42" stroke="#c9963a" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <h1>Arch Grill<br>House</h1>
+        <div class="orn">— ✦ —</div>
+        <p>Pro Catalog 2026</p>
+      </div>
+
+      <div class="back-face" id="backFace" style="z-index:3;display:none;">
+        <h2>Thank you</h2>
+        <div class="orn">— ✦ —</div>
+        <p>Visit us again</p>
+      </div>
+
+      <div class="pg-badge" id="pgBadge" style="display:none;"></div>
+      <button class="zoom-btn" id="zoomBtn" style="display:none;">Zoom 🔍</button>
+      <div class="spine-shadow-overlay"></div>
+
+      <div class="flip-wrap" id="flipWrap">
+        <div class="flip-front">
+          <img id="flipFront" src="" alt="">
+          <div class="page-shading front-shading" id="frontShading"></div>
+        </div>
+        <div class="flip-back">
+          <img id="flipBack" src="" alt="">
+          <div class="page-shading back-shading" id="backShading"></div>
+        </div>
+      </div>
+
+      <div class="drag-hint" id="dragHint">👈 Swipe to open</div>
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <button class="nav-btn" id="prevBtn" onclick="turn(-1)">◀ Prev</button>
+    <span class="pg-ind" id="pgInd">Cover</span>
+    <button class="nav-btn" id="nextBtn" onclick="turn(1)">Next ▶</button>
+  </div>
+  <div class="swipe-hint">Swipe or drag the page — tap image to tear & zoom</div>
+
+  <div class="torn-overlay" id="tornOverlay">
+    <div class="torn-paper" id="tornPaper">
+      <img id="tornImg" src="" alt="zoomed">
+      <div class="torn-cap" id="tornCap"></div>
+    </div>
+    <button class="close-torn" onclick="closeTorn()">Put page back ↩</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  const seeds = ['bbq01','steak02','ribs03','burger04','seafood05','chicken06','veggie07','sides08','dessert09','drinks10'];
+  const labels = ['Signature burgers','Grilled steaks','Smoked ribs','BBQ platters','Seafood grill','Chicken specials','Veggie delights','Sides & salads','Desserts','Beverages'];
+  const W = 600, H = 800;
+  const imgs = seeds.map((s) => `https://picsum.photos/seed/${s}/${W}/${H}`);
+
+  let cur = -1, flipping = false;
+  const TOTAL = imgs.length;
+
+  const book       = document.getElementById('book');
+  const baseSlot   = document.getElementById('baseSlot');
+  const topSlot    = document.getElementById('topSlot');
+  const coverFace  = document.getElementById('coverFace');
+  const backFace   = document.getElementById('backFace');
+  const pgBadge    = document.getElementById('pgBadge');
+  const zoomBtn    = document.getElementById('zoomBtn');
+  const flipWrap   = document.getElementById('flipWrap');
+  const flipFront  = document.getElementById('flipFront');
+  const flipBack   = document.getElementById('flipBack');
+  const frontShad  = document.getElementById('frontShading');
+  const backShad   = document.getElementById('backShading');
+  const dragHint   = document.getElementById('dragHint');
+  const pgInd      = document.getElementById('pgInd');
+  const prevBtn    = document.getElementById('prevBtn');
+  const nextBtn    = document.getElementById('nextBtn');
+
+  function imgSlot(src){
+    const d = document.createElement('div');
+    d.style.cssText = 'position:absolute;inset:0;border-radius:0 8px 8px 0;overflow:hidden;';
+    const im = document.createElement('img');
+    im.src = src; im.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+    d.appendChild(im); return d;
+  }
+
+  function clearSlot(el){ while(el.firstChild) el.removeChild(el.firstChild); }
+
+  function renderTop(idx){
+    clearSlot(topSlot);
+    if(idx < 0){
+      coverFace.style.display = 'flex'; backFace.style.display = 'none';
+      topSlot.style.zIndex = 1; coverFace.style.zIndex = 3;
+      pgBadge.style.display = 'none'; zoomBtn.style.display = 'none';
+    } else if(idx >= TOTAL){
+      coverFace.style.display = 'none'; backFace.style.display = 'flex';
+      backFace.style.zIndex = 3; topSlot.style.zIndex = 1;
+      pgBadge.style.display = 'none'; zoomBtn.style.display = 'none';
+    } else {
+      coverFace.style.display = 'none'; backFace.style.display = 'none';
+      const el = imgSlot(imgs[idx]);
+      topSlot.appendChild(el); topSlot.style.zIndex = 3;
+      pgBadge.textContent = (idx+1) + ' / ' + TOTAL;
+      pgBadge.style.display = 'block'; zoomBtn.style.display = 'block';
+      zoomBtn.onclick = () => openTorn(imgs[idx], labels[idx], idx+1);
+      el.querySelector('img').style.cursor = 'zoom-in';
+      el.querySelector('img').onclick = () => openTorn(imgs[idx], labels[idx], idx+1);
+    }
+  }
+
+  function renderBase(idx){
+    clearSlot(baseSlot);
+    if(idx < 0){
+      baseSlot.style.background = '';
+    } else if(idx >= TOTAL){
+      baseSlot.style.background = 'linear-gradient(145deg,#0f172a,#1e293b)';
+    } else {
+      baseSlot.style.background = '';
+      const el = imgSlot(imgs[idx]);
+      baseSlot.appendChild(el);
+    }
+  }
+
+  function updateUI(){
+    prevBtn.disabled = cur <= -1;
+    nextBtn.disabled = cur >= TOTAL;
+    if(cur < 0) pgInd.textContent = 'Cover';
+    else if(cur >= TOTAL) pgInd.textContent = 'Back cover';
+    else pgInd.textContent = 'Page ' + (cur+1) + ' of ' + TOTAL;
+  }
+
+  function resetFlip(){
+    flipWrap.style.transition = 'none';
+    flipWrap.style.transform = 'rotateY(0deg)';
+    flipWrap.style.zIndex = 10;
+    flipWrap.style.pointerEvents = 'none';
+    frontShad.style.transition = 'none'; backShad.style.transition = 'none';
+    frontShad.style.opacity = '0'; backShad.style.opacity = '1';
+  }
+
+  function showState(idx){
+    resetFlip();
+    renderTop(idx);
+    updateUI();
+  }
+
+  function doFlip(dir, onDone){
+    const next = cur + dir;
+    if(next < -1 || next > TOTAL) return;
+    flipping = true;
+
+    // Turn ON transitions for smooth auto-flipping and shading
+    flipWrap.style.transition = 'transform .75s cubic-bezier(0.4, 0, 0.2, 1)';
+    frontShad.style.transition = 'opacity .75s cubic-bezier(0.4, 0, 0.2, 1)';
+    backShad.style.transition = 'opacity .75s cubic-bezier(0.4, 0, 0.2, 1)';
+
+    if(dir === 1){
+      if(cur < 0){
+        flipFront.src = '';
+        flipWrap.children[0].style.background = 'linear-gradient(145deg,#1e293b,#0f172a)';
+        flipWrap.children[0].style.border = '3px solid #c9963a';
+        flipWrap.children[0].style.borderLeft = 'none';
+      } else {
+        flipWrap.children[0].style.background = ''; flipWrap.children[0].style.border = '';
+        flipFront.src = imgs[cur] || '';
+      }
+      flipBack.src = next < TOTAL && next >= 0 ? imgs[next] : '';
+      flipWrap.children[1].style.background = next >= TOTAL ? 'linear-gradient(145deg,#0f172a,#1e293b)' : '#fdfbf7';
+      renderBase(next);
+      coverFace.style.display = 'none'; backFace.style.display = 'none';
+      topSlot.style.zIndex = 2;
+
+      flipWrap.style.transform = 'rotateY(0deg)';
+      frontShad.style.opacity = '0'; backShad.style.opacity = '1';
+
+      flipWrap.getBoundingClientRect(); // trigger reflow
+      flipWrap.style.zIndex = 12;
+
+      flipWrap.style.transform = 'rotateY(-180deg)';
+      frontShad.style.opacity = '1'; backShad.style.opacity = '0'; // Shading changes!
+
+      setTimeout(() => { cur = next; showState(cur); flipping = false; if(onDone) onDone(); }, 750);
+    } else {
+      const prev = next;
+      flipFront.src = prev >= 0 && prev < TOTAL ? imgs[prev] : '';
+      flipWrap.children[0].style.background = prev < 0 ? 'linear-gradient(145deg,#1e293b,#0f172a)' : '';
+      flipWrap.children[0].style.border = prev < 0 ? '3px solid #c9963a' : '';
+      flipWrap.children[0].style.borderLeft = prev < 0 ? 'none' : '';
+      flipBack.src = cur >= 0 && cur < TOTAL ? imgs[cur] : '';
+      flipWrap.children[1].style.background = cur >= TOTAL ? 'linear-gradient(145deg,#0f172a,#1e293b)' : '#fdfbf7';
+      renderBase(prev);
+      coverFace.style.display = 'none'; backFace.style.display = 'none';
+      topSlot.style.zIndex = 2;
+
+      flipWrap.style.transform = 'rotateY(-180deg)';
+      frontShad.style.opacity = '1'; backShad.style.opacity = '0';
+
+      flipWrap.getBoundingClientRect();
+      flipWrap.style.zIndex = 12;
+
+      flipWrap.style.transform = 'rotateY(0deg)';
+      frontShad.style.opacity = '0'; backShad.style.opacity = '1'; // Shading changes!
+
+      setTimeout(() => { cur = next; showState(cur); flipping = false; if(onDone) onDone(); }, 750);
+    }
+  }
+
+  window.turn = function(dir){ if(!flipping) doFlip(dir); };
+
+  let dragX0 = null, dragY0 = null, dragging = false, didDrag = false;
+
+  function onStart(e){
+    if(flipping) return;
+    const pt = e.touches ? e.touches[0] : e;
+    dragX0 = pt.clientX; dragY0 = pt.clientY; dragging = true; didDrag = false;
+    dragHint.style.opacity = '0';
+  }
+
+  function onMove(e){
+    if(!dragging || dragX0 === null) return;
+    const pt = e.touches ? e.touches[0] : e;
+    const dx = pt.clientX - dragX0, dy = pt.clientY - dragY0;
+
+    if(Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)){
+      didDrag = true;
+      e.preventDefault();
+      const pct = Math.max(-1, Math.min(1, dx / 300));
+      const absPct = Math.abs(pct);
+
+      flipWrap.style.transition = 'none';
+      frontShad.style.transition = 'none';
+      backShad.style.transition = 'none';
+
+      if(dx < 0 && cur < TOTAL){
+        const ang = pct * 180;
+        flipWrap.style.transform = `rotateY(${ang}deg)`;
+        flipWrap.style.zIndex = 12;
+
+        // Map drag percentage to shadow opacity directly
+        frontShad.style.opacity = absPct;
+        backShad.style.opacity = 1 - absPct;
+
+        if(!flipFront.src || flipFront.getAttribute('data-dir') !== 'fwd'){
+          flipFront.setAttribute('data-dir','fwd');
+          flipFront.src = cur >= 0 && cur < TOTAL ? imgs[cur] : '';
+          flipWrap.children[0].style.background = cur < 0 ? 'linear-gradient(145deg,#1e293b,#0f172a)' : '';
+          flipWrap.children[0].style.border = cur < 0 ? '3px solid #c9963a' : '';
+          flipWrap.children[0].style.borderLeft = cur < 0 ? 'none' : '';
+          const nc = cur + 1;
+          flipBack.src = nc >= 0 && nc < TOTAL ? imgs[nc] : '';
+          flipWrap.children[1].style.background = nc >= TOTAL ? 'linear-gradient(145deg,#0f172a,#1e293b)' : '#fdfbf7';
+          renderBase(nc);
+          coverFace.style.display = 'none'; backFace.style.display = 'none';
+          topSlot.style.zIndex = 2;
+        }
+      } else if(dx > 0 && cur > -1){
+        const ang = -pct * 180;
+        flipWrap.style.transform = `rotateY(${ang}deg)`;
+        flipWrap.style.zIndex = 12;
+
+        // Map drag percentage to shadow opacity backwards
+        frontShad.style.opacity = 1 - absPct;
+        backShad.style.opacity = absPct;
+
+        if(flipFront.getAttribute('data-dir') !== 'bwd'){
+          flipFront.setAttribute('data-dir','bwd');
+          const pc = cur - 1;
+          flipFront.src = pc >= 0 && pc < TOTAL ? imgs[pc] : '';
+          flipWrap.children[0].style.background = pc < 0 ? 'linear-gradient(145deg,#1e293b,#0f172a)' : '';
+          flipWrap.children[0].style.border = pc < 0 ? '3px solid #c9963a' : '';
+          flipWrap.children[0].style.borderLeft = pc < 0 ? 'none' : '';
+          flipBack.src = cur >= 0 && cur < TOTAL ? imgs[cur] : '';
+          flipWrap.children[1].style.background = cur >= TOTAL ? 'linear-gradient(145deg,#0f172a,#1e293b)' : '#fdfbf7';
+          renderBase(pc);
+          coverFace.style.display = 'none'; backFace.style.display = 'none';
+          topSlot.style.zIndex = 2;
+        }
+      }
+    }
+  }
+
+  function onEnd(e){
+    if(!dragging) return; dragging = false;
+    if(!didDrag){ dragX0 = null; return; }
+    const pt = e.changedTouches ? e.changedTouches[0] : e;
+    const dx = pt.clientX - dragX0;
+    dragX0 = null;
+    const dir = dx < -50 ? 1 : dx > 50 ? -1 : 0;
+    flipFront.removeAttribute('data-dir');
+
+    if(dir !== 0 && !flipping){
+      doFlip(dir);
+    } else {
+      flipWrap.style.transition = 'transform .4s cubic-bezier(0.4, 0, 0.2, 1)';
+      frontShad.style.transition = 'opacity .4s cubic-bezier(0.4, 0, 0.2, 1)';
+      backShad.style.transition = 'opacity .4s cubic-bezier(0.4, 0, 0.2, 1)';
+      flipWrap.style.transform = 'rotateY(0deg)';
+      frontShad.style.opacity = '0'; backShad.style.opacity = '1';
+      setTimeout(() => { showState(cur); flipping = false; }, 400);
+    }
+  }
+
+  book.addEventListener('mousedown', onStart);
+  window.addEventListener('mousemove', onMove); // Bind to window so drag doesn't drop if mouse leaves book
+  window.addEventListener('mouseup', onEnd);
+  book.addEventListener('touchstart', onStart, {passive: true});
+  window.addEventListener('touchmove', onMove, {passive: false});
+  window.addEventListener('touchend', onEnd);
+
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'ArrowRight') turn(1);
+    if(e.key === 'ArrowLeft') turn(-1);
+    if(e.key === 'Escape') closeTorn();
+  });
+
+  function openTorn(src, label, num){
+    const ov = document.getElementById('tornOverlay');
+    const pp = document.getElementById('tornPaper');
+    document.getElementById('tornImg').src = src;
+    document.getElementById('tornCap').textContent = label + ' — Page ' + num;
+    pp.classList.remove('pop');
+    ov.style.display = 'flex';
+    ov.style.opacity = '0';
+    setTimeout(() => { ov.style.opacity = '1'; pp.classList.add('pop'); }, 30);
+  }
+
+  window.closeTorn = function(){
+    const ov = document.getElementById('tornOverlay');
+    const pp = document.getElementById('tornPaper');
+    ov.style.opacity = '0'; pp.classList.remove('pop');
+    setTimeout(() => { ov.style.display = 'none'; }, 350);
+  };
+
+  setTimeout(() => { dragHint.style.opacity = '1'; setTimeout(() => { dragHint.style.opacity = '0'; }, 3000); }, 800);
+
+  showState(-1);
+})();
+</script>
+</body>
+</html>
