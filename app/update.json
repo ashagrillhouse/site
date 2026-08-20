@@ -1,6 +1,6 @@
 { 
    "version": 3.0,
-   "update": "• New Cloud Sync\n• Added History Group Deletion\n• Architecture specific downloads added",
-   "apk_url_32": "https://yourusername.github.io/repo/app-release-32bit.apk",
-   "apk_url_64": "https://yourusername.github.io/repo/app-release-64bit.apk"
+   "update": "• New Update\n• Added auto update pop up\n• Instant database update",
+   "apk_url_32": "https://ashagrillhouse.github.io/site/app/apks/AshaGrillHouse_v7a_2.8.apk",
+   "apk_url_64": "https://ashagrillhouse.github.io/site/app/apks/AshaGrillHouse_v8a_2.8.apk"
 }
