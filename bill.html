@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- Meta referrer tag added to help bypass any remaining strict hotlink blocking -->
+    <!-- Meta referrer tag to bypass hotlink blocking -->
     <meta name="referrer" content="no-referrer">
     <title>Customer Bill | Asha Grill House</title>
 
@@ -24,60 +24,73 @@
             flex-direction: column;
             min-height: 100vh;
             padding: 80px 20px 20px 20px;
-            /* Fast-loading, clean bill-like gradient instead of an image background */
-            background: linear-gradient(135deg, #f6f8f9 0%, #e5ebee 100%);
+            /* Beautiful Ice / Teal Gradient Background */
+            /*background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 50%, #80deea 100%);*/
+            background: linear-gradient(135deg, #833AB4 16%, #FD1D1D 78%, #FCB045 100%)
         }
 
-        .top-header {
-            position: absolute; top: 20px; left: 20px; right: 20px;
-            display: flex; justify-content: space-between; align-items: center; z-index: 50;
+        /* --- Full Screen Loading Overlay --- */
+        #loadingOverlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(4px);
+            z-index: 9999; flex-direction: column; justify-content: center; align-items: center;
         }
+        .large-spinner {
+            border: 5px solid #f3f3f3; border-top: 5px solid #009688;
+            border-radius: 50%; width: 50px; height: 50px;
+            animation: spin 1s linear infinite; margin-bottom: 15px;
+        }
+        .loading-text { font-size: 18px; font-weight: 600; color: #1f2937; }
 
+        /* --- Universal Lightbox (For Images & JSON) --- */
+        #imgLightbox {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 10000;
+            flex-direction: column; align-items: center; justify-content: center;
+        }
+        .lb-close { position: absolute; top: 20px; right: 25px; color: white; font-size: 40px; cursor: pointer; line-height: 1; z-index: 10001; }
+
+        #lbContentContainer {
+            width: 100%; max-width: 500px;
+            display: flex; justify-content: center; align-items: center;
+            max-height: 80vh;
+        }
+        #lbImg { max-width: 95%; max-height: 80vh; object-fit: contain; border-radius: 8px; }
+        #lbHtml { background: #fff; padding: 20px; border-radius: 12px; width: 95%; max-height: 80vh; overflow-y: auto; }
+
+        .lb-actions { margin-top: 20px; }
+        .lb-btn-dl { background: #009688; color: white; border: none; padding: 12px 24px; font-size: 16px; font-weight: 600; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+        .lb-btn-dl:hover { background: #00796b; }
+
+        /* --- Header & Nav --- */
+        .top-header { position: absolute; top: 20px; left: 20px; right: 20px; display: flex; justify-content: space-between; align-items: center; z-index: 50; }
         .top-logo { height: 45px; width: auto; }
-
-        .top-nav { display: flex; gap: 15px; }
+        .top-nav { display: flex; gap: 10px; }
         .top-nav a {
-            color: #1f2937; text-decoration: none; font-size: 14px; font-weight: 600;
-            transition: all 0.2s;
-            background: rgba(255, 255, 255, 0.6); padding: 6px 12px; border-radius: 6px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: #00796b; text-decoration: none; font-size: 13px; font-weight: 700;
+            transition: all 0.2s; background: rgba(255,255,255,0.9); padding: 6px 16px;
+            border-radius: 20px; border: 2px solid #00796b;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-        .top-nav a:hover { color: #ffffff; background-color: #d84315; border-color: #d84315; }
+        .top-nav a:hover { color: #ffffff; background-color: #00796b; }
 
         .container { width: 100%; max-width: 420px; margin: auto; }
+        .card { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); padding: 30px 25px; width: 100%; }
 
-        .card {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            padding: 30px 25px;
-            width: 100%;
-        }
-
-        .header-title { font-size: 24px; font-weight: 700; text-align: center; color: #d84315; margin-bottom: 5px; }
+        .header-title { font-size: 24px; font-weight: 700; text-align: center; color: #009688; margin-bottom: 5px; }
         .header-sub { font-size: 14px; color: #555; text-align: center; margin-bottom: 25px; line-height: 1.5; }
 
         .form-group { margin-bottom: 20px; }
         .input-wrapper { display: flex; align-items: center; border: 1px solid #d1d5db; border-radius: 8px; overflow: hidden; background: #fff; transition: border 0.2s; }
-        .input-wrapper:focus-within { border-color: #d84315; box-shadow: 0 0 0 3px rgba(216, 67, 21, 0.1); }
+        .input-wrapper:focus-within { border-color: #009688; box-shadow: 0 0 0 3px rgba(0, 150, 136, 0.1); }
         .input-wrapper input { flex-grow: 1; padding: 14px; border: none; font-size: 16px; outline: none; }
 
-        .btn {
-            width: 100%; background-color: #d84315; color: white; border: none; padding: 14px;
-            font-size: 16px; font-weight: 600; border-radius: 8px; cursor: pointer;
-            display: flex; justify-content: center; align-items: center; transition: background 0.2s; text-decoration: none;
-        }
-        .btn:hover { background-color: #bf360c; }
-        .btn:disabled { background-color: #9ca3af; cursor: not-allowed; }
-        .btn-outline { background-color: #f3f4f6; color: #1f2937; border: 1px solid #e5e7eb; margin-top: 10px; }
+        .btn { width: 100%; background-color: #009688; color: white; border: none; padding: 14px; font-size: 16px; font-weight: 600; border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: background 0.2s; text-decoration: none; }
+        .btn:hover { background-color: #00796b; }
+        .btn-outline { background-color: #f3f4f6; color: #1f2937; border: 1px solid #e5e7eb; margin-top: 10px; font-size: 14px; }
         .btn-outline:hover { background-color: #e5e7eb; }
 
         .error-message { color: #dc2626; background: #fee2e2; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-bottom: 15px; text-align: center; display: none; }
-
-        .loader { border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid #ffffff; border-radius: 50%; width: 18px; height: 18px; animation: spin 1s linear infinite; margin-left: 10px; }
-        .img-loader { border: 3px solid #e5e7eb; border-top: 3px solid #d84315; width: 24px; height: 24px; margin: 0; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .hidden { display: none !important; }
 
         .receipt-head { text-align: center; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; }
@@ -88,41 +101,77 @@
         .info-label { width: 80px; font-weight: 600; color: #4b5563; }
         .info-value { flex-grow: 1; font-weight: 500; color: #111827; }
 
-        .total-row { display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; margin: 15px 0; color: #b91c1c; background: #fef2f2; padding: 12px; border-radius: 8px; border: 1px dashed #f87171; }
+        .total-row { display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; margin: 15px 0; padding: 12px; border-radius: 8px; border: 1px dashed #f87171; }
 
-        .section-title { font-size: 13px; font-weight: 700; color: #6b7280; text-transform: uppercase; margin: 15px 0 8px 0; border-bottom: 1px solid #e5e7eb; padding-bottom: 4px; }
-
+        .section-title { font-size: 13px; font-weight: 700; color: #6b7280; text-transform: uppercase; margin: 20px 0 10px 0; border-bottom: 1px solid #e5e7eb; padding-bottom: 4px; }
         .tx-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px dashed #e5e7eb; }
         .tx-note { font-size: 11px; color: #6b7280; margin-top: 2px; }
 
-        .msg-item { font-size: 13px; background: #f9fafb; padding: 8px 10px; border-radius: 6px; margin-bottom: 6px; border: 1px solid #e5e7eb; }
-        .msg-date { font-size: 11px; font-weight: 600; color: #64748b; display: block; margin-top: 3px; }
-
-        details { background: #f9fafb; border: 1px solid #d1d5db; border-radius: 8px; margin-top: 15px; overflow: hidden; }
-        summary { padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; color: #1f2937; list-style: none; display: flex; justify-content: space-between; align-items: center; background: #fff; }
-        summary::-webkit-details-marker { display: none; }
-        summary:after { content: "▼"; font-size: 12px; color: #9ca3af; }
-        details[open] summary:after { content: "▲"; }
-        details[open] summary { border-bottom: 1px solid #d1d5db; }
-        .details-content { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+        .msg-item { font-size: 13px; background: #f9fafb; padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #e5e7eb; }
+        .msg-date { font-size: 11px; font-weight: 600; color: #64748b; display: block; margin-top: 4px; }
 
         .shop-stamp-container { text-align: center; margin-top: 25px; position: relative; height: 100px; }
         .shop-stamp { width: 120px; opacity: 0.7; transform: rotate(-10deg); }
         .notice { font-size: 12px; color: #555; text-align: center; margin-top: 20px; line-height: 1.5; background: #fdf2f8; border: 1px solid #fbcfe8; padding: 12px; border-radius: 8px; font-weight: 500; }
 
+        /* --- App-Style Receipt Cards --- */
+        .app-receipt-card { background: #fff; border-radius: 12px; padding: 15px; border: 1px solid #e5e7eb; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .rc-head { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; padding-bottom: 10px; margin-bottom: 10px; }
+        .rc-icon { font-size: 20px; color: #009688; }
+        .rc-id { font-weight: bold; color: #009688; }
+        .rc-cust-info { font-size: 14px; margin-bottom: 15px; line-height: 1.5; color: #1f2937; }
+        .rc-cust-info span { color: #6b7280; font-size: 12px; }
+        .rc-th { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; color: #009688; margin-bottom: 10px; }
+        .rc-item { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; margin-bottom: 10px; }
+        .rc-item-top { display: flex; justify-content: space-between; font-weight: bold; font-size: 14px; margin-bottom: 4px; color: #111827; }
+        .rc-item-calc { font-size: 12px; color: #009688; margin-bottom: 6px; }
+        .rc-history { background: #e8f5e9; color: #388e3c; padding: 6px 8px; border-radius: 6px; font-size: 11px; font-weight: 500; }
+        .rc-footer { background: #e0f2f1; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; font-weight: bold; color: #00796b; font-size: 15px; margin-top: 10px; }
+
+        /* Thumb Wrapper */
+        .doc-thumb-wrapper { cursor: zoom-in; margin-bottom: 12px; border: 2px solid #e5e7eb; border-radius: 8px; overflow: hidden; background: #fff; transition: 0.2s; }
+        .doc-thumb-wrapper:hover { border-color: #009688; }
+        .doc-thumb-content { position: relative; height: 150px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #f3f4f6; }
+        .doc-overlay { position: absolute; bottom: 0; left: 0; width: 100%; height: 50px; background: linear-gradient(transparent, white); }
+        .doc-thumb-footer { text-align: center; font-size: 13px; font-weight: bold; color: #009688; padding: 10px; background: white; border-top: 1px dashed #ccc; }
+
+        /* --- Smart Printing --- */
         @media print {
             body { background: white !important; padding: 0; display: block; }
-            .top-header, .print-hidden { display: none !important; }
-            .container { max-width: 100%; margin: 0; }
-            .card { box-shadow: none; border: none; padding: 0; background: transparent; backdrop-filter: none; }
-            details { border: none; background: transparent; display: block; }
-            details summary { display: none; }
-            .details-content { padding: 0; }
-            .shop-stamp { opacity: 1; }
+            .top-header, .print-hidden, .btn-outline { display: none !important; }
+
+            body:not(.modal-open) .container { max-width: 100%; margin: 0; }
+            body:not(.modal-open) .card { box-shadow: none; border: none; padding: 0; background: transparent; backdrop-filter: none; }
+            body:not(.modal-open) .shop-stamp { opacity: 1; }
+
+            body.modal-open .container { display: none !important; }
+            body.modal-open #imgLightbox { position: absolute; top: 0; left: 0; width: 100%; height: auto; background: white !important; display: block !important; }
+            body.modal-open #lbContentContainer { width: 100%; max-width: 100%; display: block; }
+            body.modal-open #lbHtml { width: 100%; max-width: 100%; max-height: none; overflow: visible; padding: 0; border: none; }
+            body.modal-open .lb-close, body.modal-open .lb-actions { display: none !important; }
         }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
+
+    <div id="loadingOverlay">
+        <div class="large-spinner"></div>
+        <div class="loading-text">Fetching Records...</div>
+    </div>
+
+    <!-- Universal Lightbox Modal -->
+    <div id="imgLightbox">
+        <div class="lb-close" onclick="closeLightbox()">&times;</div>
+        <div id="lbContentContainer">
+            <img id="lbImg" src="" style="display:none;" alt="Zoomed Doc">
+            <div id="lbHtml" style="display:none;"></div>
+        </div>
+        <div class="lb-actions">
+            <button id="lbDlImg" class="lb-btn-dl" onclick="downloadLightboxImg()" style="display:none;">⬇ Download Image</button>
+            <button id="lbPrintHtml" class="lb-btn-dl" onclick="window.print()" style="display:none;">🖨️ Print Bill</button>
+        </div>
+    </div>
 
     <div class="top-header print-hidden">
         <img src="images/icon.png" class="top-logo" onerror="this.onerror=null; this.style.display='none';" alt="Logo">
@@ -145,73 +194,56 @@
             </div>
 
             <div id="loginError" class="error-message"></div>
-
-            <button id="searchBtn" onclick="fetchBill()" class="btn">
-                <span id="btnText">View Receipt</span>
-                <div id="btnLoader" class="loader hidden"></div>
-            </button>
+            <button onclick="fetchBill()" class="btn print-hidden">View Receipt</button>
         </div>
 
         <!-- RECEIPT SCREEN -->
         <div id="receiptScreen" class="card hidden">
-
             <div class="receipt-head">
                 <h2>RECEIPT</h2>
                 <p>Asha Grill House - Muragachha</p>
                 <p>Pro: Biggyan Das - +91 9932134803</p>
             </div>
 
-            <!-- 1. Customer Details -->
-            <div class="info-row">
-                <div class="info-label">Name:</div>
-                <div class="info-value" id="cName"></div>
-            </div>
-            <div class="info-row">
-                <div class="info-label">Phone:</div>
-                <div class="info-value" id="cPhone"></div>
-            </div>
-            <div class="info-row">
-                <div class="info-label">Address:</div>
-                <div class="info-value" id="cAddress"></div>
-            </div>
-            <div class="info-row">
-                <div class="info-label">Date:</div>
-                <div class="info-value" id="cDate"></div>
-            </div>
+            <!-- Customer Details -->
+            <div class="info-row"><div class="info-label">Name:</div><div class="info-value" id="cName"></div></div>
+            <div class="info-row"><div class="info-label">Phone:</div><div class="info-value" id="cPhone"></div></div>
+            <div class="info-row"><div class="info-label">Address:</div><div class="info-value" id="cAddress"></div></div>
+            <div class="info-row"><div class="info-label">Date:</div><div class="info-value" id="cDate"></div></div>
 
-            <!-- 2. Due Block -->
-            <div class="total-row">
-                <span>Total Due</span>
+            <!-- Due/Advance Block -->
+            <div class="total-row" id="dueBlock">
+                <span id="dueLabel">Total Due</span>
                 <span id="cDue">₹0.00</span>
             </div>
 
-            <!-- 3. Transactions -->
+            <!-- Transactions -->
             <div class="section-title">Payment History</div>
             <div id="txListMain"></div>
-            <div id="txListDropdownContainer"></div>
+            <!-- Older transactions just list natively -->
+            <div id="txListOlder" class="hidden"></div>
+            <button id="txToggleBtn" class="btn btn-outline hidden" onclick="toggleTx()">⬇ Show All Payments</button>
 
-            <!-- 4. Documents Dropdown -->
+            <!-- Documents & Bills Container (Dynamic Toggle Logic) -->
             <div id="docsContainer"></div>
 
-            <!-- 5. Messages Dropdown -->
-            <div id="msgDropdownContainer"></div>
+            <!-- Messages Container (Dynamic Toggle Logic) -->
+            <div id="msgContainer"></div>
 
             <!-- Shop Stamp -->
             <div class="shop-stamp-container">
                 <img src="images/stamp.png" onerror="this.onerror=null; this.style.display='none';" alt="Shop Stamp" class="shop-stamp">
             </div>
 
-            <!-- Computer Generated Notice -->
             <div class="notice">
                 This is a computer-generated bill. If you face any problem, you may contact us.
             </div>
 
             <!-- Actions -->
             <div class="print-hidden" style="margin-top: 25px;">
-                <button onclick="prepareAndPrint()" class="btn">🖨️ Print Receipt</button>
-                <button onclick="location.reload()" class="btn btn-outline">Search Another Bill</button>
+                <button onclick="window.print()" class="btn" style="margin-bottom: 10px;">🖨️ Print Receipt Page</button>
+                <button onclick="searchAnother()" class="btn btn-outline" style="background:#fff;">🔍 Search Another Bill</button>
             </div>
-
         </div>
     </div>
 
@@ -219,23 +251,22 @@
         // 🔗 YOUR GOOGLE SCRIPT WEB APP URL
         const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbymL3uzXbVEMD9hwyT690q3khdvAkGtxEhN1y7yfr0QyshIoOhg_hsXFeElJ2aNLhcw/exec";
 
+        window.globalDocs = [];
+        window.currentCustName = "Customer";
+        let currentImgUrl = "";
+
         function formatReadableDate(dateInput) {
             if (!dateInput) return "N/A";
             let d = new Date(dateInput);
             if (isNaN(d.getTime())) return dateInput;
-
             const dd = String(d.getDate()).padStart(2, '0');
             const mm = String(d.getMonth() + 1).padStart(2, '0');
-            const yy = String(d.getFullYear()).slice(-2);
-
+            const yy = d.getFullYear();
             let hr = d.getHours();
             const min = String(d.getMinutes()).padStart(2, '0');
             const ampm = hr >= 12 ? 'pm' : 'am';
-
-            hr = hr % 12;
-            hr = hr ? hr : 12;
-
-            return `${dd}/${mm}/${yy} ${hr}:${min}${ampm}`;
+            hr = hr % 12 || 12;
+            return `${dd}-${mm}-${yy} ${hr}:${min}${ampm}`;
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -252,33 +283,21 @@
 
         async function fetchBill() {
             const searchInput = document.getElementById('searchInput').value.trim();
-            const btnText = document.getElementById('btnText');
-            const btnLoader = document.getElementById('btnLoader');
-            const searchBtn = document.getElementById('searchBtn');
             const errorBox = document.getElementById('loginError');
 
             if (!searchInput) {
                 errorBox.innerText = "Please enter a valid phone or bill number.";
-                errorBox.style.display = "block";
-                return;
+                errorBox.style.display = "block"; return;
             }
 
             errorBox.style.display = "none";
-            btnText.innerText = "Fetching Bill...";
-            btnLoader.classList.remove('hidden');
-            searchBtn.disabled = true;
+            document.getElementById('loadingOverlay').style.display = 'flex';
 
-            const timestamp = new Date().getTime();
-            const fetchUrl = `${SPREADSHEET_URL}?bill=${encodeURIComponent(searchInput)}&_nocache=${timestamp}`;
+            const fetchUrl = `${SPREADSHEET_URL}?bill=${encodeURIComponent(searchInput)}&_nocache=${new Date().getTime()}`;
 
             try {
                 const response = await fetch(fetchUrl);
-                const text = await response.text();
-
-                let res;
-                try { res = JSON.parse(text); }
-                catch (e) { throw new Error("Invalid response from server. Check script deployment."); }
-
+                const res = JSON.parse(await response.text());
                 if (res.status === "success" && res.data && res.data.customer) {
                     renderReceipt(res.data);
                 } else {
@@ -288,151 +307,275 @@
                 errorBox.innerText = err.message || "Network error. Try again.";
                 errorBox.style.display = "block";
             } finally {
-                btnText.innerText = "View Receipt";
-                btnLoader.classList.add('hidden');
-                searchBtn.disabled = false;
+                document.getElementById('loadingOverlay').style.display = 'none';
             }
         }
 
         function renderReceipt(data) {
             const cust = data.customer;
+            window.currentCustName = cust.name || "N/A";
 
             document.getElementById('loginScreen').classList.add('hidden');
             document.getElementById('receiptScreen').classList.remove('hidden');
 
-            document.getElementById('cName').innerText = cust.name || "N/A";
+            document.getElementById('cName').innerText = window.currentCustName;
             document.getElementById('cPhone').innerText = cust.phone || "N/A";
             document.getElementById('cAddress').innerText = cust.address || "N/A";
             document.getElementById('cDate').innerText = formatReadableDate(cust.createdAt);
 
-            document.getElementById('cDue').innerText = "₹" + (parseFloat(cust.due || 0).toFixed(2));
+            // Due Block
+            let dueAmount = parseFloat(cust.due || 0);
+            let dueBlock = document.getElementById('dueBlock');
+            let dueLabel = document.getElementById('dueLabel');
+            let dueValue = document.getElementById('cDue');
 
-            const txListMain = document.getElementById('txListMain');
-            const txDropContainer = document.getElementById('txListDropdownContainer');
-            txListMain.innerHTML = "";
-            txDropContainer.innerHTML = "";
+            if (dueAmount < 0) {
+                dueLabel.innerText = "Advance Balance";
+                dueValue.innerText = "₹" + Math.abs(dueAmount).toFixed(2);
+                dueBlock.style.color = "#059669"; dueBlock.style.backgroundColor = "#ecfdf5"; dueBlock.style.borderColor = "#34d399";
+            } else {
+                dueLabel.innerText = "Total Due";
+                dueValue.innerText = "₹" + dueAmount.toFixed(2);
+                dueBlock.style.color = "#b91c1c"; dueBlock.style.backgroundColor = "#fef2f2"; dueBlock.style.borderColor = "#f87171";
+            }
+
+            // Transactions
+            const txMain = document.getElementById('txListMain');
+            const txOlder = document.getElementById('txListOlder');
+            const txBtn = document.getElementById('txToggleBtn');
+            txMain.innerHTML = ""; txOlder.innerHTML = ""; txBtn.classList.add('hidden'); txOlder.classList.add('hidden');
 
             if (data.transactions && data.transactions.length > 0) {
-                const first5 = data.transactions.slice(0, 5);
-                const remaining = data.transactions.slice(5);
-
-                first5.forEach(tx => {
-                    const amt = parseFloat(tx.amount || 0).toFixed(2);
-                    txListMain.innerHTML += `
-                        <div class="tx-item">
-                            <div>
-                                <div style="font-weight:600;">${formatReadableDate(tx.date)}</div>
-                                <div class="tx-note">${tx.note || 'Payment'}</div>
-                            </div>
-                            <div style="font-weight:700; color:#059669;">₹${amt}</div>
-                        </div>
-                    `;
+                const sortedTx = [...data.transactions].sort((a,b) => new Date(b.date) - new Date(a.date));
+                sortedTx.forEach((tx, idx) => {
+                    let html = `<div class="tx-item"><div><div style="font-weight:600;">${formatReadableDate(tx.date)}</div><div class="tx-note">${tx.note || 'Payment'}</div></div><div style="font-weight:700; color:#059669;">₹${parseFloat(tx.amount || 0).toFixed(2)}</div></div>`;
+                    if(idx < 5) txMain.innerHTML += html;
+                    else txOlder.innerHTML += html;
                 });
-
-                if (remaining.length > 0) {
-                    let dropHtml = `<details class="print-expand"><summary>View ${remaining.length} Older Payments</summary><div class="details-content">`;
-                    remaining.forEach(tx => {
-                        const amt = parseFloat(tx.amount || 0).toFixed(2);
-                        dropHtml += `
-                            <div class="tx-item">
-                                <div>
-                                    <div style="font-weight:600;">${formatReadableDate(tx.date)}</div>
-                                    <div class="tx-note">${tx.note || 'Payment'}</div>
-                                </div>
-                                <div style="font-weight:700; color:#059669;">₹${amt}</div>
-                            </div>
-                        `;
-                    });
-                    dropHtml += `</div></details>`;
-                    txDropContainer.innerHTML = dropHtml;
+                if(sortedTx.length > 5) {
+                    txBtn.classList.remove('hidden');
+                    txBtn.innerText = `⬇ Show Older Payments (${sortedTx.length - 5})`;
                 }
             } else {
-                txListMain.innerHTML = "<div class='tx-note' style='text-align:center;'>No recent payments.</div>";
+                txMain.innerHTML = "<div class='tx-note' style='text-align:center;'>No recent payments.</div>";
             }
+
+            // ==========================================
+            // DOCUMENTS: FILTER, SORT, AND TOGGLE LOGIC
+            // ==========================================
+            let rawDocs = [];
+
+            // 1. Parse JSON safely to prevent blanks
+            if (data.receipt_calculations) {
+                data.receipt_calculations.forEach((calc) => {
+                    try {
+                        let parsed = JSON.parse(calc.calculationJson);
+                        if (parsed.savedBills || (parsed.type === "finalized" && parsed.items)) {
+                            rawDocs.push({ type: 'json', time: new Date(calc.datetime).getTime() || 0, data: calc });
+                        }
+                    } catch(e) {}
+                });
+            }
+
+            // 2. Parse Images safely
+            if (cust.images && typeof cust.images === 'string') {
+                let imgs = cust.images.split(',').map(u=>u.trim()).filter(u=> u.startsWith("http"));
+                imgs.forEach(img => {
+                    rawDocs.push({ type: 'image', time: new Date(cust.createdAt).getTime() || 0, url: img });
+                });
+            }
+
+            // 3. Sort Chronological (Oldest First to Newest Last)
+            rawDocs.sort((a,b) => a.time - b.time);
+            window.globalDocs = rawDocs;
 
             const docsContainer = document.getElementById('docsContainer');
             docsContainer.innerHTML = "";
 
-            let attachments = [];
-            if (cust.images) {
-                attachments = cust.images.split(',').map(url => url.trim()).filter(url => url !== "");
+            if (rawDocs.length > 0) {
+                let latestIdx = rawDocs.length - 1; // Last item is the newest
+
+                // View 1: Latest Only
+                let latestViewHtml = `
+                    <div id="docs-latest-view">
+                        <div class="section-title">Latest Document</div>
+                        ${genDocThumb(latestIdx)}
+                        ${rawDocs.length > 1 ? `<button class="btn btn-outline" style="width:100%;" onclick="toggleDocs(true)">⬇ Show All Documents (${rawDocs.length})</button>` : ''}
+                    </div>
+                `;
+
+                // View 2: All Docs (Oldest to Newest - top to bottom)
+                let allViewHtml = `<div id="docs-all-view" class="hidden">
+                    <div class="section-title">All Documents (Oldest to Newest)</div>`;
+                rawDocs.forEach((doc, idx) => { allViewHtml += genDocThumb(idx); });
+                allViewHtml += `<button class="btn btn-outline" style="width:100%;" onclick="toggleDocs(false)">⬆ Show Only Latest Document</button></div>`;
+
+                docsContainer.innerHTML = latestViewHtml + allViewHtml;
             }
 
-            if (attachments.length > 0 || (data.receipt_calculations && data.receipt_calculations.length > 0)) {
-                let docsHtml = `<details class="print-expand"><summary>View Attached Bills & Documents</summary><div class="details-content">`;
-
-                attachments.forEach(path => {
-                    if (path.includes("<receipt>")) {
-                        let match = path.match(/<receipt>(.*?)<\/receipt>/);
-                        if (match && match[1]) {
-                            let parts = match[1].split("&");
-                            let rId = parts[0] || "N/A";
-                            let rAmt = parts[1] || "0.00";
-                            let rDate = parts[2] || "N/A";
-
-                            docsHtml += `
-                                <div class="msg-item" style="padding: 15px; border: 1px solid #d1d5db; background: #fff; border-left: 4px solid #d84315;">
-                                    <div style="font-weight: 700; color: #111827; margin-bottom: 5px;">🧾 Receipt Reference: #${rId}</div>
-                                    <div style="font-size: 14px; color: #b91c1c; font-weight: 600;">Amount: ₹${rAmt}</div>
-                                    <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">Date: ${rDate}</div>
-                                </div>
-                            `;
-                        }
-                    } else if (path.trim() !== "") {
-                        // Image direct rendering with loading state and fallback
-                        docsHtml += `
-                            <div class="msg-item" style="padding: 10px; border: 1px solid #d1d5db; background: #fff;">
-                                <div style="position: relative; min-height: 120px; background: #f3f4f6; border-radius: 6px; display: flex; justify-content: center; align-items: center; overflow: hidden; margin-bottom: 10px; border: 1px solid #e5e7eb;">
-                                    <div class="loader img-loader"></div>
-                                    <img src="${path}" referrerpolicy="no-referrer"
-                                         onload="this.previousElementSibling.style.display='none'; this.style.display='block';"
-                                         onerror="this.previousElementSibling.style.display='none'; this.style.display='block'; this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'50\\' height=\\'50\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'%239ca3af\\' stroke-width=\\'1.5\\' stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\'%3E%3Crect x=\\'3\\' y=\\'3\\' width=\\'18\\' height=\\'18\\' rx=\\'2\\' ry=\\'2\\'/%3E%3Ccircle cx=\\'8.5\\' cy=\\'8.5\\' r=\\'1.5\\'/%3E%3Cpolyline points=\\'21 15 16 10 5 21\\'/%3E%3C/svg%3E'; this.alt='Failed to load image';"
-                                         style="display: none; width: 100%; height: auto; border-radius: 6px;" alt="Attached Document">
-                                </div>
-                                <a href="${path}" target="_blank" class="btn btn-outline" style="padding: 8px; font-size: 12px; width: 100%; text-align: center; margin-top: 0;">
-                                    👁️ Open in New Tab
-                                </a>
-                            </div>
-                        `;
-                    }
-                });
-
-                if (data.receipt_calculations) {
-                    data.receipt_calculations.forEach((calc, idx) => {
-                        docsHtml += `
-                            <div class="msg-item" style="border:1px solid #d1d5db; font-family:monospace; white-space:pre-wrap; font-size:11px;">
-                                <strong>System Calculation ${idx + 1}:</strong><br>
-                                ${calc.calculationJson}
-                            </div>
-                        `;
-                    });
-                }
-
-                docsHtml += `</div></details>`;
-                docsContainer.innerHTML = docsHtml;
-            }
-
-            const msgContainer = document.getElementById('msgDropdownContainer');
+            // ==========================================
+            // MESSAGES: FILTER, SORT, AND TOGGLE LOGIC
+            // ==========================================
+            const msgContainer = document.getElementById('msgContainer');
             msgContainer.innerHTML = "";
+
             if (data.messages && data.messages.length > 0) {
-                let msgHtml = `<details class="print-expand"><summary>View Notes & Messages (${data.messages.length})</summary><div class="details-content">`;
-                data.messages.forEach(msg => {
-                    msgHtml += `
-                        <div class="msg-item">
-                            ${msg.text}
-                            <span class="msg-date">${formatReadableDate(msg.date)}</span>
-                        </div>
-                    `;
+                let sortedMsgs = [...data.messages].sort((a,b) => new Date(a.date) - new Date(b.date)); // Oldest to Newest
+                let latestMsg = sortedMsgs[sortedMsgs.length - 1];
+
+                let latestMsgHtml = `
+                    <div id="msg-latest-view">
+                        <div class="section-title">Latest Message</div>
+                        <div class="msg-item" style="border-left: 4px solid #009688;">${latestMsg.text}<span class="msg-date">${formatReadableDate(latestMsg.date)}</span></div>
+                        ${sortedMsgs.length > 1 ? `<button class="btn btn-outline" style="width:100%;" onclick="toggleMsgs(true)">⬇ Show All Messages (${sortedMsgs.length})</button>` : ''}
+                    </div>
+                `;
+
+                let allMsgsHtml = `<div id="msg-all-view" class="hidden"><div class="section-title">All Messages (Oldest to Newest)</div>`;
+                sortedMsgs.forEach(msg => {
+                    allMsgsHtml += `<div class="msg-item">${msg.text}<span class="msg-date">${formatReadableDate(msg.date)}</span></div>`;
                 });
-                msgHtml += `</div></details>`;
-                msgContainer.innerHTML = msgHtml;
+                allMsgsHtml += `<button class="btn btn-outline" style="width:100%;" onclick="toggleMsgs(false)">⬆ Show Only Latest Message</button></div>`;
+
+                msgContainer.innerHTML = latestMsgHtml + allMsgsHtml;
             }
         }
 
-        function prepareAndPrint() {
-            const accordions = document.querySelectorAll('.print-expand');
-            accordions.forEach(acc => acc.setAttribute('open', ''));
-            window.print();
+        // --- Toggle Functions ---
+        function toggleTx() {
+            const older = document.getElementById('txListOlder');
+            const btn = document.getElementById('txToggleBtn');
+            if(older.classList.contains('hidden')) {
+                older.classList.remove('hidden'); btn.innerText = "⬆ Hide Older Payments";
+            } else {
+                older.classList.add('hidden'); btn.innerText = "⬇ Show Older Payments";
+            }
+        }
+
+        function toggleDocs(showAll) {
+            if(showAll) {
+                document.getElementById('docs-latest-view').classList.add('hidden');
+                document.getElementById('docs-all-view').classList.remove('hidden');
+            } else {
+                document.getElementById('docs-all-view').classList.add('hidden');
+                document.getElementById('docs-latest-view').classList.remove('hidden');
+            }
+        }
+
+        function toggleMsgs(showAll) {
+            if(showAll) {
+                document.getElementById('msg-latest-view').classList.add('hidden');
+                document.getElementById('msg-all-view').classList.remove('hidden');
+            } else {
+                document.getElementById('msg-all-view').classList.add('hidden');
+                document.getElementById('msg-latest-view').classList.remove('hidden');
+            }
+        }
+
+        // --- Thumbnail & App UI Generators ---
+        function genDocThumb(idx) {
+            let doc = window.globalDocs[idx];
+            let inner = '';
+            if (doc.type === 'image') {
+                inner = `<img src="${doc.url}" style="width: 100%; height: 100%; object-fit: cover;" alt="Doc">`;
+            } else {
+                inner = `<div style="transform: scale(0.7); transform-origin: top center; width: 140%; pointer-events: none;">${generateAppStyleCard(doc.data, window.currentCustName, false)}</div><div class="doc-overlay"></div>`;
+            }
+            return `
+                <div class="doc-thumb-wrapper" onclick="openLightbox(${idx})">
+                    <div class="doc-thumb-content">${inner}</div>
+                    <div class="doc-thumb-footer">🔍 Enlarge / View Full Bill</div>
+                </div>
+            `;
+        }
+
+        function generateAppStyleCard(calc, customerName, isEnlarged = false) {
+            let parsed;
+            try { parsed = JSON.parse(calc.calculationJson); }
+            catch (e) { return ``; }
+
+            let billsToRender = [];
+            if (parsed.savedBills) { billsToRender = parsed.savedBills; }
+            else if (parsed.type === "finalized" && parsed.items) { billsToRender = [{ billId: calc.id || 'N/A', date: calc.datetime, items: parsed.items }]; }
+
+            let finalHtml = '';
+            billsToRender.forEach(bill => {
+                let total = 0, itemsHtml = '';
+
+                bill.items.forEach(item => {
+                    let amt = parseFloat(item.totalPrice) || 0;
+                    total += amt;
+                    let histStr = (item.history || "").trim().replace(/\n/g, '   '); // Compact inline history
+                    let historyHtml = histStr ? `<div class="rc-history">↺ ${histStr}</div>` : '';
+
+                    itemsHtml += `
+                        <div class="rc-item">
+                            <div class="rc-item-top"><span>${item.name}</span><span>${amt.toLocaleString('en-IN')} টাকা</span></div>
+                            <div class="rc-item-calc">${item.qty} ${item.originalUnit || ''} × ${item.rate} টাকা</div>
+                            ${historyHtml}
+                        </div>
+                    `;
+                });
+
+                let titleSize = isEnlarged ? '16px' : '14px';
+                finalHtml += `
+                    <div class="app-receipt-card" style="margin-bottom:0;">
+                        <div class="rc-head"><div class="rc-icon">🧾</div><div class="rc-id" style="font-size: ${titleSize};">Bill #${bill.billId}</div></div>
+                        <div class="rc-cust-info"><strong>Customer: ${customerName}</strong><br><span>Date: ${formatReadableDate(bill.date)}</span></div>
+                        <div class="rc-th"><span>ITEM DETAILS</span><span>AMOUNT</span></div>
+                        <div>${itemsHtml}</div>
+                        <div class="rc-footer"><span>Total Amount</span><span>${total.toLocaleString('en-IN')} টাকা</span></div>
+                    </div>
+                `;
+            });
+            return finalHtml;
+        }
+
+        // --- Smart Lightbox Functions ---
+        function openLightbox(idx) {
+            let doc = window.globalDocs[idx];
+            document.body.classList.add('modal-open');
+            document.getElementById('imgLightbox').style.display = 'flex';
+
+            const lbImg = document.getElementById('lbImg'); const lbHtml = document.getElementById('lbHtml');
+            const lbDlImg = document.getElementById('lbDlImg'); const lbPrintHtml = document.getElementById('lbPrintHtml');
+
+            if (doc.type === 'image') {
+                lbImg.src = doc.url; lbImg.style.display = 'block'; lbHtml.style.display = 'none';
+                lbDlImg.style.display = 'flex'; lbPrintHtml.style.display = 'none'; currentImgUrl = doc.url;
+            } else {
+                lbHtml.innerHTML = generateAppStyleCard(doc.data, window.currentCustName, true);
+                lbHtml.style.display = 'block'; lbImg.style.display = 'none';
+                lbDlImg.style.display = 'none'; lbPrintHtml.style.display = 'flex';
+            }
+        }
+
+        function closeLightbox() {
+            document.body.classList.remove('modal-open');
+            document.getElementById('imgLightbox').style.display = 'none';
+            document.getElementById('lbImg').src = ""; currentImgUrl = "";
+        }
+
+        async function downloadLightboxImg() {
+            if (!currentImgUrl) return;
+            try {
+                const res = await fetch(currentImgUrl);
+                const blob = await res.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url; a.download = `Asha_Grill_${Date.now()}.jpg`;
+                document.body.appendChild(a); a.click(); a.remove(); window.URL.revokeObjectURL(url);
+            } catch (e) { window.open(currentImgUrl, '_blank'); }
+        }
+
+        function searchAnother() {
+            const url = new URL(window.location);
+            url.searchParams.delete('q'); url.searchParams.delete('bill');
+            window.history.replaceState({}, document.title, url.pathname);
+
+            document.getElementById('receiptScreen').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('searchInput').value = '';
         }
     </script>
 </body>
