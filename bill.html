@@ -141,7 +141,7 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
 
 
         #cName,#cAddress{
-            font-size:17px;
+            font-size:18px;
         }
 
         .copyright {
@@ -177,7 +177,7 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
 
     <div id="loadingOverlay">
         <div class="large-spinner"></div>
-        <div class="loading-text">Fetching Records...</div>
+        <div class="loading-text">একটু অপেক্ষা করুন বিলটি লোড হচ্ছে ...</div>
     </div>
 
     <!-- Universal Lightbox Modal -->
@@ -238,11 +238,11 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
             </div>
 
             <!-- Transactions -->
-            <div class="section-title">Payment History</div>
+            <div class="section-title">আপনি যা টাকা দিয়েছেন তার তালিকা</div>
             <div id="txListMain"></div>
             <!-- Older transactions just list natively -->
             <div id="txListOlder" class="hidden"></div>
-            <button id="txToggleBtn" class="btn btn-outline hidden" onclick="toggleTx()">⬇ Show All Payments</button>
+            <button id="txToggleBtn" class="btn btn-outline hidden" onclick="toggleTx()">টাকা দেওয়ার সম্পূর্ণ তালিকা দেখুন </button>
 
             <!-- Documents & Bills Container (Dynamic Toggle Logic) -->
             <div id="docsContainer"></div>
@@ -380,7 +380,7 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
                 });
                 if(sortedTx.length > 5) {
                     txBtn.classList.remove('hidden');
-                    txBtn.innerText = `⬇ Show Older Payments (${sortedTx.length - 5})`;
+                    txBtn.innerText = `সবকটি বিল দেখুন  (${sortedTx.length - 5})`;
                 }
             } else {
                 txMain.innerHTML = "<div class='tx-note' style='text-align:center;'>No recent payments.</div>";
@@ -429,17 +429,17 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
                 // View 1: Latest Only
                 let latestViewHtml = `
                     <div id="docs-latest-view">
-                        <div class="section-title">Latest Document</div>
+                        <div class="section-title">লাস্ট বিল</div>
                         ${genDocThumb(latestIdx)}
-                        ${rawDocs.length > 1 ? `<button class="btn btn-outline" style="width:100%;" onclick="toggleDocs(true)">⬇ Show All Documents (${rawDocs.length})</button>` : ''}
+                        ${rawDocs.length > 1 ? `<button class="btn btn-outline" style="width:100%;" onclick="toggleDocs(true)">সমস্ত বিল দেখুন  (${rawDocs.length})</button>` : ''}
                     </div>
                 `;
 
                 // View 2: All Docs (Oldest to Newest - top to bottom)
                 let allViewHtml = `<div id="docs-all-view" class="hidden">
-                    <div class="section-title">All Documents (Oldest to Newest)</div>`;
+                    <div class="section-title">সমস্ত বিলের লিস্ট (পুরানো থেকে নতুন)</div>`;
                 rawDocs.forEach((doc, idx) => { allViewHtml += genDocThumb(idx); });
-                allViewHtml += `<button class="btn btn-outline" style="width:100%;" onclick="toggleDocs(false)">⬆ Show Only Latest Document</button></div>`;
+                allViewHtml += `<button class="btn btn-outline" style="width:100%;" onclick="toggleDocs(false)">লাস্ট বিল টি দেখুন</button></div>`;
 
                 docsContainer.innerHTML = latestViewHtml + allViewHtml;
             }
@@ -456,17 +456,17 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
 
                 let latestMsgHtml = `
                     <div id="msg-latest-view">
-                        <div class="section-title">Latest Message</div>
+                        <div class="section-title">লাস্ট মেসেজ</div>
                         <div class="msg-item" style="border-left: 2px solid #009688;">${latestMsg.text}<span class="msg-date">${formatReadableDate(latestMsg.date)}</span></div>
-                        ${sortedMsgs.length > 1 ? `<button class="btn btn-outline" style="width:100%;" onclick="toggleMsgs(true)">⬇ Show All Messages (${sortedMsgs.length})</button>` : ''}
+                        ${sortedMsgs.length > 1 ? `<button class="btn btn-outline" style="width:100%;" onclick="toggleMsgs(true)">সমস্ত মেসেজ দেখুন (${sortedMsgs.length})</button>` : ''}
                     </div>
                 `;
 
-                let allMsgsHtml = `<div id="msg-all-view" class="hidden"><div class="section-title">All Messages (Oldest to Newest)</div>`;
+                let allMsgsHtml = `<div id="msg-all-view" class="hidden"><div class="section-title">সমস্ত মেসেজ এর লিস্ট (পুরানো থেকে নতুন)  </div>`;
                 sortedMsgs.forEach(msg => {
                     allMsgsHtml += `<div class="msg-item">${msg.text}<span class="msg-date">${formatReadableDate(msg.date)}</span></div>`;
                 });
-                allMsgsHtml += `<button class="btn btn-outline" style="width:100%;" onclick="toggleMsgs(false)">⬆ Show Only Latest Message</button></div>`;
+                allMsgsHtml += `<button class="btn btn-outline" style="width:100%;" onclick="toggleMsgs(false)">লাস্ট মেসেজটি দেখুন</button></div>`;
 
                 msgContainer.innerHTML = latestMsgHtml + allMsgsHtml;
             }
