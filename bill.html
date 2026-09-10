@@ -457,7 +457,7 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
                 let latestMsgHtml = `
                     <div id="msg-latest-view">
                         <div class="section-title">Latest Message</div>
-                        <div class="msg-item" style="border-left: 4px solid #009688;">${latestMsg.text}<span class="msg-date">${formatReadableDate(latestMsg.date)}</span></div>
+                        <div class="msg-item" style="border-left: 2px solid #009688;">${latestMsg.text}<span class="msg-date">${formatReadableDate(latestMsg.date)}</span></div>
                         ${sortedMsgs.length > 1 ? `<button class="btn btn-outline" style="width:100%;" onclick="toggleMsgs(true)">⬇ Show All Messages (${sortedMsgs.length})</button>` : ''}
                     </div>
                 `;
