@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Meta referrer tag to bypass hotlink blocking -->
     <meta name="referrer" content="no-referrer">
      <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
@@ -106,7 +107,11 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
         .tx-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px dashed #e5e7eb; }
         .tx-note { font-size: 11px; color: #6b7280; margin-top: 2px; }
 
-        .msg-item { font-size: 13px; background: #f9fafb; padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #e5e7eb; }
+       /* .msg-item { font-size: 13px; background: #f9fafb; padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #e5e7eb; }*/
+
+        .msg-item { font-size: 13px; background: #f9fafb; padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #e5e7eb; word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap; }
+
+
         .msg-date { font-size: 11px; font-weight: 600; color: #64748b; display: block; margin-top: 4px; }
 
         .shop-stamp-container { text-align: center; margin-top: 25px; position: relative; }
@@ -136,7 +141,7 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
 
 
         #cName,#cAddress{
-            font-size:19px;
+            font-size:17px;
         }
 
         .copyright {
@@ -147,6 +152,8 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
             font-size: 13px;
 
             }
+
+        body.modal-open { overflow: hidden; touch-action: none; }
 
         /* --- Smart Printing --- */
         @media print {
@@ -389,9 +396,14 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
                 data.receipt_calculations.forEach((calc) => {
                     try {
                         let parsed = JSON.parse(calc.calculationJson);
-                        if (parsed.savedBills || (parsed.type === "finalized" && parsed.items)) {
+                        // if (parsed.savedBills || (parsed.type === "finalized" && parsed.items)) {
+                        //     rawDocs.push({ type: 'json', time: new Date(calc.datetime).getTime() || 0, data: calc });
+                        // }
+
+                        if (parsed.type === "finalized" && parsed.items) {
                             rawDocs.push({ type: 'json', time: new Date(calc.datetime).getTime() || 0, data: calc });
                         }
+
                     } catch(e) {}
                 });
             }
