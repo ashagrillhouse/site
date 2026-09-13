@@ -2,11 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Meta referrer tag to bypass hotlink blocking -->
     <meta name="referrer" content="no-referrer">
-     <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
     <title>Bill | Asha Grill House</title>
 
     <!-- Cache Prevention -->
@@ -26,8 +24,8 @@
             flex-direction: column;
             min-height: 100vh;
             padding: 80px 20px 20px 20px;
-            /* Beautiful Ice / Teal Gradient Background */
-background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
+            background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);
+        }
 
         /* --- Full Screen Loading Overlay --- */
         #loadingOverlay {
@@ -40,7 +38,7 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
             border-radius: 50%; width: 50px; height: 50px;
             animation: spin 1s linear infinite; margin-bottom: 15px;
         }
-        .loading-text { font-size: 18px; font-weight: 600; color: #1f2937; }
+        .loading-text { font-size: 18px; font-weight: 600; color: #1f2937; text-align: center; padding: 0 20px; }
 
         /* --- Universal Lightbox (For Images & JSON) --- */
         #imgLightbox {
@@ -101,17 +99,23 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
         .info-label { width: 80px; font-weight: 600; color: #4b5563; }
         .info-value { flex-grow: 1; font-weight: 500; color: #111827; }
 
-        .total-row { display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; margin: 15px 0; padding: 12px; border-radius: 8px; border: 1px dashed #f87171; }
+        #cName, #cAddress { font-size: 18px; }
+
+        /* --- New Summary Cards (Paid & Due) --- */
+        .summary-cards { display: flex; gap: 15px; margin: 20px 0; }
+        .summary-card { flex: 1; padding: 15px 10px; border-radius: 12px; text-align: center; border: 1px solid #e5e7eb; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .summary-card.paid { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+        .summary-card.due { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+        .summary-card.advance { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+
+        .summary-label { font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; color: inherit; opacity: 0.8; line-height: 1.3; }
+        .summary-value { font-size: 18px; font-weight: 800; }
 
         .section-title { font-size: 13px; font-weight: 700; color: #6b7280; text-transform: uppercase; margin: 20px 0 10px 0; border-bottom: 1px solid #e5e7eb; padding-bottom: 4px; }
         .tx-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px dashed #e5e7eb; }
         .tx-note { font-size: 11px; color: #6b7280; margin-top: 2px; }
 
-       /* .msg-item { font-size: 13px; background: #f9fafb; padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #e5e7eb; }*/
-
         .msg-item { font-size: 13px; background: #f9fafb; padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #e5e7eb; word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap; }
-
-
         .msg-date { font-size: 11px; font-weight: 600; color: #64748b; display: block; margin-top: 4px; }
 
         .shop-stamp-container { text-align: center; margin-top: 25px; position: relative; }
@@ -137,28 +141,28 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
         .doc-thumb-wrapper:hover { border-color: #009688; }
         .doc-thumb-content { position: relative; height: 150px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #f3f4f6; }
         .doc-overlay { position: absolute; bottom: 0; left: 0; width: 100%; height: 50px; background: linear-gradient(transparent, white); }
-        .doc-thumb-footer { text-align: center; font-size: 13px; font-weight: bold; color: #009688; padding: 10px; background: white; border-top: 1px dashed #ccc; }
+        .doc-thumb-footer { text-align: center; font-size: 13px; font-weight: bold; color: #009688; padding: 10px; background: white; border-top: 1px dashed #ccc; line-height: 1.4; }
 
+        /* --- 5 Star Feedback Section --- */
+        .feedback-section { margin-top: 25px; padding: 20px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; text-align: center; }
+        .feedback-title { font-size: 14px; font-weight: 700; margin-bottom: 12px; color: #334155; }
+        .stars-container { display: flex; justify-content: center; gap: 8px; margin-bottom: 15px; }
+        .star { font-size: 32px; color: #cbd5e1; cursor: pointer; transition: all 0.2s; user-select: none; }
+        .star:hover { transform: scale(1.1); }
+        .star.active { color: #f59e0b; }
+        .feedback-btn { background: #334155; color: white; border: none; padding: 10px 20px; font-size: 14px; font-weight: 600; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .feedback-btn:hover { background: #1e293b; }
+        .feedback-btn:disabled { background: #94a3b8; cursor: not-allowed; }
+        .feedback-msg { font-size: 14px; font-weight: 600; color: #059669; display: none; margin-top: 10px; }
 
-        #cName,#cAddress{
-            font-size:18px;
-        }
-
-        .copyright {
-            margin-top: 25px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255,255,255,0.15);
-            text-align: center;
-            font-size: 13px;
-
-            }
+        .copyright { margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.15); text-align: center; font-size: 13px; }
 
         body.modal-open { overflow: hidden; }
 
         /* --- Smart Printing --- */
         @media print {
             body { background: white !important; padding: 0; display: block; }
-            .top-header, .print-hidden, .btn-outline { display: none !important; }
+            .top-header, .print-hidden, .btn-outline, .feedback-section { display: none !important; }
 
             body:not(.modal-open) .container { max-width: 100%; margin: 0; }
             body:not(.modal-open) .card { box-shadow: none; border: none; padding: 0; background: transparent; backdrop-filter: none; }
@@ -177,7 +181,7 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
 
     <div id="loadingOverlay">
         <div class="large-spinner"></div>
-        <div class="loading-text">একটু অপেক্ষা করুন বিলটি লোড হচ্ছে ...</div>
+        <div class="loading-text">অনুগ্রহ করে অপেক্ষা করুন, তথ্য সংগ্রহ করা হচ্ছে...</div>
     </div>
 
     <!-- Universal Lightbox Modal -->
@@ -231,18 +235,23 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
             <div class="info-row"><div class="info-label">Address:</div><div class="info-value" id="cAddress"></div></div>
             <div class="info-row"><div class="info-label">Date:</div><div class="info-value" id="cDate"></div></div>
 
-            <!-- Due/Advance Block -->
-            <div class="total-row" id="dueBlock">
-                <span id="dueLabel">Total Due</span>
-                <span id="cDue">0.00 টাকা</span>
+            <!-- Beautiful Due & Paid Summary Cards -->
+            <div class="summary-cards">
+                <div class="summary-card paid">
+                    <div class="summary-label">মোট জমা<br>(Total Paid)</div>
+                    <div class="summary-value" id="cTotalPaid">0.00 টাকা</div>
+                </div>
+                <div class="summary-card due" id="dueCard">
+                    <div class="summary-label" id="dueLabel">বর্তমান বকেয়া<br>(Current Due)</div>
+                    <div class="summary-value" id="cDue">0.00 টাকা</div>
+                </div>
             </div>
 
             <!-- Transactions -->
-            <div class="section-title">আপনি যা টাকা দিয়েছেন তার তালিকা</div>
+            <div class="section-title">পেমেন্টের বিবরণ (Payment Details)</div>
             <div id="txListMain"></div>
-            <!-- Older transactions just list natively -->
             <div id="txListOlder" class="hidden"></div>
-            <button id="txToggleBtn" class="btn btn-outline hidden" onclick="toggleTx()">টাকা দেওয়ার সম্পূর্ণ তালিকা দেখুন </button>
+            <button id="txToggleBtn" class="btn btn-outline hidden" onclick="toggleTx()">সম্পূর্ণ পেমেন্ট তালিকা দেখুন</button>
 
             <!-- Documents & Bills Container (Dynamic Toggle Logic) -->
             <div id="docsContainer"></div>
@@ -259,6 +268,20 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
                 This is a computer-generated bill. If you face any problem, you may contact us.
             </div>
 
+            <!-- User Feedback Section -->
+            <div class="feedback-section print-hidden" id="feedbackSection">
+                <div class="feedback-title">আমাদের পরিষেবা কেমন লাগলো? (Rate our service)</div>
+                <div class="stars-container" id="starRating">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+                <button id="submitFeedbackBtn" class="feedback-btn" style="display:none;" onclick="submitFeedback()">মতামত জমা দিন (Submit)</button>
+                <div id="feedbackMsg" class="feedback-msg">আপনার মতামতের জন্য ধন্যবাদ! (Thank you for your feedback!)</div>
+            </div>
+
             <!-- Actions -->
             <div class="print-hidden" style="margin-top: 25px;">
                 <button onclick="window.print()" class="btn" style="margin-bottom: 10px;">🖨️ Print Receipt Page</button>
@@ -266,8 +289,6 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
             </div>
         </div>
     </div>
-
-
 
     <div class="copyright">
       <p>&copy; <script>document.write(new Date().getFullYear());</script> Asha Grill House. All Rights Reserved.</p>
@@ -279,7 +300,9 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
 
         window.globalDocs = [];
         window.currentCustName = "Customer";
+        window.currentPhone = "";
         let currentImgUrl = "";
+        let selectedRating = 0;
 
         function formatReadableDate(dateInput) {
             if (!dateInput) return "N/A";
@@ -324,10 +347,17 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
             try {
                 const response = await fetch(fetchUrl);
                 const res = JSON.parse(await response.text());
+
                 if (res.status === "success" && res.data && res.data.customer) {
+                    // Accidental Refresh Protection: Update URL silently
+                    window.history.replaceState({}, '', '?bill=' + encodeURIComponent(searchInput));
                     renderReceipt(res.data);
                 } else {
-                    throw new Error(res.message || "Record not found.");
+                    if(res.status == 'not_found'){
+                            throw new Error("Record not found Please try again after 24 hrs.");
+                    } else {
+                            throw new Error(res.message || "Record not found Please try again after 24 hrs.");
+                    }
                 }
             } catch (err) {
                 errorBox.innerText = err.message || "Network error. Try again.";
@@ -340,32 +370,41 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
         function renderReceipt(data) {
             const cust = data.customer;
             window.currentCustName = cust.name || "N/A";
+            window.currentPhone = cust.phone || "";
 
             document.getElementById('loginScreen').classList.add('hidden');
             document.getElementById('receiptScreen').classList.remove('hidden');
 
             document.getElementById('cName').innerText = window.currentCustName;
-            document.getElementById('cPhone').innerText = cust.phone || "N/A";
+            document.getElementById('cPhone').innerText = window.currentPhone || "N/A";
             document.getElementById('cAddress').innerText = cust.address || "N/A";
             document.getElementById('cDate').innerText = formatReadableDate(cust.createdAt);
 
-            // Due Block
+            // Calculate Total Paid
+            let totalPaid = 0;
+            if (data.transactions && data.transactions.length > 0) {
+                totalPaid = data.transactions.reduce((acc, tx) => acc + parseFloat(tx.amount || 0), 0);
+            }
+            document.getElementById('cTotalPaid').innerText = totalPaid.toFixed(2) + " টাকা";
+
+            // Due Block logic
             let dueAmount = parseFloat(cust.due || 0);
-            let dueBlock = document.getElementById('dueBlock');
+            let dueCard = document.getElementById('dueCard');
             let dueLabel = document.getElementById('dueLabel');
             let dueValue = document.getElementById('cDue');
 
+            dueCard.classList.remove('due', 'advance');
             if (dueAmount < 0) {
-                dueLabel.innerText = "Advance Balance";
-                dueValue.innerText = Math.abs(dueAmount).toFixed(2)+" টাকা";
-                dueBlock.style.color = "#059669"; dueBlock.style.backgroundColor = "#ecfdf5"; dueBlock.style.borderColor = "#34d399";
+                dueLabel.innerHTML = "অগ্রিম জমা<br>(Advance)";
+                dueValue.innerText = Math.abs(dueAmount).toFixed(2) + " টাকা";
+                dueCard.classList.add('advance');
             } else {
-                dueLabel.innerText = "Total Due";
-                dueValue.innerText = Math.abs(dueAmount).toFixed(2)+ " টাকা";
-                dueBlock.style.color = "#b91c1c"; dueBlock.style.backgroundColor = "#fef2f2"; dueBlock.style.borderColor = "#f87171";
+                dueLabel.innerHTML = "বর্তমান বকেয়া<br>(Current Due)";
+                dueValue.innerText = Math.abs(dueAmount).toFixed(2) + " টাকা";
+                dueCard.classList.add('due');
             }
 
-            // Transactions
+            // Transactions Display
             const txMain = document.getElementById('txListMain');
             const txOlder = document.getElementById('txListOlder');
             const txBtn = document.getElementById('txToggleBtn');
@@ -380,35 +419,25 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
                 });
                 if(sortedTx.length > 5) {
                     txBtn.classList.remove('hidden');
-                    txBtn.innerText = `টাকা দেওয়ার সম্পূর্ণ তালিকা দেখুন  (${sortedTx.length - 5})`;
+                    txBtn.innerText = `সম্পূর্ণ পেমেন্ট তালিকা দেখুন (${sortedTx.length - 5})`;
                 }
             } else {
                 txMain.innerHTML = "<div class='tx-note' style='text-align:center;'>No recent payments.</div>";
             }
 
-            // ==========================================
-            // DOCUMENTS: FILTER, SORT, AND TOGGLE LOGIC
-            // ==========================================
+            // Documents
             let rawDocs = [];
-
-            // 1. Parse JSON safely to prevent blanks
             if (data.receipt_calculations) {
                 data.receipt_calculations.forEach((calc) => {
                     try {
                         let parsed = JSON.parse(calc.calculationJson);
-                        // if (parsed.savedBills || (parsed.type === "finalized" && parsed.items)) {
-                        //     rawDocs.push({ type: 'json', time: new Date(calc.datetime).getTime() || 0, data: calc });
-                        // }
-
                         if (parsed.type === "finalized" && parsed.items) {
                             rawDocs.push({ type: 'json', time: new Date(calc.datetime).getTime() || 0, data: calc });
                         }
-
                     } catch(e) {}
                 });
             }
 
-            // 2. Parse Images safely
             if (cust.images && typeof cust.images === 'string') {
                 let imgs = cust.images.split(',').map(u=>u.trim()).filter(u=> u.startsWith("http"));
                 imgs.forEach(img => {
@@ -416,7 +445,6 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
                 });
             }
 
-            // 3. Sort Chronological (Oldest First to Newest Last)
             rawDocs.sort((a,b) => a.time - b.time);
             window.globalDocs = rawDocs;
 
@@ -424,52 +452,115 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
             docsContainer.innerHTML = "";
 
             if (rawDocs.length > 0) {
-                let latestIdx = rawDocs.length - 1; // Last item is the newest
-
-                // View 1: Latest Only
+                let latestIdx = rawDocs.length - 1;
                 let latestViewHtml = `
                     <div id="docs-latest-view">
-                        <div class="section-title">লাস্ট বিল</div>
+                        <div class="section-title">সর্বশেষ বিল (Latest Bill)</div>
                         ${genDocThumb(latestIdx)}
-                        ${rawDocs.length > 1 ? `<button class="btn btn-outline" style="width:100%;" onclick="toggleDocs(true)">সমস্ত বিল দেখুন  (${rawDocs.length})</button>` : ''}
+                        ${rawDocs.length > 1 ? `<button class="btn btn-outline" style="width:100%;" onclick="toggleDocs(true)">সকল বিল দেখুন (${rawDocs.length})</button>` : ''}
                     </div>
                 `;
-
-                // View 2: All Docs (Oldest to Newest - top to bottom)
-                let allViewHtml = `<div id="docs-all-view" class="hidden">
-                    <div class="section-title">সমস্ত বিলের লিস্ট (পুরানো থেকে নতুন)</div>`;
+                let allViewHtml = `<div id="docs-all-view" class="hidden"><div class="section-title">সকল বিলের তালিকা (পুরাতন থেকে নতুন)</div>`;
                 rawDocs.forEach((doc, idx) => { allViewHtml += genDocThumb(idx); });
-                allViewHtml += `<button class="btn btn-outline" style="width:100%;" onclick="toggleDocs(false)">লাস্ট বিল টি দেখুন</button></div>`;
-
+                allViewHtml += `<button class="btn btn-outline" style="width:100%;" onclick="toggleDocs(false)">সর্বশেষ বিলটি দেখুন</button></div>`;
                 docsContainer.innerHTML = latestViewHtml + allViewHtml;
             }
 
-            // ==========================================
-            // MESSAGES: FILTER, SORT, AND TOGGLE LOGIC
-            // ==========================================
+            // Messages
             const msgContainer = document.getElementById('msgContainer');
             msgContainer.innerHTML = "";
 
             if (data.messages && data.messages.length > 0) {
-                let sortedMsgs = [...data.messages].sort((a,b) => new Date(a.date) - new Date(b.date)); // Oldest to Newest
+                let sortedMsgs = [...data.messages].sort((a,b) => new Date(a.date) - new Date(b.date));
                 let latestMsg = sortedMsgs[sortedMsgs.length - 1];
 
                 let latestMsgHtml = `
                     <div id="msg-latest-view">
-                        <div class="section-title">লাস্ট মেসেজ</div>
+                        <div class="section-title">সর্বশেষ মেসেজ (Latest Message)</div>
                         <div class="msg-item" style="border-left: 2px solid #009688;">${latestMsg.text}<span class="msg-date">${formatReadableDate(latestMsg.date)}</span></div>
-                        ${sortedMsgs.length > 1 ? `<button class="btn btn-outline" style="width:100%;" onclick="toggleMsgs(true)">সমস্ত মেসেজ দেখুন (${sortedMsgs.length})</button>` : ''}
+                        ${sortedMsgs.length > 1 ? `<button class="btn btn-outline" style="width:100%;" onclick="toggleMsgs(true)">সকল মেসেজ দেখুন (${sortedMsgs.length})</button>` : ''}
                     </div>
                 `;
 
-                let allMsgsHtml = `<div id="msg-all-view" class="hidden"><div class="section-title">সমস্ত মেসেজ এর লিস্ট (পুরানো থেকে নতুন)  </div>`;
+                let allMsgsHtml = `<div id="msg-all-view" class="hidden"><div class="section-title">সকল মেসেজের তালিকা (পুরাতন থেকে নতুন)</div>`;
                 sortedMsgs.forEach(msg => {
                     allMsgsHtml += `<div class="msg-item">${msg.text}<span class="msg-date">${formatReadableDate(msg.date)}</span></div>`;
                 });
-                allMsgsHtml += `<button class="btn btn-outline" style="width:100%;" onclick="toggleMsgs(false)">লাস্ট মেসেজটি দেখুন</button></div>`;
+                allMsgsHtml += `<button class="btn btn-outline" style="width:100%;" onclick="toggleMsgs(false)">সর্বশেষ মেসেজটি দেখুন</button></div>`;
 
                 msgContainer.innerHTML = latestMsgHtml + allMsgsHtml;
             }
+
+            // Initialize Feedback Logic
+            initFeedback();
+        }
+
+        // --- Feedback Functions ---
+        function initFeedback() {
+            const phone = window.currentPhone;
+            const hasVoted = localStorage.getItem('feedback_' + phone);
+
+            const btn = document.getElementById('submitFeedbackBtn');
+            const msg = document.getElementById('feedbackMsg');
+            const stars = document.querySelectorAll('.star');
+
+            btn.style.display = 'none';
+            msg.style.display = 'none';
+            selectedRating = 0;
+
+            if (hasVoted) {
+                msg.style.display = 'block';
+                const savedRating = parseInt(hasVoted);
+                stars.forEach(s => {
+                    if (parseInt(s.getAttribute('data-value')) <= savedRating) s.classList.add('active');
+                    else s.classList.remove('active');
+                    s.style.pointerEvents = 'none';
+                });
+            } else {
+                stars.forEach(s => {
+                    s.style.pointerEvents = 'auto';
+                    s.classList.remove('active');
+                    s.onclick = function() {
+                        selectedRating = parseInt(this.getAttribute('data-value'));
+                        stars.forEach(innerS => {
+                            if (parseInt(innerS.getAttribute('data-value')) <= selectedRating) {
+                                innerS.classList.add('active');
+                            } else {
+                                innerS.classList.remove('active');
+                            }
+                        });
+                        btn.style.display = 'inline-block';
+                    };
+                });
+            }
+        }
+
+        async function submitFeedback() {
+            if (selectedRating === 0 || !window.currentPhone) return;
+
+            const btn = document.getElementById('submitFeedbackBtn');
+            const msg = document.getElementById('feedbackMsg');
+
+            btn.innerText = "অপেক্ষা করুন...";
+            btn.disabled = true;
+
+            const url = `${SPREADSHEET_URL}?action=feedback&phone=${encodeURIComponent(window.currentPhone)}&rating=${selectedRating}`;
+
+            try {
+                // Send GET request silently via standard fetch, using no-cors to prevent blocking if apps script isn't handling preflight
+                await fetch(url, { method: 'GET', mode: 'no-cors' });
+            } catch (e) {
+                console.log("Feedback sent");
+            }
+
+            // Save to prevent duplicate voting
+            localStorage.setItem('feedback_' + window.currentPhone, selectedRating);
+
+            btn.style.display = 'none';
+            msg.style.display = 'block';
+
+            const stars = document.querySelectorAll('.star');
+            stars.forEach(s => s.style.pointerEvents = 'none');
         }
 
         // --- Toggle Functions ---
@@ -477,9 +568,9 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
             const older = document.getElementById('txListOlder');
             const btn = document.getElementById('txToggleBtn');
             if(older.classList.contains('hidden')) {
-                older.classList.remove('hidden'); btn.innerText = "টাকা দেওয়ার কেবল ৫টি তালিকা দেখুন ";
+                older.classList.remove('hidden'); btn.innerText = "সংক্ষিপ্ত তালিকা দেখুন";
             } else {
-                older.classList.add('hidden'); btn.innerText = "টাকা দেওয়ার সম্পূর্ণ তালিকা দেখুন ";
+                older.classList.add('hidden'); btn.innerText = "সম্পূর্ণ পেমেন্ট তালিকা দেখুন";
             }
         }
 
@@ -507,6 +598,10 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
         function genDocThumb(idx) {
             let doc = window.globalDocs[idx];
             let inner = '';
+
+            let dateText = formatReadableDate(doc.time);
+            let labelText = doc.type === 'image' ? `📸 ছবি (Image) - ${dateText}` : `🧾 বিল (Bill) - ${dateText}`;
+
             if (doc.type === 'image') {
                 inner = `<img src="${doc.url}" style="width: 100%; height: 100%; object-fit: cover;" alt="Doc">`;
             } else {
@@ -515,7 +610,10 @@ background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);     }
             return `
                 <div class="doc-thumb-wrapper" onclick="openLightbox(${idx})">
                     <div class="doc-thumb-content">${inner}</div>
-                    <div class="doc-thumb-footer">🔍 Enlarge / View Full Bill</div>
+                    <div class="doc-thumb-footer">
+                        ${labelText} <br>
+                        <span style="font-size:11px; color:#6b7280; font-weight:normal;">🔍 বড় করে দেখতে ক্লিক করুন (Click to enlarge)</span>
+                    </div>
                 </div>
             `;
         }
