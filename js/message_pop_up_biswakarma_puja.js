@@ -1,5 +1,5 @@
 // Show notice between this time range
-const noticeStart2 = new Date("2026-09-10T00:00:00"); // START
+const noticeStart2 = new Date("2026-09-18T00:00:00"); // START
 const noticeEnd2   = new Date("2026-09-19T23:59:59"); // END
 
 // Auto close after (milliseconds)
