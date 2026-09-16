@@ -417,7 +417,7 @@
                         const payeeName = "ASHAGRILLHOUSE";
 
                         // Construct the standard UPI Deep Link
-                        const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${dueAmount.toFixed(2)}&cu=INR`;
+                        const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}`;//&am=${dueAmount.toFixed(2)}&cu=INR`;
 
                         upiBtn.href = upiLink;
                         upiBtn.innerText = `💳 Pay Due (Rs. ${dueAmount.toFixed(2)}) via UPI`;
