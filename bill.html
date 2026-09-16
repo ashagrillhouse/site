@@ -40,6 +40,32 @@
         }
         .loading-text { font-size: 18px; font-weight: 600; color: #1f2937; text-align: center; padding: 0 20px; }
 
+        /* --- QR Popup Modal --- */
+        #qrModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(3px);
+            z-index: 10000; align-items: center; justify-content: center;
+        }
+        .qr-card {
+            background: #ffffff; padding: 25px; border-radius: 16px; text-align: center;
+            max-width: 330px; width: 90%; position: relative;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            animation: modalFade 0.2s ease-out;
+        }
+        .qr-close-btn {
+            position: absolute; top: 12px; right: 16px; font-size: 24px; cursor: pointer;
+            font-weight: bold; color: #9ca3af; transition: color 0.2s; line-height: 1;
+        }
+        .qr-close-btn:hover { color: #111827; }
+        .qr-title { font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 6px; }
+        .qr-sub { font-size: 13px; color: #6b7280; margin-bottom: 18px; line-height: 1.4; }
+        .qr-img { width: 200px; height: 200px; border: 1px solid #e5e7eb; border-radius: 12px; padding: 8px; background: #fff; }
+
+        @keyframes modalFade {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
         /* --- Universal Lightbox (For Images & JSON) --- */
         #imgLightbox {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -101,7 +127,7 @@
 
         #cName, #cAddress { font-size: 18px; }
 
-        /* --- New Summary Cards (Paid & Due) --- */
+        /* --- Summary Cards (Paid & Due) --- */
         .summary-cards { display: flex; gap: 15px; margin: 20px 0; }
         .summary-card { flex: 1; padding: 15px 10px; border-radius: 12px; text-align: center; border: 1px solid #e5e7eb; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .summary-card.paid { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
@@ -162,7 +188,7 @@
         /* --- Smart Printing --- */
         @media print {
             body { background: white !important; padding: 0; display: block; }
-            .top-header, .print-hidden, .btn-outline, .feedback-section { display: none !important; }
+            .top-header, .print-hidden, .btn-outline, .feedback-section, #qrModal { display: none !important; }
 
             body:not(.modal-open) .container { max-width: 100%; margin: 0; }
             body:not(.modal-open) .card { box-shadow: none; border: none; padding: 0; background: transparent; backdrop-filter: none; }
@@ -182,6 +208,25 @@
     <div id="loadingOverlay">
         <div class="large-spinner"></div>
         <div class="loading-text">অনুগ্রহ করে অপেক্ষা করুন, তথ্য সংগ্রহ করা হচ্ছে...</div>
+    </div>
+
+    <!-- QR Code Modal Popup -->
+    <div id="qrModal">
+        <div class="qr-card">
+            <span class="qr-close-btn" onclick="closeQrModal()">&times;</span>
+            <div class="qr-title">Scan QR Code to Pay</div>
+            <div class="qr-sub">Scan using Google Pay, PhonePe, Paytm or any UPI App</div>
+
+            <img src="images/qr.png" onerror="this.onerror=null; this.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ashagrillhouse@upi';" class="qr-img" alt="UPI QR Code">
+
+            <!-- Added WhatsApp Instruction Box -->
+            <div style="background: #dcfce7; border: 1px solid #bbf7d0; color: #166534; font-size: 13px; font-weight: 600; padding: 12px; border-radius: 8px; margin-top: 15px; text-align: center; line-height: 1.4;">
+                After payment, please share a screenshot to WhatsApp number:<br>
+                <span style="font-size: 15px; font-weight: 700; margin-top: 4px; display: inline-block;">📞 9932134803</span>
+            </div>
+
+            <button onclick="closeQrModal()" class="btn btn-outline" style="margin-top: 15px; width: 100%;">Close</button>
+        </div>
     </div>
 
     <!-- Universal Lightbox Modal -->
@@ -235,7 +280,7 @@
             <div class="info-row"><div class="info-label">Address:</div><div class="info-value" id="cAddress"></div></div>
             <div class="info-row"><div class="info-label">Date:</div><div class="info-value" id="cDate"></div></div>
 
-            <!-- Beautiful Due & Paid Summary Cards -->
+            <!-- Summary Cards -->
             <div class="summary-cards">
                 <div class="summary-card paid">
                     <div class="summary-label">মোট জমা<br>(Total Paid)</div>
@@ -247,10 +292,10 @@
                 </div>
             </div>
 
-            <!-- NEW: Pay with UPI Button -->
-            <a id="upiPayBtn" href="#" class="btn print-hidden hidden" style="margin-top: 15px; background-color: #0ea5e9;">
-                💳 Pay Due via UPI
-            </a>
+            <!-- QR Code Popup Trigger Button -->
+            <button id="upiPayBtn" onclick="openQrModal()" class="btn print-hidden hidden" style="margin-top: 15px; background-color: #0ea5e9;">
+                📷 Scan QR Code to Pay
+            </button>
 
             <!-- Transactions -->
             <div class="section-title">পেমেন্টের বিবরণ (Payment Details)</div>
@@ -258,10 +303,10 @@
             <div id="txListOlder" class="hidden"></div>
             <button id="txToggleBtn" class="btn btn-outline hidden" onclick="toggleTx()">সম্পূর্ণ পেমেন্ট তালিকা দেখুন</button>
 
-            <!-- Documents & Bills Container (Dynamic Toggle Logic) -->
+            <!-- Documents & Bills Container -->
             <div id="docsContainer"></div>
 
-            <!-- Messages Container (Dynamic Toggle Logic) -->
+            <!-- Messages Container -->
             <div id="msgContainer"></div>
 
             <!-- Shop Stamp -->
@@ -300,7 +345,7 @@
     </div>
 
     <script>
-        // 🔗 YOUR GOOGLE SCRIPT WEB APP URL
+        // 🔗 SPREADSHEET WEB APP URL
         const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbymL3uzXbVEMD9hwyT690q3khdvAkGtxEhN1y7yfr0QyshIoOhg_hsXFeElJ2aNLhcw/exec";
 
         window.globalDocs = [];
@@ -354,14 +399,13 @@
                 const res = JSON.parse(await response.text());
 
                 if (res.status === "success" && res.data && res.data.customer) {
-                    // Accidental Refresh Protection: Update URL silently
                     window.history.replaceState({}, '', '?bill=' + encodeURIComponent(searchInput));
                     renderReceipt(res.data);
                 } else {
                     if(res.status == 'not_found'){
-                            throw new Error("Record not found Please try again after 24 hrs.");
+                            throw new Error("Record not found. Please try again after 24 hrs.");
                     } else {
-                            throw new Error(res.message || "Record not found Please try again after 24 hrs.");
+                            throw new Error(res.message || "Record not found. Please try again after 24 hrs.");
                     }
                 }
             } catch (err) {
@@ -392,7 +436,7 @@
             }
             document.getElementById('cTotalPaid').innerText = totalPaid.toFixed(2) + " টাকা";
 
-            // Due Block logic with UPI payment feature integration
+            // Due Block logic
             let dueAmount = parseFloat(cust.due || 0);
             let dueCard = document.getElementById('dueCard');
             let dueLabel = document.getElementById('dueLabel');
@@ -404,26 +448,18 @@
                 dueLabel.innerHTML = "অগ্রিম জমা<br>(Advance)";
                 dueValue.innerText = Math.abs(dueAmount).toFixed(2) + " টাকা";
                 dueCard.classList.add('advance');
-                if(upiBtn) upiBtn.classList.add('hidden'); // Hide UPI button for advance balances
+                if(upiBtn) upiBtn.classList.add('hidden');
             } else {
                 dueLabel.innerHTML = "বর্তমান বকেয়া<br>(Current Due)";
                 dueValue.innerText = Math.abs(dueAmount).toFixed(2) + " টাকা";
                 dueCard.classList.add('due');
 
-                // UPI Dynamic Link Logic
+                // Toggle QR popup button visibility
                 if (upiBtn) {
                     if (dueAmount > 0) {
-                        const upiId = "ashagrillhouse@upi";
-                        const payeeName = "ASHAGRILLHOUSE";
-
-                        // Construct the standard UPI Deep Link
-                        const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}`;//&am=${dueAmount.toFixed(2)}&cu=INR`;
-
-                        upiBtn.href = upiLink;
-                        upiBtn.innerText = `💳 Pay Due (Rs. ${dueAmount.toFixed(2)}) via UPI`;
-                        upiBtn.classList.remove('hidden'); // Show the button
+                        upiBtn.classList.remove('hidden');
                     } else {
-                        upiBtn.classList.add('hidden'); // Hide if the due is exactly 0
+                        upiBtn.classList.add('hidden');
                     }
                 }
             }
@@ -515,8 +551,16 @@
                 msgContainer.innerHTML = latestMsgHtml + allMsgsHtml;
             }
 
-            // Initialize Feedback Logic
             initFeedback();
+        }
+
+        // --- QR Modal Control ---
+        function openQrModal() {
+            document.getElementById('qrModal').style.display = 'flex';
+        }
+
+        function closeQrModal() {
+            document.getElementById('qrModal').style.display = 'none';
         }
 
         // --- Feedback Functions ---
@@ -571,13 +615,11 @@
             const url = `${SPREADSHEET_URL}?action=feedback&phone=${encodeURIComponent(window.currentPhone)}&rating=${selectedRating}`;
 
             try {
-                // Send GET request silently via standard fetch, using no-cors to prevent blocking if apps script isn't handling preflight
                 await fetch(url, { method: 'GET', mode: 'no-cors' });
             } catch (e) {
                 console.log("Feedback sent");
             }
 
-            // Save to prevent duplicate voting
             localStorage.setItem('feedback_' + window.currentPhone, selectedRating);
 
             btn.style.display = 'none';
@@ -658,7 +700,7 @@
                 bill.items.forEach(item => {
                     let amt = parseFloat(item.totalPrice) || 0;
                     total += amt;
-                    let histStr = (item.history || "").trim().replace(/\n/g, '   '); // Compact inline history
+                    let histStr = (item.history || "").trim().replace(/\n/g, '   ');
                     let historyHtml = histStr ? `<div class="rc-history">↺ ${histStr}</div>` : '';
 
                     itemsHtml += `
