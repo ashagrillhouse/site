@@ -247,6 +247,11 @@
                 </div>
             </div>
 
+            <!-- NEW: Pay with UPI Button -->
+            <a id="upiPayBtn" href="#" class="btn print-hidden hidden" style="margin-top: 15px; background-color: #0ea5e9;">
+                💳 Pay Due via UPI
+            </a>
+
             <!-- Transactions -->
             <div class="section-title">পেমেন্টের বিবরণ (Payment Details)</div>
             <div id="txListMain"></div>
@@ -387,21 +392,40 @@
             }
             document.getElementById('cTotalPaid').innerText = totalPaid.toFixed(2) + " টাকা";
 
-            // Due Block logic
+            // Due Block logic with UPI payment feature integration
             let dueAmount = parseFloat(cust.due || 0);
             let dueCard = document.getElementById('dueCard');
             let dueLabel = document.getElementById('dueLabel');
             let dueValue = document.getElementById('cDue');
+            let upiBtn = document.getElementById('upiPayBtn');
 
             dueCard.classList.remove('due', 'advance');
             if (dueAmount < 0) {
                 dueLabel.innerHTML = "অগ্রিম জমা<br>(Advance)";
                 dueValue.innerText = Math.abs(dueAmount).toFixed(2) + " টাকা";
                 dueCard.classList.add('advance');
+                if(upiBtn) upiBtn.classList.add('hidden'); // Hide UPI button for advance balances
             } else {
                 dueLabel.innerHTML = "বর্তমান বকেয়া<br>(Current Due)";
                 dueValue.innerText = Math.abs(dueAmount).toFixed(2) + " টাকা";
                 dueCard.classList.add('due');
+
+                // UPI Dynamic Link Logic
+                if (upiBtn) {
+                    if (dueAmount > 0) {
+                        const upiId = "ashagrillhouse@upi";
+                        const payeeName = "ASHAGRILLHOUSE";
+
+                        // Construct the standard UPI Deep Link
+                        const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${dueAmount.toFixed(2)}&cu=INR`;
+
+                        upiBtn.href = upiLink;
+                        upiBtn.innerText = `💳 Pay Due (Rs. ${dueAmount.toFixed(2)}) via UPI`;
+                        upiBtn.classList.remove('hidden'); // Show the button
+                    } else {
+                        upiBtn.classList.add('hidden'); // Hide if the due is exactly 0
+                    }
+                }
             }
 
             // Transactions Display
@@ -706,6 +730,7 @@
             document.getElementById('loginScreen').classList.remove('hidden');
             document.getElementById('searchInput').value = '';
         }
+
     </script>
 </body>
 </html>
