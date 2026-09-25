@@ -1,7 +1,7 @@
 { 
-   "version": "3.0.0",
+   "version": "3.1.0",
    "deadline": "30/10/26 11:59pm",
    "update": "• New Update\n• Added auto update pop up\n• Instant database update",
-   "apk_url_32": "https://ashagrillhouse.github.io/site/app/apks/AshaGrillHouse_v7a_2.8.apk",
-   "apk_url_64": "https://ashagrillhouse.github.io/site/app/apks/AshaGrillHouse_v8a_2.8.apk"
+   "apk_url_32": "https://ashagrillhouse.github.io/site/app/apks/AshaGrillHouse_v7a_3.1.apk",
+   "apk_url_64": "https://ashagrillhouse.github.io/site/app/apks/AshaGrillHouse_v8a_3.1.apk"
 }
