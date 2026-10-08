@@ -16,170 +16,150 @@
 <body>
 
 <header class="hero">
-    <i class="fas fa-fire-alt hero-icon"></i>
-    <h1 class="page-title">Application Form</h1>
-    <div class="lang-buttons">
-        <button type="button" data-lang="en" onclick="showLang('en')">English</button>
-        <button type="button" data-lang="bn" onclick="showLang('bn')">বাংলা</button>
-        <button type="button" data-lang="hi" onclick="showLang('hi')">हिंदी</button>
+    <div class="hero-in">
+        <span class="brand"><i class="fas fa-fire-alt"></i> Asha Grill House</span>
+        <div class="lang-buttons">
+            <button type="button" data-lang="en" onclick="showLang('en')">English</button>
+            <button type="button" data-lang="bn" onclick="showLang('bn')">বাংলা</button>
+            <button type="button" data-lang="hi" onclick="showLang('hi')">हिंदी</button>
+        </div>
     </div>
 </header>
 
 <div class="container">
-    <div class="content">
+    <h1 class="page-title">Application Form</h1>
 
-        <!-- LEFT TEXT SECTION -->
-        <div class="info-box">
+    <div class="info-box">
+        <div class="lang en">
+            <h2>Work With Asha Grill House</h2>
+            <p>At Asha Grill House, we believe that quality food comes from quality people. We expect our employees to be humble, honest, hardworking, polite, and punctual. Teamwork, cleanliness, and customer satisfaction matter most to us.</p>
+            <p class="call-line"><i class="fas fa-phone-alt"></i> Contact: <strong>+91 9932134803</strong></p>
+        </div>
+        <div class="lang bn">
+            <h2>আশা গ্রিল হাউসে কাজ করুন</h2>
+            <p>আশা গ্রিল হাউসে আমরা বিশ্বাস করি ভালো খাবার আসে ভালো মানুষের হাত ধরে। আমাদের কর্মীরা সৎ, ভদ্র, পরিশ্রমী এবং সময়নিষ্ঠ হওয়া আবশ্যক। পরিষ্কার-পরিচ্ছন্নতা ও গ্রাহক সন্তুষ্টি আমাদের প্রধান লক্ষ্য।</p>
+            <p class="call-line"><i class="fas fa-phone-alt"></i> যোগাযোগ: <strong>+91 9932134803</strong></p>
+        </div>
+        <div class="lang hi">
+            <h2>आशा ग्रिल हाउस में काम करें</h2>
+            <p>आशा ग्रिल हाउस में हम मानते हैं कि अच्छा खाना अच्छे लोगों से आता है। हमारे कर्मचारी ईमानदार, मेहनती, विनम्र और समय के पाबंद होने चाहिए। स्वच्छता और ग्राहक संतुष्टि हमारे लिए सबसे महत्वपूर्ण है।</p>
+            <p class="call-line"><i class="fas fa-phone-alt"></i> संपर्क: <strong>+91 9932134803</strong></p>
+        </div>
+    </div>
 
-            <div class="lang en">
-                <h2>Work With Asha Grill House</h2>
-                <p>
-                    At Asha Grill House, we believe that quality food comes from quality people.
-                    We expect our employees to be humble, honest, hardworking, polite, and punctual.
-                    Teamwork, cleanliness, and customer satisfaction matter most to us.
-                </p>
-                <p><i class="fas fa-phone-alt"></i> Contact: <strong>+91 9932134803</strong></p>
+    <!-- Change data-url to your server link -->
+    <form id="applyForm" class="form-box" data-url="career.php" novalidate>
+
+        <h3 class="sec"><i class="fas fa-user"></i> Personal details</h3>
+        <div class="grid">
+            <label class="f"><span>Full name *</span><input type="text" name="name" autocomplete="name" required></label>
+            <label class="f"><span>Father's name *</span><input type="text" name="father_name" required></label>
+            <label class="f"><span>Mobile number *</span><input type="tel" name="phone" inputmode="numeric" maxlength="10" pattern="[6-9][0-9]{9}" placeholder="10 digit number" title="Enter a valid 10 digit mobile number" required></label>
+            <label class="f"><span>Age *</span><input type="number" name="age" min="18" max="70" placeholder="18 or above" required></label>
+            <label class="f"><span>Gender *</span>
+                <select name="gender" required><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select>
+            </label>
+            <div class="f">
+                <span>Languages known</span>
+                <div class="chips">
+                    <label><input type="checkbox" name="languages" value="Bengali"><span>Bengali</span></label>
+                    <label><input type="checkbox" name="languages" value="Hindi"><span>Hindi</span></label>
+                    <label><input type="checkbox" name="languages" value="English"><span>English</span></label>
+                </div>
             </div>
-
-            <div class="lang bn">
-                <h2>আশা গ্রিল হাউসে কাজ করুন</h2>
-                <p>
-                    আশা গ্রিল হাউসে আমরা বিশ্বাস করি ভালো খাবার আসে ভালো মানুষের হাত ধরে।
-                    আমাদের কর্মীরা সৎ, ভদ্র, পরিশ্রমী এবং সময়নিষ্ঠ হওয়া আবশ্যক।
-                    পরিষ্কার-পরিচ্ছন্নতা ও গ্রাহক সন্তুষ্টি আমাদের প্রধান লক্ষ্য।
-                </p>
-                <p><i class="fas fa-phone-alt"></i> যোগাযোগ: <strong>+91 9932134803</strong></p>
-            </div>
-
-            <div class="lang hi">
-                <h2>आशा ग्रिल हाउस में काम करें</h2>
-                <p>
-                    आशा ग्रिल हाउस में हम मानते हैं कि अच्छा खाना अच्छे लोगों से आता है।
-                    हमारे कर्मचारी ईमानदार, मेहनती, विनम्र और समय के पाबंद होने चाहिए।
-                    स्वच्छता और ग्राहक संतुष्टि हमारे लिए सबसे महत्वपूर्ण है।
-                </p>
-                <p><i class="fas fa-phone-alt"></i> संपर्क: <strong>+91 9932134803</strong></p>
-            </div>
-
-            <ul class="checklist">
-                <li><i class="fas fa-camera"></i> A clear photo of your face</li>
-                <li><i class="fas fa-id-card"></i> Aadhaar, PAN or any government ID</li>
-                <li><i class="fas fa-birthday-cake"></i> Age 18 or above</li>
-            </ul>
+            <label class="f full"><span>Current address *</span><textarea name="address" rows="2" required></textarea></label>
         </div>
 
-        <!-- RIGHT FORM SECTION: change data-url to your server link -->
-        <div class="form-box">
-            <form id="applyForm" data-url="career.php" novalidate>
-
-                <!-- Face photo -->
-                <h3 class="sec"><i class="fas fa-camera"></i> Your photo</h3>
-                <div class="photo-wrap">
-                    <div class="avatar" data-preview="photo"><i class="fas fa-user"></i></div>
-                    <div class="photo-actions">
-                        <button type="button" class="btn btn-primary" data-cam="photo" data-facing="user"><i class="fas fa-camera"></i> Take photo</button>
-                        <label class="btn btn-ghost" for="photoGallery"><i class="fas fa-image"></i> From gallery</label>
-                        <small>Face clearly visible, no sunglasses or cap.</small>
-                    </div>
-                    <input type="file" id="photoGallery" data-file="photo" accept="image/*" hidden>
-                    <input type="file" id="photoCapture" data-file="photo" accept="image/*" capture="user" hidden>
+        <h3 class="sec"><i class="fas fa-info-circle"></i> Additional information</h3>
+        <div class="grid">
+            <label class="f"><span>Planet of residence *</span>
+                <select name="planet" required>
+                    <option value="">Select</option>
+                    <option value="mercury">Mercury</option>
+                    <option value="venus">Venus</option>
+                    <option value="earth">Earth</option>
+                    <option value="mars">Mars</option>
+                    <option value="jupiter">Jupiter</option>
+                    <option value="saturn">Saturn</option>
+                    <option value="uranus">Uranus</option>
+                    <option value="neptune">Neptune</option>
+                    <option value="pluto">Pluto</option>
+                </select>
+            </label>
+            <label class="f"><span>Species *</span>
+                <select name="species" required>
+                    <option value="">Select</option>
+                    <option value="human">Human</option>
+                    <option value="alien">Alien</option>
+                    <option value="animal">Animal</option>
+                    <option value="ghost">Ghost</option>
+                    <option value="dracula">Dracula</option>
+                    <option value="zombie">Zombie</option>
+                </select>
+            </label>
+            <label class="f"><span>Number of legs *</span>
+                <select name="legs" required>
+                    <option value="">Select</option>
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                    <option value="6">6</option>
+                    <option value="more">More than 6</option>
+                </select>
+            </label>
+            <div class="f">
+                <span>Do you listen to old music? *</span>
+                <div class="chips">
+                    <label><input type="radio" name="old_music" value="yes" required><span>Yes</span></label>
+                    <label><input type="radio" name="old_music" value="no"><span>No</span></label>
                 </div>
+            </div>
+        </div>
 
-                <!-- Personal -->
-                <h3 class="sec"><i class="fas fa-user"></i> About you</h3>
-                <div class="field"><i class="fas fa-user"></i><input type="text" name="name" placeholder="Full name" autocomplete="name" required></div>
-                <div class="field"><i class="fas fa-phone-alt"></i><input type="tel" name="phone" placeholder="10 digit phone number" inputmode="numeric" maxlength="10" pattern="[6-9][0-9]{9}" title="Enter a valid 10 digit mobile number" required></div>
-                <div class="field"><i class="fas fa-user-friends"></i><input type="text" name="father_name" placeholder="Father's name" required></div>
-                <div class="row">
-                    <div class="field"><i class="fas fa-venus-mars"></i>
-                        <select name="gender" required>
-                            <option value="">Gender</option>
-                            <option>Male</option>
-                            <option>Female</option>
-                            <option>Other</option>
-                        </select>
-                    </div>
-                    <div class="field"><i class="fas fa-birthday-cake"></i><input type="number" name="age" placeholder="Age (18+)" min="18" max="70" required></div>
+        <h3 class="sec"><i class="fas fa-id-card"></i> Documents</h3>
+        <div class="docs">
+            <div class="doc">
+                <span class="lbl">Passport size photo (face) *</span>
+                <div class="avatar" data-preview="photo"><i class="fas fa-user"></i></div>
+                <div class="btns">
+                    <button type="button" class="btn btn-primary" data-cam="photo" data-facing="user"><i class="fas fa-camera"></i> Take photo</button>
+                    <label class="btn btn-ghost" for="photoGallery"><i class="fas fa-image"></i> Gallery</label>
                 </div>
-                <div class="field area"><i class="fas fa-map-marker-alt"></i><textarea name="address" placeholder="Full address" required></textarea></div>
+                <input type="file" id="photoGallery" data-file="photo" accept="image/*" hidden>
+                <input type="file" id="photoCapture" data-file="photo" accept="image/*" capture="user" hidden>
+            </div>
 
-                <!-- ID proof -->
-                <h3 class="sec"><i class="fas fa-id-card"></i> Address &amp; age proof</h3>
-                <div class="field"><i class="fas fa-id-badge"></i>
-                    <select name="id_type" required>
-                        <option value="">Choose ID type</option>
-                        <option>Aadhaar Card</option>
-                        <option>PAN Card</option>
-                        <option>Voter ID</option>
-                        <option>Driving Licence</option>
-                        <option>Passport</option>
-                        <option>Other Government ID</option>
-                    </select>
-                </div>
-                <div class="idbox" data-preview="id_proof"><i class="fas fa-file-upload"></i><span>No ID added yet</span></div>
-                <div class="photo-actions inline">
+            <div class="doc">
+                <span class="lbl">Address &amp; age proof *</span>
+                <select name="id_type" required>
+                    <option value="">Select ID type</option>
+                    <option>Aadhaar Card</option>
+                    <option>PAN Card</option>
+                    <option>Voter ID</option>
+                    <option>Driving Licence</option>
+                    <option>Passport</option>
+                    <option>Other Government ID</option>
+                </select>
+                <div class="idbox" data-preview="id_proof"><i class="fas fa-file-upload"></i><span>JPG, PNG or PDF, max 5 MB</span></div>
+                <div class="btns">
                     <button type="button" class="btn btn-primary" data-cam="id_proof" data-facing="environment"><i class="fas fa-camera"></i> Scan ID</button>
-                    <label class="btn btn-ghost" for="idGallery"><i class="fas fa-upload"></i> Upload file</label>
+                    <label class="btn btn-ghost" for="idGallery"><i class="fas fa-upload"></i> Upload</label>
                 </div>
-                <small class="hint">JPG, PNG or PDF, up to 5 MB. Name and date of birth or address must be readable.</small>
                 <input type="file" id="idGallery" data-file="id_proof" accept="image/*,.pdf,application/pdf" hidden>
                 <input type="file" id="id_proofCapture" data-file="id_proof" accept="image/*" capture="environment" hidden>
-
-                <!-- Fun -->
-                <h3 class="sec"><i class="fas fa-user-astronaut"></i> Tell us the fun stuff</h3>
-                <div class="field"><i class="fas fa-globe-asia"></i>
-                    <select name="planet" required>
-                        <option value="" disabled selected>Choose your planet</option>
-                        <option value="mercury">Mercury</option>
-                        <option value="venus">Venus</option>
-                        <option value="earth">Earth</option>
-                        <option value="mars">Mars</option>
-                        <option value="jupiter">Jupiter</option>
-                        <option value="saturn">Saturn</option>
-                        <option value="uranus">Uranus</option>
-                        <option value="neptune">Neptune</option>
-                        <option value="pluto">Pluto</option>
-                    </select>
-                </div>
-
-                <p class="q"><i class="fas fa-paw"></i> Species</p>
-                <div class="chips">
-                    <label><input type="radio" name="species" value="alien" required><span>👽 Alien</span></label>
-                    <label><input type="radio" name="species" value="human"><span>🧑 Human</span></label>
-                    <label><input type="radio" name="species" value="animal"><span>🐾 Animal</span></label>
-                    <label><input type="radio" name="species" value="ghost"><span>👻 Ghost</span></label>
-                    <label><input type="radio" name="species" value="dracula"><span>🧛 Dracula</span></label>
-                    <label><input type="radio" name="species" value="zombie"><span>🧟 Zombie</span></label>
-                </div>
-
-                <p class="q"><i class="fas fa-shoe-prints"></i> How many legs?</p>
-                <div class="chips">
-                    <label><input type="radio" name="legs" value="2" required><span>2</span></label>
-                    <label><input type="radio" name="legs" value="4"><span>4</span></label>
-                    <label><input type="radio" name="legs" value="6"><span>6</span></label>
-                    <label><input type="radio" name="legs" value="more"><span>More than 6</span></label>
-                </div>
-
-                <p class="q"><i class="fas fa-music"></i> Do you like listening to old music?</p>
-                <div class="chips big">
-                    <label><input type="radio" name="old_music" value="yes" required><span>🎶 Yes, old is gold</span></label>
-                    <label><input type="radio" name="old_music" value="no"><span>🎧 No, new music</span></label>
-                </div>
-
-                <!-- Human check -->
-                <h3 class="sec"><i class="fas fa-shield-alt"></i> Are you human?</h3>
-                <div class="captcha">
-                    <span class="cap-q" id="capQ">...</span>
-                    <input type="number" id="capA" placeholder="Answer" inputmode="numeric" required>
-                    <button type="button" class="icon-btn" id="capNew" aria-label="New question"><i class="fas fa-sync-alt"></i></button>
-                </div>
-
-                <button type="submit" class="submit" id="submitBtn"><span class="bar" id="bar"></span><span class="label"><i class="fas fa-paper-plane"></i> Submit application</span></button>
-                <div class="msg" id="msg" role="alert" hidden></div>
-            </form>
+            </div>
         </div>
 
-    </div>
+        <h3 class="sec"><i class="fas fa-shield-alt"></i> Verification</h3>
+        <label class="check"><input type="checkbox" name="declaration" value="yes" required> I confirm that the information and documents provided are true and correct.</label>
+        <div class="captcha">
+            <span class="cap-q" id="capQ">...</span>
+            <input type="number" id="capA" placeholder="Answer" inputmode="numeric" required>
+            <button type="button" class="icon-btn" id="capNew" aria-label="New question"><i class="fas fa-sync-alt"></i></button>
+        </div>
+
+        <button type="submit" class="submit" id="submitBtn"><span class="bar" id="bar"></span><span class="label"><i class="fas fa-paper-plane"></i> Submit application</span></button>
+        <div class="msg" id="msg" role="alert" hidden></div>
+    </form>
 </div>
 
 <!-- Camera -->
@@ -201,13 +181,11 @@
         <a href="https://youtube.com/" target="_blank" title="YouTube"><i class="fab fa-youtube"></i> </a>
         <a href="https://photos.app.goo.gl/tcmQLqqExdfxX3cCA" target="_blank" title="Cloud Storage"><i class="fas fa-cloud"></i> </a>
     </div>
-
     <div class="contact-info">
         <p><i class="fas fa-phone"></i> +91 9932134803</p>
         <p><i class="fas fa-envelope"></i> biggyandas1977@gmail.com</p>
         <p><i class="fas fa-clock"></i> Open daily 9am-10pm</p>
     </div>
-
     <div class="copyright">
         <p id="visit_num">Total visit: Loading...</p>
         <p>&copy; <script>document.write(new Date().getFullYear());</script> Asha Grill House. All Rights Reserved.</p>
