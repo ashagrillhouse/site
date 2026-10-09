@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const SUBMIT_URL = form.dataset.url;          // set in career.html: data-url="..."
     const CONTACT = '9932134803';
     const MAX_MB = 5;
+    const RESULT_DELAY = 2000;                    // ms: minimum wait before result is shown
     const files = { photo: null, id_proof: null };
     const empties = {};
     const urls = {};
@@ -74,13 +75,13 @@ document.addEventListener("DOMContentLoaded", () => {
         if (stream) stream.getTracks().forEach(t => t.stop());
         stream = null;
     }
-    function closeCam() { stopStream(); modal.hidden = true; }
+    function closeCam() { stopStream(); modal.hidden = true; document.body.classList.remove('noscroll'); }
 
     async function openCam(key, face) {
         camKey = key; facing = face;
         const fallback = () => $(`#${key}Capture`).click();   // phone's own camera app
         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return fallback();
-        try { await startStream(); modal.hidden = false; }
+        try { await startStream(); modal.hidden = false; document.body.classList.add('noscroll'); }
         catch (err) { fallback(); }
     }
 
@@ -166,7 +167,11 @@ document.addEventListener("DOMContentLoaded", () => {
         xhr.timeout = 90000;
         xhr.upload.onprogress = ev => { if (ev.lengthComputable) bar.style.width = (ev.loaded / ev.total * 100) + '%'; };
 
-        xhr.onload = () => {
+        const t0 = Date.now();
+        const wait = fn => setTimeout(fn, Math.max(0, RESULT_DELAY - (Date.now() - t0)));   // show result after a few seconds
+        xhr.upload.onload = () => { label.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying details...'; };
+
+        xhr.onload = () => wait(() => {
             busy(false);
             let data = null;
             try { data = JSON.parse(xhr.responseText); } catch (err) { /* not JSON */ }
@@ -182,8 +187,8 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 serverError();                             // 5xx, 404, bad response
             }
-        };
-        xhr.onerror = xhr.ontimeout = () => { busy(false); serverError(); };
+        });
+        xhr.onerror = xhr.ontimeout = () => wait(() => { busy(false); serverError(); });
 
         busy(true);
         xhr.send(fd);
