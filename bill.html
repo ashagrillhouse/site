@@ -348,7 +348,7 @@
         // 🔗 SPREADSHEET WEB APP URL
         //const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbymL3uzXbVEMD9hwyT690q3khdvAkGtxEhN1y7yfr0QyshIoOhg_hsXFeElJ2aNLhcw/exec";
 
-        const SPREADSHEET_URL ="https://script.google.com/macros/s/AKfycbxTc7EjhnMqDU3S2-rM8qKo2wZ7TWGypLnDWSa7651i4DpQ12btyGbSBWaxLJAkt_yg/exec";
+        const SPREADSHEET_URL ="https://script.google.com/macros/s/AKfycbzShfe4MW8puf5LRD47YtSQg5JDaWajtF_B7I863y-IDAeJ-Q4ymVaAfwaEWJTueYw/exec";
 
         window.globalDocs = [];
         window.currentCustName = "Customer";
@@ -588,6 +588,8 @@
                 msgContainer.innerHTML = latestMsgHtml + allMsgsHtml;
             }
 
+            // Feedback this customer already gave (saved in Google Sheet) - same on every browser/device
+            window.currentFeedback = (cust.feedback && cust.feedback.rating) ? cust.feedback : null;
             initFeedback();
         }
 
@@ -601,21 +603,33 @@
         }
 
         // --- Feedback Functions ---
-        function initFeedback() {
+        function initFeedback(justSubmitted) {
             const phone = window.currentPhone;
-            const hasVoted = localStorage.getItem('feedback_' + phone);
+            // Browser storage (localStorage) is NOT used any more: the Google Sheet is the single source of truth,
+            // so the result is identical on every browser and device.
+            // const hasVoted = localStorage.getItem('feedback_' + phone);
+            const hasVoted = window.currentFeedback ? window.currentFeedback.rating : 0;
 
             const btn = document.getElementById('submitFeedbackBtn');
             const msg = document.getElementById('feedbackMsg');
             const stars = document.querySelectorAll('.star');
 
             btn.style.display = 'none';
+            btn.disabled = false;
+            btn.innerText = "মতামত জমা দিন (Submit)";
             msg.style.display = 'none';
+            msg.style.color = '';
+            if (!msg.dataset.defaultText) msg.dataset.defaultText = msg.textContent;
+            msg.textContent = msg.dataset.defaultText;
             selectedRating = 0;
 
             if (hasVoted) {
                 msg.style.display = 'block';
-                const savedRating = parseInt(hasVoted);
+                const savedRating = Math.min(5, Math.max(1, parseInt(hasVoted) || 1));
+                // Shows the rating that is really saved (and when), e.g. "... ★★★★☆  11-10-2026 9:47pm"
+                msg.textContent = (justSubmitted ? msg.dataset.defaultText : "আপনি আগেই মতামত দিয়েছেন। (You have already given your feedback.)");
+                    //+ "  " + "★".repeat(savedRating) + "☆".repeat(5 - savedRating)
+                    //+ (window.currentFeedback && window.currentFeedback.date ? "  " + formatReadableDate(window.currentFeedback.date) : "");
                 stars.forEach(s => {
                     if (parseInt(s.getAttribute('data-value')) <= savedRating) s.classList.add('active');
                     else s.classList.remove('active');
@@ -651,19 +665,41 @@
 
             const url = `${SPREADSHEET_URL}?action=feedback&phone=${encodeURIComponent(window.currentPhone)}&name=${encodeURIComponent(window.currentCustName || '')}&rating=${selectedRating}`;
 
+            // Read the server's answer so the page shows what is REALLY saved in the sheet
+            // (status "success" = saved now, "already_submitted" = this customer rated earlier, maybe on another device)
+            let result = null;
             try {
-                await fetch(url, { method: 'GET', mode: 'no-cors' });
+                const resp = await fetch(url, { method: 'GET' });
+                result = JSON.parse(await resp.text());
             } catch (e) {
-                console.log("Feedback sent");
+                result = null;
             }
 
-            localStorage.setItem('feedback_' + window.currentPhone, selectedRating);
+            // Old version (fire-and-forget + browser storage), kept for reference only:
+            // try {
+            //     await fetch(url, { method: 'GET', mode: 'no-cors' });
+            // } catch (e) {
+            //     console.log("Feedback sent");
+            // }
+            // localStorage.setItem('feedback_' + window.currentPhone, selectedRating);
+            // btn.style.display = 'none';
+            // msg.style.display = 'block';
+            // const stars = document.querySelectorAll('.star');
+            // stars.forEach(s => s.style.pointerEvents = 'none');
 
-            btn.style.display = 'none';
+            if (result && (result.status === "success" || result.status === "already_submitted")
+                && result.feedback && result.feedback.rating) {
+                window.currentFeedback = result.feedback;
+                initFeedback(result.status === "success");
+                return;
+            }
+
+            // Not saved (network problem or server error) -> let the customer try again
+            btn.innerText = "মতামত জমা দিন (Submit)";
+            btn.disabled = false;
             msg.style.display = 'block';
-
-            const stars = document.querySelectorAll('.star');
-            stars.forEach(s => s.style.pointerEvents = 'none');
+            msg.style.color = '#dc2626';
+            msg.textContent = "মতামত জমা হয়নি, আবার চেষ্টা করুন। (Could not save. Please try again.)";
         }
 
         // --- Toggle Functions ---
