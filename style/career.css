@@ -11,7 +11,7 @@ img, video { max-width: 100%; }
 .hero { background: var(--dark); border-bottom: 3px solid var(--accent); }
 .hero-in { max-width: 820px; margin: auto; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .brand { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 600; font-size: 16px; text-decoration: none; min-width: 0; }
-.logo { width: 34px; height: 34px; object-fit: contain; border-radius: 6px; flex-shrink: 0; }
+.logo { width: 100px; height: 40px; object-fit: contain; border-radius: 6px; flex-shrink: 0; }
 .lang-buttons button { background: none; border: 1px solid rgba(255,255,255,.25); color: #fff; padding: 4px 12px; margin-left: 4px; border-radius: 6px; font-size: 12.5px; cursor: pointer; }
 .lang-buttons button:hover { background: rgba(255,255,255,.12); }
 .lang-buttons button.active { background: var(--accent); border-color: var(--accent); color: var(--dark); font-weight: 600; }

@@ -348,7 +348,7 @@
         // 🔗 SPREADSHEET WEB APP URL
         //const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbymL3uzXbVEMD9hwyT690q3khdvAkGtxEhN1y7yfr0QyshIoOhg_hsXFeElJ2aNLhcw/exec";
 
-        const SPREADSHEET_URL ="https://script.google.com/macros/s/AKfycbwHAAAZlbTrr-DPVSLE-2jvegAAHp7TdbCJLwAKIKQlcRo68KxR_r55A1TUY31Ag_Di/exec";
+        const SPREADSHEET_URL ="https://script.google.com/macros/s/AKfycbxTc7EjhnMqDU3S2-rM8qKo2wZ7TWGypLnDWSa7651i4DpQ12btyGbSBWaxLJAkt_yg/exec";
 
         window.globalDocs = [];
         window.currentCustName = "Customer";
@@ -356,9 +356,44 @@
         let currentImgUrl = "";
         let selectedRating = 0;
 
+        // Reads ANY date the sheet may send and returns milliseconds (NaN if unreadable).
+        // Understands: 22-5-2026 11:43 PM | 07/10/2026 11:25am | 08-05-26 | 10-04-2026 22:24
+        // (always day-month-year) and normal ISO dates like 2026-10-07T05:55:00.000Z.
+        function parseAnyDate(input) {
+            if (input === null || input === undefined || input === "") return NaN;
+            if (input instanceof Date) return input.getTime();
+            if (typeof input === 'number') return input;
+            const s = String(input).trim();
+            const m = s.match(/^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{2}|\d{4})(?:[,\sT]+(\d{1,2})(?::(\d{2}))?(?::(\d{2}))?\s*([aApP]\.?[mM]\.?)?)?$/);
+            if (m) {
+                const day = parseInt(m[1], 10), mon = parseInt(m[2], 10);
+                let yr = parseInt(m[3], 10);
+                if (m[3].length === 2) yr += 2000;
+                let hr = m[4] ? parseInt(m[4], 10) : 0;
+                const min = m[5] ? parseInt(m[5], 10) : 0;
+                const sec = m[6] ? parseInt(m[6], 10) : 0;
+                if (m[7]) {
+                    const isPm = m[7].charAt(0).toLowerCase() === 'p';
+                    if (isPm && hr < 12) hr += 12;
+                    if (!isPm && hr === 12) hr = 0;
+                }
+                if (mon < 1 || mon > 12 || day < 1 || day > 31 || hr > 23 || min > 59 || sec > 59) return NaN;
+                const dt = new Date(yr, mon - 1, day, hr, min, sec);
+                if (dt.getMonth() !== mon - 1) return NaN; // impossible date such as 31-02-2026
+                return dt.getTime();
+            }
+            return new Date(s).getTime();
+        }
+
+        // Number used for sorting. Unreadable dates become 0 so they go to the very end/start.
+        function dateSortValue(input) {
+            const t = parseAnyDate(input);
+            return isNaN(t) ? 0 : t;
+        }
+
         function formatReadableDate(dateInput) {
             if (!dateInput) return "N/A";
-            let d = new Date(dateInput);
+            let d = new Date(parseAnyDate(dateInput));
             if (isNaN(d.getTime())) return dateInput;
             const dd = String(d.getDate()).padStart(2, '0');
             const mm = String(d.getMonth() + 1).padStart(2, '0');
@@ -473,7 +508,7 @@
             txMain.innerHTML = ""; txOlder.innerHTML = ""; txBtn.classList.add('hidden'); txOlder.classList.add('hidden');
 
             if (data.transactions && data.transactions.length > 0) {
-                const sortedTx = [...data.transactions].sort((a,b) => new Date(b.date) - new Date(a.date));
+                const sortedTx = [...data.transactions].sort((a,b) => dateSortValue(b.date) - dateSortValue(a.date));
                 sortedTx.forEach((tx, idx) => {
                     let html = `<div class="tx-item"><div><div style="font-weight:600;">${formatReadableDate(tx.date)}</div><div class="tx-note">${tx.note || 'Payment'}</div></div><div style="font-weight:700; color:#059669;">Rs. ${parseFloat(tx.amount || 0).toFixed(2)}</div></div>`;
                     if(idx < 5) txMain.innerHTML += html;
@@ -494,7 +529,7 @@
                     try {
                         let parsed = JSON.parse(calc.calculationJson);
                         if (parsed.type === "finalized" && parsed.items) {
-                            rawDocs.push({ type: 'json', time: new Date(calc.datetime).getTime() || 0, data: calc });
+                            rawDocs.push({ type: 'json', time: dateSortValue(calc.datetime), data: calc });
                         }
                     } catch(e) {}
                 });
@@ -503,7 +538,7 @@
             if (cust.images && typeof cust.images === 'string') {
                 let imgs = cust.images.split(',').map(u=>u.trim()).filter(u=> u.startsWith("http"));
                 imgs.forEach(img => {
-                    rawDocs.push({ type: 'image', time: new Date(cust.createdAt).getTime() || 0, url: img });
+                    rawDocs.push({ type: 'image', time: dateSortValue(cust.createdAt), url: img });
                 });
             }
 
@@ -533,7 +568,7 @@
             msgContainer.innerHTML = "";
 
             if (data.messages && data.messages.length > 0) {
-                let sortedMsgs = [...data.messages].sort((a,b) => new Date(a.date) - new Date(b.date));
+                let sortedMsgs = [...data.messages].sort((a,b) => dateSortValue(a.date) - dateSortValue(b.date));
                 let latestMsg = sortedMsgs[sortedMsgs.length - 1];
 
                 let latestMsgHtml = `
@@ -614,7 +649,7 @@
             btn.innerText = "অপেক্ষা করুন...";
             btn.disabled = true;
 
-            const url = `${SPREADSHEET_URL}?action=feedback&phone=${encodeURIComponent(window.currentPhone)}&rating=${selectedRating}`;
+            const url = `${SPREADSHEET_URL}?action=feedback&phone=${encodeURIComponent(window.currentPhone)}&name=${encodeURIComponent(window.currentCustName || '')}&rating=${selectedRating}`;
 
             try {
                 await fetch(url, { method: 'GET', mode: 'no-cors' });

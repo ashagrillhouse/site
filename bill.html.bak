@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <title>Bill | Asha Grill House</title>
+
+    <!-- Cache Prevention -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 80px 20px 20px 20px;
+            background: linear-gradient(135deg, #e0ece4 0%, #f4f9f4 100%);
+        }
+
+        /* --- Full Screen Loading Overlay --- */
+        #loadingOverlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(4px);
+            z-index: 9999; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .large-spinner {
+            border: 5px solid #f3f3f3; border-top: 5px solid #009688;
+            border-radius: 50%; width: 50px; height: 50px;
+            animation: spin 1s linear infinite; margin-bottom: 15px;
+        }
+        .loading-text { font-size: 18px; font-weight: 600; color: #1f2937; text-align: center; padding: 0 20px; }
+
+        /* --- QR Popup Modal --- */
+        #qrModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(3px);
+            z-index: 10000; align-items: center; justify-content: center;
+        }
+        .qr-card {
+            background: #ffffff; padding: 25px; border-radius: 16px; text-align: center;
+            max-width: 330px; width: 90%; position: relative;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            animation: modalFade 0.2s ease-out;
+        }
+        .qr-close-btn {
+            position: absolute; top: 12px; right: 16px; font-size: 24px; cursor: pointer;
+            font-weight: bold; color: #9ca3af; transition: color 0.2s; line-height: 1;
+        }
+        .qr-close-btn:hover { color: #111827; }
+        .qr-title { font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 6px; }
+        .qr-sub { font-size: 13px; color: #6b7280; margin-bottom: 18px; line-height: 1.4; }
+        .qr-img { width: 200px; height: 200px; border: 1px solid #e5e7eb; border-radius: 12px; padding: 8px; background: #fff; }
+
+        @keyframes modalFade {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* --- Universal Lightbox (For Images & JSON) --- */
+        #imgLightbox {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 10000;
+            flex-direction: column; align-items: center; justify-content: center;
+        }
+        .lb-close { position: absolute; top: 20px; right: 25px; color: white; font-size: 40px; cursor: pointer; line-height: 1; z-index: 10001; }
+
+        #lbContentContainer {
+            width: 100%; max-width: 500px;
+            display: flex; justify-content: center; align-items: center;
+            max-height: 80vh;
+        }
+        #lbImg { max-width: 95%; max-height: 80vh; object-fit: contain; border-radius: 8px; }
+        #lbHtml { background: #fff; padding: 20px; border-radius: 12px; width: 95%; max-height: 80vh; overflow-y: auto; }
+
+        .lb-actions { margin-top: 20px; }
+        .lb-btn-dl { background: #009688; color: white; border: none; padding: 12px 24px; font-size: 16px; font-weight: 600; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+        .lb-btn-dl:hover { background: #00796b; }
+
+        /* --- Header & Nav --- */
+        .top-header { position: absolute; top: 20px; left: 20px; right: 20px; display: flex; justify-content: space-between; align-items: center; z-index: 50; }
+        .top-logo { height: 45px; width: auto; }
+        .top-nav { display: flex; gap: 10px; }
+        .top-nav a {
+            color: #00796b; text-decoration: none; font-size: 13px; font-weight: 700;
+            transition: all 0.2s; background: rgba(255,255,255,0.9); padding: 6px 16px;
+            border-radius: 20px; border: 2px solid #00796b;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .top-nav a:hover { color: #ffffff; background-color: #00796b; }
+
+        .container { width: 100%; max-width: 420px; margin: auto; }
+        .card { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); padding: 30px 25px; width: 100%; }
+
+        .header-title { font-size: 24px; font-weight: 700; text-align: center; color: #009688; margin-bottom: 5px; }
+        .header-sub { font-size: 14px; color: #555; text-align: center; margin-bottom: 25px; line-height: 1.5; }
+
+        .form-group { margin-bottom: 20px; }
+        .input-wrapper { display: flex; align-items: center; border: 1px solid #d1d5db; border-radius: 8px; overflow: hidden; background: #fff; transition: border 0.2s; }
+        .input-wrapper:focus-within { border-color: #009688; box-shadow: 0 0 0 3px rgba(0, 150, 136, 0.1); }
+        .input-wrapper input { flex-grow: 1; padding: 14px; border: none; font-size: 16px; outline: none; }
+
+        .btn { width: 100%; background-color: #009688; color: white; border: none; padding: 14px; font-size: 16px; font-weight: 600; border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: background 0.2s; text-decoration: none; }
+        .btn:hover { background-color: #00796b; }
+        .btn-outline { background-color: #f3f4f6; color: #1f2937; border: 1px solid #e5e7eb; margin-top: 10px; font-size: 14px; }
+        .btn-outline:hover { background-color: #e5e7eb; }
+
+        .error-message { color: #dc2626; background: #fee2e2; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-bottom: 15px; text-align: center; display: none; }
+        .hidden { display: none !important; }
+
+        .receipt-head { text-align: center; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; }
+        .receipt-head h2 { font-size: 18px; letter-spacing: 0.5px; color: #111827; }
+        .receipt-head p { font-size: 13px; color: #4b5563; margin-top: 4px; }
+
+        .info-row { display: flex; font-size: 14px; margin-bottom: 8px; line-height: 1.4; }
+        .info-label { width: 80px; font-weight: 600; color: #4b5563; }
+        .info-value { flex-grow: 1; font-weight: 500; color: #111827; }
+
+        #cName, #cAddress { font-size: 18px; }
+
+        /* --- Summary Cards (Paid & Due) --- */
+        .summary-cards { display: flex; gap: 15px; margin: 20px 0; }
+        .summary-card { flex: 1; padding: 15px 10px; border-radius: 12px; text-align: center; border: 1px solid #e5e7eb; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .summary-card.paid { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+        .summary-card.due { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+        .summary-card.advance { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+
+        .summary-label { font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; color: inherit; opacity: 0.8; line-height: 1.3; }
+        .summary-value { font-size: 18px; font-weight: 800; }
+
+        .section-title { font-size: 13px; font-weight: 700; color: #6b7280; text-transform: uppercase; margin: 20px 0 10px 0; border-bottom: 1px solid #e5e7eb; padding-bottom: 4px; }
+        .tx-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px dashed #e5e7eb; }
+        .tx-note { font-size: 11px; color: #6b7280; margin-top: 2px; }
+
+        .msg-item { font-size: 13px; background: #f9fafb; padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #e5e7eb; word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap; }
+        .msg-date { font-size: 11px; font-weight: 600; color: #64748b; display: block; margin-top: 4px; }
+
+        .shop-stamp-container { text-align: center; margin-top: 25px; position: relative; }
+        .shop-stamp { width: 240px; opacity: 1; transform: rotate(-10deg); }
+        .notice { font-size: 12px; color: #555; text-align: center; margin-top: 20px; line-height: 1.5; background: #fdf2f8; border: 1px solid #fbcfe8; padding: 12px; border-radius: 8px; font-weight: 500; }
+
+        /* --- App-Style Receipt Cards --- */
+        .app-receipt-card { background: #fff; border-radius: 12px; padding: 15px; border: 1px solid #e5e7eb; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .rc-head { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; padding-bottom: 10px; margin-bottom: 10px; }
+        .rc-icon { font-size: 20px; color: #009688; }
+        .rc-id { font-weight: bold; color: #009688; }
+        .rc-cust-info { font-size: 14px; margin-bottom: 15px; line-height: 1.5; color: #1f2937; }
+        .rc-cust-info span { color: #6b7280; font-size: 12px; }
+        .rc-th { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; color: #009688; margin-bottom: 10px; }
+        .rc-item { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; margin-bottom: 10px; }
+        .rc-item-top { display: flex; justify-content: space-between; font-weight: bold; font-size: 14px; margin-bottom: 4px; color: #111827; }
+        .rc-item-calc { font-size: 12px; color: #009688; margin-bottom: 6px; }
+        .rc-history { background: #e8f5e9; color: #388e3c; padding: 6px 8px; border-radius: 6px; font-size: 11px; font-weight: 500; }
+        .rc-footer { background: #e0f2f1; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; font-weight: bold; color: #00796b; font-size: 15px; margin-top: 10px; }
+
+        /* Thumb Wrapper */
+        .doc-thumb-wrapper { cursor: zoom-in; margin-bottom: 12px; border: 2px solid #e5e7eb; border-radius: 8px; overflow: hidden; background: #fff; transition: 0.2s; }
+        .doc-thumb-wrapper:hover { border-color: #009688; }
+        .doc-thumb-content { position: relative; height: 150px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #f3f4f6; }
+        .doc-overlay { position: absolute; bottom: 0; left: 0; width: 100%; height: 50px; background: linear-gradient(transparent, white); }
+        .doc-thumb-footer { text-align: center; font-size: 13px; font-weight: bold; color: #009688; padding: 10px; background: white; border-top: 1px dashed #ccc; line-height: 1.4; }
+
+        /* --- 5 Star Feedback Section --- */
+        .feedback-section { margin-top: 25px; padding: 20px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; text-align: center; }
+        .feedback-title { font-size: 14px; font-weight: 700; margin-bottom: 12px; color: #334155; }
+        .stars-container { display: flex; justify-content: center; gap: 8px; margin-bottom: 15px; }
+        .star { font-size: 32px; color: #cbd5e1; cursor: pointer; transition: all 0.2s; user-select: none; }
+        .star:hover { transform: scale(1.1); }
+        .star.active { color: #f59e0b; }
+        .feedback-btn { background: #334155; color: white; border: none; padding: 10px 20px; font-size: 14px; font-weight: 600; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .feedback-btn:hover { background: #1e293b; }
+        .feedback-btn:disabled { background: #94a3b8; cursor: not-allowed; }
+        .feedback-msg { font-size: 14px; font-weight: 600; color: #059669; display: none; margin-top: 10px; }
+
+        .copyright { margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.15); text-align: center; font-size: 13px; }
+
+        body.modal-open { overflow: hidden; }
+
+        /* --- Smart Printing --- */
+        @media print {
+            body { background: white !important; padding: 0; display: block; }
+            .top-header, .print-hidden, .btn-outline, .feedback-section, #qrModal { display: none !important; }
+
+            body:not(.modal-open) .container { max-width: 100%; margin: 0; }
+            body:not(.modal-open) .card { box-shadow: none; border: none; padding: 0; background: transparent; backdrop-filter: none; }
+            body:not(.modal-open) .shop-stamp { opacity: 1; }
+
+            body.modal-open .container { display: none !important; }
+            body.modal-open #imgLightbox { position: absolute; top: 0; left: 0; width: 100%; height: auto; background: white !important; display: block !important; }
+            body.modal-open #lbContentContainer { width: 100%; max-width: 100%; display: block; }
+            body.modal-open #lbHtml { width: 100%; max-width: 100%; max-height: none; overflow: visible; padding: 0; border: none; }
+            body.modal-open .lb-close, body.modal-open .lb-actions { display: none !important; }
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div id="loadingOverlay">
+        <div class="large-spinner"></div>
+        <div class="loading-text">অনুগ্রহ করে অপেক্ষা করুন, তথ্য সংগ্রহ করা হচ্ছে...</div>
+    </div>
+
+    <!-- QR Code Modal Popup -->
+    <div id="qrModal">
+        <div class="qr-card">
+            <span class="qr-close-btn" onclick="closeQrModal()">&times;</span>
+            <div class="qr-title">Scan QR Code to Pay</div>
+            <div class="qr-sub">Scan using Google Pay, PhonePe, Paytm or any UPI App</div>
+
+            <img src="images/qr.png" onerror="this.onerror=null; this.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ashagrillhouse@upi';" class="qr-img" alt="UPI QR Code">
+
+            <!-- Added WhatsApp Instruction Box -->
+            <div style="background: #dcfce7; border: 1px solid #bbf7d0; color: #166534; font-size: 13px; font-weight: 600; padding: 12px; border-radius: 8px; margin-top: 15px; text-align: center; line-height: 1.4;">
+                After payment, please share a screenshot to WhatsApp number:<br>
+                <span style="font-size: 15px; font-weight: 700; margin-top: 4px; display: inline-block;">📞 9932134803</span>
+            </div>
+
+            <button onclick="closeQrModal()" class="btn btn-outline" style="margin-top: 15px; width: 100%;">Close</button>
+        </div>
+    </div>
+
+    <!-- Universal Lightbox Modal -->
+    <div id="imgLightbox">
+        <div class="lb-close" onclick="closeLightbox()">&times;</div>
+        <div id="lbContentContainer">
+            <img id="lbImg" src="" style="display:none;" alt="Zoomed Doc">
+            <div id="lbHtml" style="display:none;"></div>
+        </div>
+        <div class="lb-actions">
+            <button id="lbDlImg" class="lb-btn-dl" onclick="downloadLightboxImg()" style="display:none;">Download করুন</button>
+            <button id="lbPrintHtml" class="lb-btn-dl" onclick="window.print()" style="display:none;">🖨️ Print Bill</button>
+        </div>
+    </div>
+
+    <div class="top-header print-hidden">
+        <img src="images/icon.png" class="top-logo" onerror="this.onerror=null; this.style.display='none';" alt="Logo">
+        <nav class="top-nav">
+            <a href="index.html">Home</a>
+            <a href="gallery.html">Gallery</a>
+        </nav>
+    </div>
+
+    <div class="container">
+        <!-- SEARCH SCREEN -->
+        <div id="loginScreen" class="card">
+            <h2 class="header-title">Receipt Portal</h2>
+            <p class="header-sub">Enter your registered phone number to view your receipt.</p>
+
+            <div class="form-group">
+                <div class="input-wrapper">
+                    <input type="tel" id="searchInput" placeholder="Enter Phone or Bill Number..." onkeypress="if(event.key === 'Enter') fetchBill()" autocomplete="off">
+                </div>
+            </div>
+
+            <div id="loginError" class="error-message"></div>
+            <button onclick="fetchBill()" class="btn print-hidden">View Receipt</button>
+        </div>
+
+        <!-- RECEIPT SCREEN -->
+        <div id="receiptScreen" class="card hidden">
+            <div class="receipt-head">
+                <h2>RECEIPT</h2>
+                <p>Asha Grill House - Muragachha</p>
+                <p>Pro: Biggyan Das - +91 9932134803</p>
+            </div>
+
+            <!-- Customer Details -->
+            <div class="info-row"><div class="info-label">Name:</div><div class="info-value" id="cName"></div></div>
+            <div class="info-row"><div class="info-label">Phone:</div><div class="info-value" id="cPhone"></div></div>
+            <div class="info-row"><div class="info-label">Address:</div><div class="info-value" id="cAddress"></div></div>
+            <div class="info-row"><div class="info-label">Created on:</div><div class="info-value" id="cDate"></div></div>
+
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+                <div class="summary-card paid">
+                    <div class="summary-label">মোট জমা<br>(Total Paid)</div>
+                    <div class="summary-value" id="cTotalPaid">0.00 টাকা</div>
+                </div>
+                <div class="summary-card due" id="dueCard">
+                    <div class="summary-label" id="dueLabel">বর্তমান বকেয়া<br>(Current Due)</div>
+                    <div class="summary-value" id="cDue">0.00 টাকা</div>
+                </div>
+            </div>
+
+            <!-- QR Code Popup Trigger Button -->
+            <button id="upiPayBtn" onclick="openQrModal()" class="btn print-hidden hidden" style="margin-top: 15px; background-color: #0ea5e9;">
+                📷 Scan QR Code to Pay
+            </button>
+
+            <!-- Transactions -->
+            <div class="section-title">পেমেন্টের বিবরণ (Payment Details)</div>
+            <div id="txListMain"></div>
+            <div id="txListOlder" class="hidden"></div>
+            <button id="txToggleBtn" class="btn btn-outline hidden" onclick="toggleTx()">সম্পূর্ণ পেমেন্ট তালিকা দেখুন</button>
+
+            <!-- Documents & Bills Container -->
+            <div id="docsContainer"></div>
+
+            <!-- Messages Container -->
+            <div id="msgContainer"></div>
+
+            <!-- Shop Stamp -->
+            <div class="shop-stamp-container">
+                <img src="images/stamp.png" onerror="this.onerror=null; this.style.display='none';" alt="Shop Stamp" class="shop-stamp">
+            </div>
+
+            <div class="notice">
+                This is a computer-generated bill. If you face any problem, you may contact us.
+            </div>
+
+            <!-- User Feedback Section -->
+            <div class="feedback-section print-hidden" id="feedbackSection">
+                <div class="feedback-title">আমাদের পরিষেবা কেমন লাগলো? (Rate our service)</div>
+                <div class="stars-container" id="starRating">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+                <button id="submitFeedbackBtn" class="feedback-btn" style="display:none;" onclick="submitFeedback()">মতামত জমা দিন (Submit)</button>
+                <div id="feedbackMsg" class="feedback-msg">আপনার মতামতের জন্য ধন্যবাদ! (Thank you for your feedback!)</div>
+            </div>
+
+            <!-- Actions -->
+            <div class="print-hidden" style="margin-top: 25px;">
+                <button onclick="window.print()" class="btn" style="margin-bottom: 10px;">🖨️ Print Receipt Page</button>
+                <button onclick="searchAnother()" class="btn btn-outline" style="background:#fff;">🔍 Search Another Bill</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="copyright">
+      <p>&copy; <script>document.write(new Date().getFullYear());</script> Asha Grill House. All Rights Reserved.</p>
+    </div>
+
+    <script>
+        // 🔗 SPREADSHEET WEB APP URL
+        //const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbymL3uzXbVEMD9hwyT690q3khdvAkGtxEhN1y7yfr0QyshIoOhg_hsXFeElJ2aNLhcw/exec";
+
+        const SPREADSHEET_URL ="https://script.google.com/macros/s/AKfycbwHAAAZlbTrr-DPVSLE-2jvegAAHp7TdbCJLwAKIKQlcRo68KxR_r55A1TUY31Ag_Di/exec";
+
+        window.globalDocs = [];
+        window.currentCustName = "Customer";
+        window.currentPhone = "";
+        let currentImgUrl = "";
+        let selectedRating = 0;
+
+        function formatReadableDate(dateInput) {
+            if (!dateInput) return "N/A";
+            let d = new Date(dateInput);
+            if (isNaN(d.getTime())) return dateInput;
+            const dd = String(d.getDate()).padStart(2, '0');
+            const mm = String(d.getMonth() + 1).padStart(2, '0');
+            const yy = d.getFullYear();
+            let hr = d.getHours();
+            const min = String(d.getMinutes()).padStart(2, '0');
+            const ampm = hr >= 12 ? 'pm' : 'am';
+            hr = hr % 12 || 12;
+            return `${dd}-${mm}-${yy} ${hr}:${min}${ampm}`;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const query = params.get('bill') || params.get('q');
+            if (query) {
+                const cleanPhone = query.replace(/\D/g, '');
+                if (cleanPhone.length > 0) {
+                    document.getElementById('searchInput').value = cleanPhone;
+                    fetchBill();
+                }
+            }
+        });
+
+        async function fetchBill() {
+            const searchInput = document.getElementById('searchInput').value.trim();
+            const errorBox = document.getElementById('loginError');
+
+            if (!searchInput) {
+                errorBox.innerText = "Please enter a valid phone or bill number.";
+                errorBox.style.display = "block"; return;
+            }
+
+            errorBox.style.display = "none";
+            document.getElementById('loadingOverlay').style.display = 'flex';
+
+            const fetchUrl = `${SPREADSHEET_URL}?bill=${encodeURIComponent(searchInput)}&_nocache=${new Date().getTime()}`;
+
+            try {
+                const response = await fetch(fetchUrl);
+                const res = JSON.parse(await response.text());
+
+                if (res.status === "success" && res.data && res.data.customer) {
+                    window.history.replaceState({}, '', '?bill=' + encodeURIComponent(searchInput));
+                    renderReceipt(res.data);
+                } else {
+                    if(res.status == 'not_found'){
+                            throw new Error("Record not found. Please try again after 24 hrs.");
+                    } else {
+                            throw new Error(res.message || "Record not found. Please try again after 24 hrs.");
+                    }
+                }
+            } catch (err) {
+                errorBox.innerText = err.message || "Network error. Try again.";
+                errorBox.style.display = "block";
+            } finally {
+                document.getElementById('loadingOverlay').style.display = 'none';
+            }
+        }
+
+        function renderReceipt(data) {
+            const cust = data.customer;
+            window.currentCustName = cust.name || "N/A";
+            window.currentPhone = cust.phone || "";
+
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('receiptScreen').classList.remove('hidden');
+
+            document.getElementById('cName').innerText = window.currentCustName;
+            document.getElementById('cPhone').innerText = window.currentPhone || "N/A";
+            document.getElementById('cAddress').innerText = cust.address || "N/A";
+            document.getElementById('cDate').innerText = formatReadableDate(cust.createdAt);
+
+            // Calculate Total Paid
+            let totalPaid = 0;
+            if (data.transactions && data.transactions.length > 0) {
+                totalPaid = data.transactions.reduce((acc, tx) => acc + parseFloat(tx.amount || 0), 0);
+            }
+            document.getElementById('cTotalPaid').innerText = totalPaid.toFixed(2) + " টাকা";
+
+            // Due Block logic
+            let dueAmount = parseFloat(cust.due || 0);
+            let dueCard = document.getElementById('dueCard');
+            let dueLabel = document.getElementById('dueLabel');
+            let dueValue = document.getElementById('cDue');
+            let upiBtn = document.getElementById('upiPayBtn');
+
+            dueCard.classList.remove('due', 'advance');
+            if (dueAmount < 0) {
+                dueLabel.innerHTML = "অগ্রিম জমা<br>(Advance)";
+                dueValue.innerText = Math.abs(dueAmount).toFixed(2) + " টাকা";
+                dueCard.classList.add('advance');
+                if(upiBtn) upiBtn.classList.add('hidden');
+            } else {
+                dueLabel.innerHTML = "বর্তমান বকেয়া<br>(Current Due)";
+                dueValue.innerText = Math.abs(dueAmount).toFixed(2) + " টাকা";
+                dueCard.classList.add('due');
+
+                // Toggle QR popup button visibility
+                if (upiBtn) {
+                    if (dueAmount > 0) {
+                        upiBtn.classList.remove('hidden');
+                    } else {
+                        upiBtn.classList.add('hidden');
+                    }
+                }
+            }
+
+            // Transactions Display
+            const txMain = document.getElementById('txListMain');
+            const txOlder = document.getElementById('txListOlder');
+            const txBtn = document.getElementById('txToggleBtn');
+            txMain.innerHTML = ""; txOlder.innerHTML = ""; txBtn.classList.add('hidden'); txOlder.classList.add('hidden');
+
+            if (data.transactions && data.transactions.length > 0) {
+                const sortedTx = [...data.transactions].sort((a,b) => new Date(b.date) - new Date(a.date));
+                sortedTx.forEach((tx, idx) => {
+                    let html = `<div class="tx-item"><div><div style="font-weight:600;">${formatReadableDate(tx.date)}</div><div class="tx-note">${tx.note || 'Payment'}</div></div><div style="font-weight:700; color:#059669;">Rs. ${parseFloat(tx.amount || 0).toFixed(2)}</div></div>`;
+                    if(idx < 5) txMain.innerHTML += html;
+                    else txOlder.innerHTML += html;
+                });
+                if(sortedTx.length > 5) {
+                    txBtn.classList.remove('hidden');
+                    txBtn.innerText = `সম্পূর্ণ পেমেন্ট তালিকা দেখুন (${sortedTx.length - 5})`;
+                }
+            } else {
+                txMain.innerHTML = "<div class='tx-note' style='text-align:center;'>No recent payments.</div>";
+            }
+
+            // Documents
+            let rawDocs = [];
+            if (data.receipt_calculations) {
+                data.receipt_calculations.forEach((calc) => {
+                    try {
+                        let parsed = JSON.parse(calc.calculationJson);
+                        if (parsed.type === "finalized" && parsed.items) {
+                            rawDocs.push({ type: 'json', time: new Date(calc.datetime).getTime() || 0, data: calc });
+                        }
+                    } catch(e) {}
+                });
+            }
+
+            if (cust.images && typeof cust.images === 'string') {
+                let imgs = cust.images.split(',').map(u=>u.trim()).filter(u=> u.startsWith("http"));
+                imgs.forEach(img => {
+                    rawDocs.push({ type: 'image', time: new Date(cust.createdAt).getTime() || 0, url: img });
+                });
+            }
+
+            rawDocs.sort((a,b) => a.time - b.time);
+            window.globalDocs = rawDocs;
+
+            const docsContainer = document.getElementById('docsContainer');
+            docsContainer.innerHTML = "";
+
+            if (rawDocs.length > 0) {
+                let latestIdx = rawDocs.length - 1;
+                let latestViewHtml = `
+                    <div id="docs-latest-view">
+                        <div class="section-title">সর্বশেষ বিল (Latest Bill)</div>
+                        ${genDocThumb(latestIdx)}
+                        ${rawDocs.length > 1 ? `<button class="btn btn-outline" style="width:100%;" onclick="toggleDocs(true)">সকল বিল দেখুন (${rawDocs.length})</button>` : ''}
+                    </div>
+                `;
+                let allViewHtml = `<div id="docs-all-view" class="hidden"><div class="section-title">সকল বিলের তালিকা (পুরাতন থেকে নতুন)</div>`;
+                rawDocs.forEach((doc, idx) => { allViewHtml += genDocThumb(idx); });
+                allViewHtml += `<button class="btn btn-outline" style="width:100%;" onclick="toggleDocs(false)">সর্বশেষ বিলটি দেখুন</button></div>`;
+                docsContainer.innerHTML = latestViewHtml + allViewHtml;
+            }
+
+            // Messages
+            const msgContainer = document.getElementById('msgContainer');
+            msgContainer.innerHTML = "";
+
+            if (data.messages && data.messages.length > 0) {
+                let sortedMsgs = [...data.messages].sort((a,b) => new Date(a.date) - new Date(b.date));
+                let latestMsg = sortedMsgs[sortedMsgs.length - 1];
+
+                let latestMsgHtml = `
+                    <div id="msg-latest-view">
+                        <div class="section-title">সর্বশেষ মেসেজ (Latest Message)</div>
+                        <div class="msg-item" style="border-left: 2px solid #009688;">${latestMsg.text}<span class="msg-date">${formatReadableDate(latestMsg.date)}</span></div>
+                        ${sortedMsgs.length > 1 ? `<button class="btn btn-outline" style="width:100%;" onclick="toggleMsgs(true)">সকল মেসেজ দেখুন (${sortedMsgs.length})</button>` : ''}
+                    </div>
+                `;
+
+                let allMsgsHtml = `<div id="msg-all-view" class="hidden"><div class="section-title">সকল মেসেজের তালিকা (পুরাতন থেকে নতুন)</div>`;
+                sortedMsgs.forEach(msg => {
+                    allMsgsHtml += `<div class="msg-item">${msg.text}<span class="msg-date">${formatReadableDate(msg.date)}</span></div>`;
+                });
+                allMsgsHtml += `<button class="btn btn-outline" style="width:100%;" onclick="toggleMsgs(false)">সর্বশেষ মেসেজটি দেখুন</button></div>`;
+
+                msgContainer.innerHTML = latestMsgHtml + allMsgsHtml;
+            }
+
+            initFeedback();
+        }
+
+        // --- QR Modal Control ---
+        function openQrModal() {
+            document.getElementById('qrModal').style.display = 'flex';
+        }
+
+        function closeQrModal() {
+            document.getElementById('qrModal').style.display = 'none';
+        }
+
+        // --- Feedback Functions ---
+        function initFeedback() {
+            const phone = window.currentPhone;
+            const hasVoted = localStorage.getItem('feedback_' + phone);
+
+            const btn = document.getElementById('submitFeedbackBtn');
+            const msg = document.getElementById('feedbackMsg');
+            const stars = document.querySelectorAll('.star');
+
+            btn.style.display = 'none';
+            msg.style.display = 'none';
+            selectedRating = 0;
+
+            if (hasVoted) {
+                msg.style.display = 'block';
+                const savedRating = parseInt(hasVoted);
+                stars.forEach(s => {
+                    if (parseInt(s.getAttribute('data-value')) <= savedRating) s.classList.add('active');
+                    else s.classList.remove('active');
+                    s.style.pointerEvents = 'none';
+                });
+            } else {
+                stars.forEach(s => {
+                    s.style.pointerEvents = 'auto';
+                    s.classList.remove('active');
+                    s.onclick = function() {
+                        selectedRating = parseInt(this.getAttribute('data-value'));
+                        stars.forEach(innerS => {
+                            if (parseInt(innerS.getAttribute('data-value')) <= selectedRating) {
+                                innerS.classList.add('active');
+                            } else {
+                                innerS.classList.remove('active');
+                            }
+                        });
+                        btn.style.display = 'inline-block';
+                    };
+                });
+            }
+        }
+
+        async function submitFeedback() {
+            if (selectedRating === 0 || !window.currentPhone) return;
+
+            const btn = document.getElementById('submitFeedbackBtn');
+            const msg = document.getElementById('feedbackMsg');
+
+            btn.innerText = "অপেক্ষা করুন...";
+            btn.disabled = true;
+
+            const url = `${SPREADSHEET_URL}?action=feedback&phone=${encodeURIComponent(window.currentPhone)}&rating=${selectedRating}`;
+
+            try {
+                await fetch(url, { method: 'GET', mode: 'no-cors' });
+            } catch (e) {
+                console.log("Feedback sent");
+            }
+
+            localStorage.setItem('feedback_' + window.currentPhone, selectedRating);
+
+            btn.style.display = 'none';
+            msg.style.display = 'block';
+
+            const stars = document.querySelectorAll('.star');
+            stars.forEach(s => s.style.pointerEvents = 'none');
+        }
+
+        // --- Toggle Functions ---
+        function toggleTx() {
+            const older = document.getElementById('txListOlder');
+            const btn = document.getElementById('txToggleBtn');
+            if(older.classList.contains('hidden')) {
+                older.classList.remove('hidden'); btn.innerText = "সংক্ষিপ্ত তালিকা দেখুন";
+            } else {
+                older.classList.add('hidden'); btn.innerText = "সম্পূর্ণ পেমেন্ট তালিকা দেখুন";
+            }
+        }
+
+        function toggleDocs(showAll) {
+            if(showAll) {
+                document.getElementById('docs-latest-view').classList.add('hidden');
+                document.getElementById('docs-all-view').classList.remove('hidden');
+            } else {
+                document.getElementById('docs-all-view').classList.add('hidden');
+                document.getElementById('docs-latest-view').classList.remove('hidden');
+            }
+        }
+
+        function toggleMsgs(showAll) {
+            if(showAll) {
+                document.getElementById('msg-latest-view').classList.add('hidden');
+                document.getElementById('msg-all-view').classList.remove('hidden');
+            } else {
+                document.getElementById('msg-all-view').classList.add('hidden');
+                document.getElementById('msg-latest-view').classList.remove('hidden');
+            }
+        }
+
+        // --- Thumbnail & App UI Generators ---
+        function genDocThumb(idx) {
+            let doc = window.globalDocs[idx];
+            let inner = '';
+
+            let dateText = formatReadableDate(doc.time);
+            let labelText = doc.type === 'image' ? `📸 ছবি (Image) - ${dateText}` : `🧾 বিল (Bill) - ${dateText}`;
+
+            if (doc.type === 'image') {
+                inner = `<img src="${doc.url}" style="width: 100%; height: 100%; object-fit: cover;" alt="Doc">`;
+            } else {
+                inner = `<div style="transform: scale(0.7); transform-origin: top center; width: 140%; pointer-events: none;">${generateAppStyleCard(doc.data, window.currentCustName, false)}</div><div class="doc-overlay"></div>`;
+            }
+            return `
+                <div class="doc-thumb-wrapper" onclick="openLightbox(${idx})">
+                    <div class="doc-thumb-content">${inner}</div>
+                    <div class="doc-thumb-footer">
+                        ${labelText} <br>
+                        <span style="font-size:11px; color:#6b7280; font-weight:normal;">🔍 বড় করে দেখতে ক্লিক করুন (Click to enlarge)</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateAppStyleCard(calc, customerName, isEnlarged = false) {
+            let parsed;
+            try { parsed = JSON.parse(calc.calculationJson); }
+            catch (e) { return ``; }
+
+            let billsToRender = [];
+            if (parsed.savedBills) { billsToRender = parsed.savedBills; }
+            else if (parsed.type === "finalized" && parsed.items) { billsToRender = [{ billId: calc.id || 'N/A', date: calc.datetime, items: parsed.items }]; }
+
+            let finalHtml = '';
+            billsToRender.forEach(bill => {
+                let total = 0, itemsHtml = '';
+
+                bill.items.forEach(item => {
+                    let amt = parseFloat(item.totalPrice) || 0;
+                    total += amt;
+                    let histStr = (item.history || "").trim().replace(/\n/g, '   ');
+                    let historyHtml = histStr ? `<div class="rc-history">↺ ${histStr}</div>` : '';
+
+                    itemsHtml += `
+                        <div class="rc-item">
+                            <div class="rc-item-top"><span>${item.name}</span><span>${amt.toLocaleString('en-IN')} টাকা</span></div>
+                            <div class="rc-item-calc">${item.qty} ${item.originalUnit || ''} × ${item.rate} টাকা</div>
+                            ${historyHtml}
+                        </div>
+                    `;
+                });
+
+                let titleSize = isEnlarged ? '16px' : '14px';
+                finalHtml += `
+                    <div class="app-receipt-card" style="margin-bottom:0;">
+                        <div class="rc-head"><div class="rc-icon">🧾</div><div class="rc-id" style="font-size: ${titleSize};">Bill #${bill.billId}</div></div>
+                        <div class="rc-cust-info"><strong>Customer: ${customerName}</strong><br><span>Date: ${formatReadableDate(bill.date)}</span></div>
+                        <div class="rc-th"><span>ITEM DETAILS</span><span>AMOUNT</span></div>
+                        <div>${itemsHtml}</div>
+                        <div class="rc-footer"><span>Total Amount</span><span>${total.toLocaleString('en-IN')} টাকা</span></div>
+                    </div>
+                `;
+            });
+            return finalHtml;
+        }
+
+        // --- Smart Lightbox Functions ---
+        function openLightbox(idx) {
+            let doc = window.globalDocs[idx];
+            document.body.classList.add('modal-open');
+            document.getElementById('imgLightbox').style.display = 'flex';
+
+            const lbImg = document.getElementById('lbImg'); const lbHtml = document.getElementById('lbHtml');
+            const lbDlImg = document.getElementById('lbDlImg'); const lbPrintHtml = document.getElementById('lbPrintHtml');
+
+            if (doc.type === 'image') {
+                lbImg.src = doc.url; lbImg.style.display = 'block'; lbHtml.style.display = 'none';
+                lbDlImg.style.display = 'flex'; lbPrintHtml.style.display = 'none'; currentImgUrl = doc.url;
+            } else {
+                lbHtml.innerHTML = generateAppStyleCard(doc.data, window.currentCustName, true);
+                lbHtml.style.display = 'block'; lbImg.style.display = 'none';
+                lbDlImg.style.display = 'none'; lbPrintHtml.style.display = 'flex';
+            }
+        }
+
+        function closeLightbox() {
+            document.body.classList.remove('modal-open');
+            document.getElementById('imgLightbox').style.display = 'none';
+            document.getElementById('lbImg').src = ""; currentImgUrl = "";
+        }
+
+        async function downloadLightboxImg() {
+            if (!currentImgUrl) return;
+            try {
+                const res = await fetch(currentImgUrl);
+                const blob = await res.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url; a.download = `Asha_Grill_${Date.now()}.jpg`;
+                document.body.appendChild(a); a.click(); a.remove(); window.URL.revokeObjectURL(url);
+            } catch (e) { window.open(currentImgUrl, '_blank'); }
+        }
+
+        function searchAnother() {
+            const url = new URL(window.location);
+            url.searchParams.delete('q'); url.searchParams.delete('bill');
+            window.history.replaceState({}, document.title, url.pathname);
+
+            document.getElementById('receiptScreen').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('searchInput').value = '';
+        }
+
+    </script>
+</body>
+</html>
